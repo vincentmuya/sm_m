@@ -8,6 +8,7 @@
             source: root.image_source
             size_hint: 1, None
             height: '145dp'
+            on_touch_down: root.view_vendor() if self.collide_point(*args[1].pos) else None
 
 
         Label:

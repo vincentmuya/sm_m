@@ -1,9 +1,11 @@
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
 from kivy.uix.image import AsyncImage
 import requests
+from kivy.app import App
+
 
 Builder.load_file('vendors.kv')
 

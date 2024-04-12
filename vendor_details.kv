@@ -1,0 +1,34 @@
+<VendorDetailsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        AsyncImage:
+            source: root.image_source  # Bind the source to the image_source property
+            size_hint_y: None
+            height: '200dp'  # Set the desired image height
+        Label:
+            id: institution_name_label
+            text: root.institution_name
+        Label:
+            id: price_label
+            text: root.price
+        Label:
+            id: description_label
+            text: root.description
+        Label:
+            id: location_label
+            text: root.location
+        Label:
+            id: service_label
+            text: root.service
+        Label:
+            id: phone_number_label
+            text: root.phone_number
+        Label:
+            id: email_label
+            text: root.email
+        Label:
+            id: website_label
+            text: root.website
+        Label:
+            id: social_media_label
+            text: root.social_media

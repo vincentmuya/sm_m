@@ -1,0 +1,39 @@
+<VendorsCard>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '10dp'  # Adjust the spacing between elements
+
+        AsyncImage:
+            id: image_source
+            source: root.image_source
+            size_hint: 1, None
+            height: '140dp'
+
+
+        Label:
+            text: root.institution_name
+            font_size: '18sp'
+            size_hint_y: None
+            height: '20dp'
+
+        Label:
+            text: root.price
+            font_size: '18sp'
+            size_hint_y: None
+            height: '20dp'
+
+        Label:
+            text: root.service
+            font_size: '18sp'
+            size_hint_y: None
+            height: '20dp'
+
+
+
+<VendorsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: vendors_layout
+                cols: 2

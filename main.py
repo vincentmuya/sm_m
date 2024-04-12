@@ -1,14 +1,18 @@
 from kivy.app import App
-from kivy.uix.label import Label
+from kivy.uix.screenmanager import ScreenManager, Screen
+from vendors import VendorsScreen
 
-class MainApp(App):
+
+class MyApp(App):
     def build(self):
-        label = Label(text='Hello from Kivy',
-                      size_hint=(.5, .5),
-                      pos_hint={'center_x': .5, 'center_y': .5})
+        # Create a ScreenManager
+        screen_manager = ScreenManager()
 
-        return label
+        # Create and add VendorScreen instance to ScreenManager
+        vendors_screen = VendorsScreen(name='vendors')
+        screen_manager.add_widget(vendors_screen)
+
+        return screen_manager
 
 if __name__ == '__main__':
-    app = MainApp()
-    app.run()
+    MyApp().run()

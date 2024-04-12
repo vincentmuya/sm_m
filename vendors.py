@@ -45,6 +45,15 @@ class VendorsScreen(Screen):
         self.load_vendors()
 
     def load_vendors(self):
+        # Fetch all services from the services API
+        services_response = requests.get('http://localhost:8000/api/services/')
+        if services_response.status_code == 200:
+            services = services_response.json()
+            print("Services:", services)
+        else:
+            services = []
+
+        # Fetch all vendors from the vendor API
         response = requests.get('http://localhost:8000/api/vendor/')
         if response.status_code == 200:
             vendors = response.json()
@@ -54,13 +63,13 @@ class VendorsScreen(Screen):
             for vendor in vendors:
                 full_image_url = f"http://localhost:8000{vendor['profile_image']}"
 
-                # Fetch service details from the API using service ID
-                service_response = requests.get(f'http://localhost:8000/api/service/{vendor["service"]}/')
-                if service_response.status_code == 200:
-                    service_details = service_response.json()
-                    service_name = service_details.get('name', 'Unknown Service')
-                else:
-                    service_name = 'Unknown Service'
+                # Find the service name corresponding to the vendor's service_id
+                service_id = vendor['service']
+                service_name = 'Unknown Service'
+                for service in services:
+                    if service['id'] == service_id:
+                        service_name = service['service']
+                        break
 
                 vendors_card = VendorsCard(
                     institution_name=vendor['institution_name'],

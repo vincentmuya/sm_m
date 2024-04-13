@@ -1,9 +1,14 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ListProperty
 from kivy.lang import Builder
 import requests
+from kivy.uix.carousel import Carousel
+from kivy.uix.image import AsyncImage
+from kivy.app import App
+
 
 Builder.load_file('vendor_details.kv')
+
 
 class VendorDetailsScreen(Screen):
     institution_name = StringProperty()
@@ -18,6 +23,7 @@ class VendorDetailsScreen(Screen):
     social_media = StringProperty()
     slug = StringProperty()
     vendor_id = StringProperty()
+    gallery_images = ListProperty()
 
     def load_details(self, vendor_details):
         print("Loading vendor_details...")
@@ -43,7 +49,7 @@ class VendorDetailsScreen(Screen):
         services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
-            print("Services:", services)
+            # print("Services:", services)
 
             # Find the service name corresponding to the vendor's service_id
             for service in services:
@@ -61,7 +67,7 @@ class VendorDetailsScreen(Screen):
         locations_response = requests.get('http://localhost:8000/api/locations/')
         if locations_response.status_code == 200:
             locations = locations_response.json()
-            print("Services:", locations)
+            # print("Services:", locations)
 
             # Find the service name corresponding to the vendor's location_id
             for location in locations:
@@ -70,6 +76,27 @@ class VendorDetailsScreen(Screen):
                     break
 
         self.location = location_name
+
+        # Fetch gallery images URLs using gallery_images IDs
+        gallery_images = []
+        gallery_images_api_url = 'http://localhost:8000/api/gallery_images_vendor/'
+
+        # Fetch the mapping of image_id to image filename from the API
+        response = requests.get(gallery_images_api_url)
+        if response.status_code == 200:
+            image_mapping = response.json()
+            # print("Image Mapping:", image_mapping)
+
+            for image_id in vendor_details['gallery_images']:
+                if str(image_id) in image_mapping:
+                    image_url = image_mapping[str(image_id)]
+                    # print("Image URL:", image_url)
+
+                    gallery_images.append(image_url)
+
+        # print("Gallery Images:", gallery_images)
+
+        self.gallery_images = gallery_images
 
         # Update UI elements with fetched data
         self.ids.institution_name_label.text = self.institution_name
@@ -91,3 +118,14 @@ class VendorDetailsScreen(Screen):
         self.property('email').dispatch(self)
         self.property('website').dispatch(self)
         self.property('social_media').dispatch(self)
+        self.property('gallery_images').dispatch(self)
+
+
+class CarouselApp(App):
+    def build(self):
+        carousel = Carousel(direction='right')
+        for i in range(10):
+            src = "http://placehold.it/480x270.png&text=slide-%d&.png" % i
+            image = AsyncImage(source=src, fit_mode="contain")
+            carousel.add_widget(image)
+        return carousel

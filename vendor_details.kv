@@ -1,34 +1,66 @@
 <VendorDetailsScreen>:
+    orientation: 'vertical'  # Main layout orientation is vertical
+
+    # BoxLayout to stack the Carousel and main content
     BoxLayout:
         orientation: 'vertical'
-        AsyncImage:
-            source: root.image_source  # Bind the source to the image_source property
-            size_hint_y: None
-            height: '200dp'  # Set the desired image height
-        Label:
-            id: institution_name_label
-            text: root.institution_name
-        Label:
-            id: price_label
-            text: root.price
-        Label:
-            id: description_label
-            text: root.description
-        Label:
-            id: location_label
-            text: root.location
-        Label:
-            id: service_label
-            text: root.service
-        Label:
-            id: phone_number_label
-            text: root.phone_number
-        Label:
-            id: email_label
-            text: root.email
-        Label:
-            id: website_label
-            text: root.website
-        Label:
-            id: social_media_label
-            text: root.social_media
+        size_hint_y: None
+        height: '640dp'  # Set a fixed height or adjust as needed
+
+        # Carousel widget
+        Carousel:
+            size_hint_y: 0.7
+            direction: 'right'
+            AsyncImage:
+                source: root.image_source
+                size_hint: None, None  # Disable size hint to use absolute size
+                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
+            AsyncImage:
+                source: root.gallery_images[0] if root.gallery_images else 'Gallery Images'
+                size_hint: None, None  # Disable size hint to use absolute size
+                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
+            AsyncImage:
+                source: root.gallery_images[1] if len(root.gallery_images) > 1 else 'Gallery Images'
+                size_hint: None, None  # Disable size hint to use absolute size
+                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
+
+        # Main content below the Carousel
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.3  # Take 30% of the height
+
+            Label:
+                id: institution_name_label
+                text: root.institution_name
+
+            Label:
+                id: price_label
+                text: root.price
+
+            Label:
+                id: description_label
+                text: root.description
+
+            Label:
+                id: location_label
+                text: root.location
+
+            Label:
+                id: service_label
+                text: root.service
+
+            Label:
+                id: phone_number_label
+                text: root.phone_number
+
+            Label:
+                id: email_label
+                text: root.email
+
+            Label:
+                id: website_label
+                text: root.website
+
+            Label:
+                id: social_media_label
+                text: root.social_media

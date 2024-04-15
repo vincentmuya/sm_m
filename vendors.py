@@ -2,12 +2,12 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty
-from kivy.uix.image import AsyncImage
 import requests
 from kivy.app import App
 
 
 Builder.load_file('vendors.kv')
+
 
 class VendorsCard(BoxLayout):
     institution_name = StringProperty()
@@ -19,16 +19,16 @@ class VendorsCard(BoxLayout):
 
     def view_vendor(self):
         vendor_id = self.vendor_id
-        print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {self.slug}")
+        # print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {self.slug}")
 
         api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{self.slug}/"
         response = requests.get(api_url)
-        print("API Response Status Code:", response.status_code)
-        print("API Response Content:", response.content.decode())
+        # print("API Response Status Code:", response.status_code)
+        # print("API Response Content:", response.content.decode())
 
         if response.status_code == 200:
             vendor_details = response.json()
-            print("Vendor Details:", vendor_details)
+            # print("Vendor Details:", vendor_details)
 
             app = App.get_running_app()
             vendor_details_screen = app.root.get_screen('vendor_details')
@@ -38,6 +38,7 @@ class VendorsCard(BoxLayout):
             app.root.current = 'vendor_details'
         else:
             print("Failed to fetch vendor details.")
+
 
 class VendorsScreen(Screen):
     def __init__(self, **kwargs):

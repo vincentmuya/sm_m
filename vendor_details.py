@@ -5,6 +5,7 @@ import requests
 from kivy.uix.carousel import Carousel
 from kivy.uix.image import AsyncImage
 from kivy.app import App
+from navbar import Navbar
 
 
 Builder.load_file('vendor_details.kv')
@@ -26,8 +27,8 @@ class VendorDetailsScreen(Screen):
     gallery_images = ListProperty()
 
     def load_details(self, vendor_details):
-        print("Loading vendor_details...")
-        print("Vendor Details:", vendor_details)
+        # print("Loading vendor_details...")
+        # print("Vendor Details:", vendor_details)
 
         self.institution_name = vendor_details['institution_name']
         self.price = str(vendor_details['price'])
@@ -119,6 +120,8 @@ class VendorDetailsScreen(Screen):
         self.property('website').dispatch(self)
         self.property('social_media').dispatch(self)
         self.property('gallery_images').dispatch(self)
+
+        self.add_widget(Navbar())
 
 
 class CarouselApp(App):

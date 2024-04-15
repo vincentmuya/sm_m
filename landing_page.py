@@ -2,6 +2,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
 from navbar import Navbar
 from vendors import VendorsScreen
+from header import Header
 
 
 class LandingPage(ScrollView):
@@ -17,10 +18,12 @@ class LandingPage(ScrollView):
         self.layout.bind(minimum_height=self.layout.setter('height'))
 
         # Create and wrap screens with specific heights
-        vendors = self.wrap_screen(VendorsScreen(), height=500)
+        header = self.wrap_screen(Header(), height=50)
+        vendors = self.wrap_screen(VendorsScreen(), height=600)
         nav_bar = self.wrap_screen(Navbar(), height=100)
 
         # Add the wrapped screens to the layout
+        self.layout.add_widget(header)
         self.layout.add_widget(vendors)
         self.layout.add_widget(nav_bar)
 

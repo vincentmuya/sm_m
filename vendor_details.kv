@@ -25,42 +25,50 @@
                 size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
 
         # Main content below the Carousel
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint_y: 0.3  # Take 30% of the height
-
+        MyCard:
+            size_hint: None, None
             Label:
                 id: institution_name_label
                 text: root.institution_name
+                color: '000000'
 
             Label:
                 id: price_label
                 text: root.price
+                color: '000000'
 
             Label:
                 id: description_label
                 text: root.description
+                color: '000000'
 
             Label:
                 id: location_label
                 text: root.location
+                color: '000000'
 
             Label:
                 id: service_label
                 text: root.service
+                color: '000000'
 
             Label:
                 id: phone_number_label
                 text: root.phone_number
+                color: '000000'
 
             Label:
                 id: email_label
                 text: root.email
+                color: '000000'
 
             Label:
                 id: website_label
                 text: root.website
+                color: '000000'
 
             Label:
                 id: social_media_label
                 text: root.social_media
+                color: '000000'
+

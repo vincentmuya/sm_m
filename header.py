@@ -1,6 +1,4 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
 from kivy.graphics import Color, Rectangle
 from kivy.uix.label import Label
 
@@ -19,7 +17,7 @@ class Header(BoxLayout):
             self.bind(size=self._update_rect, pos=self._update_rect)
 
         # Add a Label with the "What are you looking for?" text
-        label = Label(text="Get Services From The Best Vendors", size_hint_y=None, height=50)
+        label = Label(text="Sherehe Mall.\nGet Services From The Best Vendors", size_hint_y=None, height=50)
         self.add_widget(label)
 
     def _update_rect(self, instance, value):

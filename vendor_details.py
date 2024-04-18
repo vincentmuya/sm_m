@@ -6,6 +6,10 @@ from kivy.uix.carousel import Carousel
 from kivy.uix.image import AsyncImage
 from kivy.app import App
 from navbar import Navbar
+from kivymd.app import MDApp
+from kivymd.uix.card import MDCard
+from kivy.uix.label import Label
+from kivy.metrics import dp
 
 
 Builder.load_file('vendor_details.kv')
@@ -132,3 +136,41 @@ class CarouselApp(App):
             image = AsyncImage(source=src, fit_mode="contain")
             carousel.add_widget(image)
         return carousel
+
+
+class MyCard(MDCard):
+    institution_name = StringProperty()
+    price = StringProperty()
+    location = StringProperty()
+    description = StringProperty()
+    phone_number = StringProperty()
+    email = StringProperty()
+    website = StringProperty()
+    social_media = StringProperty()
+
+    def __init__(self, **kwargs):
+        super(MyCard, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.padding = dp(16)
+        self.spacing = dp(8)
+        self.size_hint_y = None
+        self.size = (dp(700), dp(300))  # Adjust the card height as needed
+        self.pos_hint = {'center_x': 0.5}
+        self.add_labels()
+
+    def add_labels(self):
+        labels_data = [
+            ('Institution Name', self.institution_name),
+            ('Price', self.price),
+            ('Location', self.location),
+            ('Description', self.description),
+            ('Phone Number', self.phone_number),
+            ('Email', self.email),
+            ('Website', self.website),
+            ('Social Media', self.social_media)
+        ]
+
+        for label_text, data_value in labels_data:
+            if data_value:
+                label = Label(text=f"{label_text}: {data_value}", color=(0, 0, 0, 1))
+                self.add_widget(label)

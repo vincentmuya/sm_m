@@ -1,11 +1,11 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
-from vendors import VendorsScreen
+from kivymd.app import MDApp
 from vendor_details import VendorDetailsScreen
 from landing_page import LandingPage
 
 
-class MyApp(App):
+class MyApp(MDApp):
     def build(self):
         # Create a ScreenManager
         screen_manager = ScreenManager()

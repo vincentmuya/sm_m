@@ -1,74 +1,145 @@
 <VendorDetailsScreen>:
-    orientation: 'vertical'  # Main layout orientation is vertical
+    ScrollView:
+        size_hint: 1, None
+        height: root.height  # Ensure the ScrollView height matches the height of its content
+        bar_width: '10dp'  # Optional: customize the scrollbar width
 
-    # BoxLayout to stack the Carousel and main content
-    BoxLayout:
-        orientation: 'vertical'
-        size_hint_y: None
-        height: '640dp'  # Set a fixed height or adjust as needed
+        GridLayout:
+            cols: 1
+            spacing: '10dp'  # Add spacing between widgets
+            padding: '10dp'  # Add padding around the GridLayout
+            size_hint_y: None
+            height: self.minimum_height + dp(80)  # Increase the height to add extra space at the bottom
 
-        # Carousel widget
-        Carousel:
-            size_hint_y: 0.7
-            direction: 'right'
-            AsyncImage:
-                source: root.image_source
-                size_hint: None, None  # Disable size hint to use absolute size
-                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
-            AsyncImage:
-                source: root.gallery_images[0] if root.gallery_images else 'Gallery Images'
-                size_hint: None, None  # Disable size hint to use absolute size
-                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
-            AsyncImage:
-                source: root.gallery_images[1] if len(root.gallery_images) > 1 else 'Gallery Images'
-                size_hint: None, None  # Disable size hint to use absolute size
-                size: self.parent.width, self.parent.height * 1  # Set image size to match Carousel size
+            # Carousel widget
+            Carousel:
+                size_hint_y: None
+                height: root.width * 0.5  # Set a fixed height or adjust as needed
+                direction: 'right'
+                AsyncImage:
+                    source: root.image_source
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
 
-        # Main content below the Carousel
-        MyCard:
-            size_hint: None, None
-            Label:
-                id: institution_name_label
-                text: root.institution_name
-                color: '000000'
+                AsyncImage:
+                    source: root.gallery_images[0] if root.gallery_images else 'Gallery Images'
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
 
-            Label:
-                id: price_label
-                text: root.price
-                color: '000000'
+                AsyncImage:
+                    source: root.gallery_images[1] if len(root.gallery_images) > 1 else 'Gallery Images'
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
 
-            Label:
-                id: description_label
-                text: root.description
-                color: '000000'
+            # Main content below the Carousel
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
 
-            Label:
-                id: location_label
-                text: root.location
-                color: '000000'
+                MyCard:
+                    size_hint_y: None
+                    height: self.minimum_height
 
-            Label:
-                id: service_label
-                text: root.service
-                color: '000000'
+                    Label:
+                        text: "[b]Name:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: institution_name_label
+                        text: root.institution_name
+                        color: (0, 0, 0, 1)
 
-            Label:
-                id: phone_number_label
-                text: root.phone_number
-                color: '000000'
+                    Label:
+                        text: "[b]Price Ranging From:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: price_label
+                        text: root.price
+                        color: (0, 0, 0, 1)
 
-            Label:
-                id: email_label
-                text: root.email
-                color: '000000'
+                    Label:
+                        text: "[b]Description:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: description_label
+                        text: root.description
+                        color: (0, 0, 0, 1)
+                        size_hint_y: None
+                        height: self.texture_size[1]  # Adjust height based on text content
+                        text_size: self.width, None  # Wrap text within the label width
+                        halign: 'left'  # Horizontal alignment
+                        valign: 'top'  # Vertical alignment
 
-            Label:
-                id: website_label
-                text: root.website
-                color: '000000'
+                    Label:
+                        text: "[b]Location:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: location_label
+                        text: root.location
+                        color: (0, 0, 0, 1)
 
-            Label:
-                id: social_media_label
-                text: root.social_media
-                color: '000000'
+                    Label:
+                        text: "[b]Service:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: service_label
+                        text: root.service
+                        color: (0, 0, 0, 1)
 
+                    Label:
+                        text: "[b]Phone Number:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: phone_number_label
+                        text: root.phone_number
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Email:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: email_label
+                        text: root.email
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Website:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: website_label
+                        text: root.website
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Social Media:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: social_media_label
+                        text: root.social_media
+                        color: (0, 0, 0, 1)
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '48dp'
+
+                    Button:
+                        text: 'Send Message'
+                        size_hint_x: 0.33
+
+                    Button:
+                        text: 'Book Vendor'
+                        size_hint_x: 0.33
+
+                    Button:
+                        text: 'Review Vendor'
+                        size_hint_x: 0.33

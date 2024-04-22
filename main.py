@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
 from vendor_details import VendorDetailsScreen
 from landing_page import LandingPage
+from vendors import VendorsScreen
 
 
 class MyApp(MDApp):

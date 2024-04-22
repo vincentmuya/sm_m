@@ -10,6 +10,7 @@ from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.uix.label import Label
 from kivy.metrics import dp
+from kivy.uix.scrollview import ScrollView
 
 
 Builder.load_file('vendor_details.kv')
@@ -152,9 +153,9 @@ class MyCard(MDCard):
         super(MyCard, self).__init__(**kwargs)
         self.orientation = 'vertical'
         self.padding = dp(16)
-        self.spacing = dp(8)
+        self.spacing = dp(20)
         self.size_hint_y = None
-        self.size = (dp(700), dp(300))  # Adjust the card height as needed
+        self.size = (dp(600), dp(300))  # Adjust the card height as needed
         self.pos_hint = {'center_x': 0.5}
         self.add_labels()
 

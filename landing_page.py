@@ -19,7 +19,7 @@ class LandingPage(ScrollView):
 
         # Create and wrap screens with specific heights
         header = self.wrap_screen(Header(), height=50)
-        vendors = self.wrap_screen(VendorsScreen(), height=600)
+        vendors = self.wrap_screen(VendorsScreen(), height=430)
         nav_bar = self.wrap_screen(Navbar(), height=100)
 
         # Add the wrapped screens to the layout

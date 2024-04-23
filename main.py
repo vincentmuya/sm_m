@@ -21,6 +21,12 @@ class MyApp(MDApp):
         vendor_details_screen = VendorDetailsScreen(name='vendor_details')
         screen_manager.add_widget(vendor_details_screen)
 
+        # Create a screen for vendors listing
+        vendors_screen = Screen(name='vendors_screen')
+        vendors = VendorsScreen()
+        vendors_screen.add_widget(vendors)
+        screen_manager.add_widget(vendors_screen)
+
         return screen_manager
 
 

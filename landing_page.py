@@ -1,8 +1,10 @@
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
-from navbar import Navbar
+from kivy.uix.label import Label
+from filter_widget import Filter  # Import the Filter widget
 from vendors import VendorsScreen
 from header import Header
+from navbar import Navbar
 
 
 class LandingPage(ScrollView):
@@ -14,16 +16,20 @@ class LandingPage(ScrollView):
         self.do_scroll_y = True   # Enable vertical scrolling
 
         # Create a vertical BoxLayout to stack the screens
-        self.layout = BoxLayout(orientation='vertical', spacing=10, size_hint_y=None)
+        self.layout = BoxLayout(orientation='vertical', spacing=0, size_hint_y=None)
         self.layout.bind(minimum_height=self.layout.setter('height'))
 
-        # Create and wrap screens with specific heights
+        # Create and add the Filter widget
+        filter_widget = Filter(filter_callback=self.apply_filter)
+
+        # Create other screens (Header, VendorsScreen, Navbar) and wrap them
         header = self.wrap_screen(Header(), height=50)
-        vendors = self.wrap_screen(VendorsScreen(), height=430)
+        vendors = self.wrap_screen(VendorsScreen(), height=400)
         nav_bar = self.wrap_screen(Navbar(), height=100)
 
         # Add the wrapped screens to the layout
         self.layout.add_widget(header)
+        self.layout.add_widget(filter_widget)
         self.layout.add_widget(vendors)
         self.layout.add_widget(nav_bar)
 
@@ -37,3 +43,14 @@ class LandingPage(ScrollView):
         layout = BoxLayout(orientation='vertical', size_hint_y=None, height=height)
         layout.add_widget(screen)
         return layout
+
+    def apply_filter(self, location=None, service=None, price_range=None):
+        """
+        Method to handle the filter callback.
+        Update vendors or perform other actions based on the filter criteria.
+        """
+        # Implement your logic here to update vendors based on filter criteria
+        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+        # For example, you can update the VendorsScreen with filtered results
+        vendors_screen = self.layout.children[2]  # Assuming VendorsScreen is the third child
+        vendors_screen.update_vendors(location=location, service=service, price_range=price_range)

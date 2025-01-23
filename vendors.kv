@@ -1,7 +1,11 @@
 <VendorsCard>:
+    size_hint_y: None
+    height: self.minimum_height
     BoxLayout:
         orientation: 'vertical'
         spacing: '10dp'  # Adjust the spacing between elements
+        size_hint_y: None
+        height: self.minimum_height
 
         AsyncImage:
             id: image_source
@@ -9,7 +13,6 @@
             size_hint: 1, None
             height: '145dp'
             on_touch_down: root.view_vendor() if self.collide_point(*args[1].pos) else None
-
 
         Label:
             text: root.institution_name
@@ -36,9 +39,27 @@
 
 
 <VendorsScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        ScrollView:
+    ScrollView:
+        GridLayout:
+            id: main_layout
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: '10dp'  # Space between sections
+            padding: '10dp'  # Padding around the grid
+
+            # Carousel Layout
+            BoxLayout:
+                id: carousel_layout
+                size_hint_y: None
+                height: '300dp'  # Adjust height of the carousel
+
+            # Vendors Layout
             GridLayout:
                 id: vendors_layout
                 cols: 2
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: '200dp'  # Adjust row height as needed
+                row_force_default: True
+                spacing: '10dp'  # Space between cards

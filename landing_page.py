@@ -24,8 +24,8 @@ class LandingPage(ScrollView):
 
         # Create other screens (Header, VendorsScreen, Navbar) and wrap them
         header = self.wrap_screen(Header(), height=50)
-        vendors = self.wrap_screen(VendorsScreen(), height=400)
-        nav_bar = self.wrap_screen(Navbar(), height=100)
+        vendors = self.wrap_screen(VendorsScreen(), height=450)
+        nav_bar = self.wrap_screen(Navbar(), height=50)
 
         # Add the wrapped screens to the layout
         self.layout.add_widget(header)
@@ -36,11 +36,13 @@ class LandingPage(ScrollView):
         # Set the layout as the content of the ScrollView
         self.add_widget(self.layout)
 
-    def wrap_screen(self, screen, height):
+
+
+    def wrap_screen(self, screen, height=None):
         """
         Wrap a screen in a layout with a specific height.
         """
-        layout = BoxLayout(orientation='vertical', size_hint_y=None, height=height)
+        layout = BoxLayout(orientation='vertical', size_hint_y=None, height=height if height else screen.height)
         layout.add_widget(screen)
         return layout
 

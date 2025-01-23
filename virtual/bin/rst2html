@@ -1,4 +1,4 @@
-#!/home/muya/Projects/sherehemall_mobile/virtual/bin/python
+#!/home/muya/Projects/sm_m/virtual/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

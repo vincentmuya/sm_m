@@ -6,6 +6,9 @@ import requests
 from kivy.app import App
 from kivy.uix.carousel import Carousel
 from kivy.uix.image import AsyncImage
+from kivy.uix.label import Label
+from kivy.factory import Factory
+from kivy.uix.gridlayout import GridLayout
 
 Builder.load_file('vendors.kv')
 
@@ -15,6 +18,7 @@ class VendorsCard(BoxLayout):
     price = StringProperty()
     image_source = StringProperty()
     service = StringProperty()
+    location = StringProperty()
     slug = StringProperty()
     vendor_id = StringProperty()
 
@@ -73,7 +77,7 @@ class VendorsScreen(Screen):
         self.ids.carousel_layout.add_widget(carousel)
 
     def load_vendors(self):
-        # Fetch all services from the services API
+        # Fetch all services (categories)
         services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
@@ -81,43 +85,91 @@ class VendorsScreen(Screen):
         else:
             services = []
 
-        # Fetch all vendors from the vendor API
+        # Fetch all locations
+        locations_response = requests.get('http://localhost:8000/api/locations/')
+        if locations_response.status_code == 200:
+            locations = locations_response.json()
+            print("Locations:", locations)
+        else:
+            locations = []
+
+        # Fetch all vendors
         response = requests.get('http://localhost:8000/api/vendor/')
         if response.status_code == 200:
             vendors = response.json()
-            print("vendors:", vendors)
+            print("Vendors:", vendors)
 
-            self.clear_vendors()  # Clear any existing vendors before loading new ones
+            self.clear_vendors()  # Clear existing vendors before loading new ones
+
+            # Build a map of services by ID
+            services_map = {service['id']: service for service in services}
+
+            # Identify parent categories
+            parent_categories = {s['id']: s for s in services if s['parent'] is None}
+            print("Parent Categories:", parent_categories)
+
+            # Group vendors by their parent category
+            vendors_by_parent = {parent_id: [] for parent_id in parent_categories.keys()}
             for vendor in vendors:
-                full_image_url = f"http://localhost:8000{vendor['profile_image']}"
-
-                # Find the service name corresponding to the vendor's service_id
                 service_id = vendor['service']
-                service_name = 'Unknown Service'
-                for service in services:
-                    if service['id'] == service_id:
-                        service_name = service['service']
-                        break
+                # Find the parent category for this vendor
+                parent_id = service_id
+                while services_map.get(parent_id) and services_map[parent_id]['parent'] is not None:
+                    parent_id = services_map[parent_id]['parent']
+                # Add vendor to the correct parent category
+                if parent_id in vendors_by_parent:
+                    vendors_by_parent[parent_id].append(vendor)
 
+            # Display vendors grouped by parent category
+            for parent_id, parent_category in parent_categories.items():
+                parent_name = parent_category['service']
+                print(f"Displaying Vendors for Parent Category: {parent_name}")
 
+                # Create a header for the parent category
+                header = Factory.CategoryHeader(text=f"[b]{parent_name}[/b]")
+                self.ids.vendors_layout.add_widget(header)
 
-                vendors_card = VendorsCard(
-                    institution_name=vendor['institution_name'],
-                    price=str(vendor['price']),
-                    image_source=full_image_url,
-                    vendor_id=str(vendor['id']),
-                    slug=vendor['slug'],
-                    service=service_name  # Pass service name to VendorsCard
-                )
-                self.add_vendor(vendors_card)
+                # Add vendors under this parent category
+                if parent_id in vendors_by_parent:
+                    # Create a GridLayout for vendors in this category
+                    vendor_grid = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
+                    vendor_grid.bind(minimum_height=vendor_grid.setter('height'))  # Adjust height dynamically
+
+                    for vendor in vendors_by_parent[parent_id]:
+                        full_image_url = f"http://localhost:8000{vendor['profile_image']}"
+
+                        # Find the location name
+                        location_id = vendor.get('location')
+                        location_name = 'Unknown Location'
+                        for location in locations:
+                            if location['id'] == location_id:
+                                location_name = location['location']
+                                break
+
+                        vendors_card = VendorsCard(
+                            institution_name=vendor['institution_name'],
+                            price=str(vendor['price']),
+                            image_source=full_image_url,
+                            vendor_id=str(vendor['id']),
+                            slug=vendor['slug'],
+                            service=services_map[vendor['service']]['service'],  # Vendor's exact service
+                            location=location_name
+                        )
+                        vendor_grid.add_widget(vendors_card)
+
+                    # Add the vendor grid to the parent layout
+                    self.ids.vendors_layout.add_widget(vendor_grid)
+                else:
+                    print(f"No vendors found for Parent Category: {parent_name}")
+        else:
+            print("Failed to fetch vendors.")
 
     def clear_vendors(self):
-        # Clear the vendors_layout before adding new vendors
+        """Clear the vendors_layout before adding new vendors."""
         vendors_layout = self.ids.vendors_layout
         vendors_layout.clear_widgets()
 
     def add_vendor(self, vendor):
-        # Add a new vendor to the vendors_layout
+        """Add a vendor card to the vendors_layout."""
         vendors_layout = self.ids.vendors_layout
         vendors_layout.add_widget(vendor)
-

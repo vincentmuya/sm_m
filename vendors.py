@@ -9,7 +9,7 @@ from kivy.uix.image import AsyncImage
 from kivy.uix.label import Label
 from kivy.factory import Factory
 from kivy.uix.gridlayout import GridLayout
-
+from kivy.uix.button import Button
 Builder.load_file('vendors.kv')
 
 
@@ -129,13 +129,26 @@ class VendorsScreen(Screen):
                 header = Factory.CategoryHeader(text=f"[b]{parent_name}[/b]")
                 self.ids.vendors_layout.add_widget(header)
 
+                # Add "View More" button
+                view_more_button = Button(
+                    text="View More",
+                    font_size="15sp",
+                    background_color=(1, 1, 1, 1),
+                    color=(1, 1, 1, 1),
+                    size=(70, 30),
+                    size_hint=(None, None),
+                    pos=(30, 20),
+                )
+
+                self.ids.vendors_layout.add_widget(view_more_button)
+
                 # Add vendors under this parent category
                 if parent_id in vendors_by_parent:
                     # Create a GridLayout for vendors in this category
-                    vendor_grid = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
+                    vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
                     vendor_grid.bind(minimum_height=vendor_grid.setter('height'))  # Adjust height dynamically
 
-                    for vendor in vendors_by_parent[parent_id]:
+                    for vendor in vendors_by_parent[parent_id][:3]: # Add only the first three vendors in this category
                         full_image_url = f"http://localhost:8000{vendor['profile_image']}"
 
                         # Find the location name

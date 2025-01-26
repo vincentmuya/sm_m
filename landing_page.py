@@ -5,38 +5,46 @@ from filter_widget import Filter  # Import the Filter widget
 from vendors import VendorsScreen
 from header import Header
 from navbar import Navbar
+from kivy.uix.floatlayout import FloatLayout
 
 
-class LandingPage(ScrollView):
+class LandingPage(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        # Set up the ScrollView
         self.scroll_type = ['bars']
         self.bar_width = 10
         self.do_scroll_x = False  # Disable horizontal scrolling
-        self.do_scroll_y = True   # Enable vertical scrolling
+        self.do_scroll_y = True  # Enable vertical scrolling
 
-        # Create a vertical BoxLayout to stack the screens
-        self.layout = BoxLayout(orientation='vertical', spacing=0, size_hint_y=None)
-        self.layout.bind(minimum_height=self.layout.setter('height'))
+        # Create a layout to contain the content and wrap it in a scrollview
+        content_layout = BoxLayout(orientation='vertical', size_hint_y=None)  # The main content area
+        content_layout.bind(minimum_height=content_layout.setter('height'))
 
         # Create and add the Filter widget
         filter_widget = Filter(filter_callback=self.apply_filter)
 
-        # Create other screens (Header, VendorsScreen, Navbar) and wrap them
+        # Create other screens (Header, VendorsScreen) and wrap them
         header = self.wrap_screen(Header(), height=50)
         vendors = self.wrap_screen(VendorsScreen(), height=450)
-        nav_bar = self.wrap_screen(Navbar(), height=50)
 
-        # Add the wrapped screens to the layout
-        self.layout.add_widget(header)
-        self.layout.add_widget(filter_widget)
-        self.layout.add_widget(vendors)
-        self.layout.add_widget(nav_bar)
+        # Add the wrapped screens to the content layout
+        content_layout.add_widget(header)
+        content_layout.add_widget(filter_widget)
+        content_layout.add_widget(vendors)
 
-        # Set the layout as the content of the ScrollView
-        self.add_widget(self.layout)
+        # Create the ScrollView and add the content_layout inside it
+        scroll_view = ScrollView(size_hint=(1, 1), bar_width=10)
+        scroll_view.add_widget(content_layout)
 
+        # Create and add the navbar, fix it at the bottom of the screen
+        nav_bar = Navbar(size_hint=(1, None), height=50)
+        nav_bar.pos_hint = {'x': 0, 'y': 0}  # Position at the bottom of the screen
 
+        # Add ScrollView and navbar to the FloatLayout
+        self.add_widget(scroll_view)  # Add ScrollView with content on top
+        self.add_widget(nav_bar)  # Add navbar at the bottom
 
     def wrap_screen(self, screen, height=None):
         """

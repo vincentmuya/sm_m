@@ -4,7 +4,7 @@ from kivymd.app import MDApp
 from vendor_details import VendorDetailsScreen
 from landing_page import LandingPage
 from vendors import VendorsScreen
-
+from vendors_by_service import VendorsByServiceScreen
 
 class MyApp(MDApp):
     def build(self):
@@ -26,6 +26,10 @@ class MyApp(MDApp):
         vendors = VendorsScreen()
         vendors_screen.add_widget(vendors)
         screen_manager.add_widget(vendors_screen)
+
+        # Create the VendorsByServiceScreen instance and add it to the ScreenManager
+        vendors_by_service_screen = VendorsByServiceScreen(name='vendors_by_service')
+        screen_manager.add_widget(vendors_by_service_screen)
 
         return screen_manager
 

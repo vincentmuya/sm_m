@@ -140,6 +140,7 @@ class VendorsScreen(Screen):
                     pos=(30, 20),
                 )
 
+                view_more_button.bind(on_press=self.switch_to_vendors_by_service)  # Bind to the new callback
                 self.ids.vendors_layout.add_widget(view_more_button)
 
                 # Add vendors under this parent category
@@ -186,3 +187,9 @@ class VendorsScreen(Screen):
         """Add a vendor card to the vendors_layout."""
         vendors_layout = self.ids.vendors_layout
         vendors_layout.add_widget(vendor)
+
+    def switch_to_vendors_by_service(self, *args):
+        print("Switching to the 'vendors_by_service' screen...")
+        app = App.get_running_app()
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'vendors_by_service'

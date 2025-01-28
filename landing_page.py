@@ -1,12 +1,14 @@
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
-from filter_widget import Filter  # Import the Filter widget
+from filter_widget import Filter
+from filtered_vendors import FilteredVendorsScreen
 from vendors import VendorsScreen
 from header import Header
 from navbar import Navbar
 from kivy.uix.floatlayout import FloatLayout
-
+import requests
+from kivy.app import App
 
 class LandingPage(FloatLayout):
     def __init__(self, **kwargs):
@@ -15,32 +17,35 @@ class LandingPage(FloatLayout):
         # Set up the ScrollView
         self.scroll_type = ['bars']
         self.bar_width = 10
-        self.do_scroll_x = False  # Disable horizontal scrolling
-        self.do_scroll_y = True  # Enable vertical scrolling
+        self.do_scroll_x = False
+        self.do_scroll_y = True
 
         # Create a layout to contain the content and wrap it in a scrollview
-        content_layout = BoxLayout(orientation='vertical', size_hint_y=None)  # The main content area
-        content_layout.bind(minimum_height=content_layout.setter('height'))
+        self.content_layout = BoxLayout(orientation='vertical', size_hint_y=None)
+        self.content_layout.bind(minimum_height=self.content_layout.setter('height'))
 
         # Create and add the Filter widget
-        filter_widget = Filter(filter_callback=self.apply_filter)
+        self.filter_widget = Filter(filter_callback=self.apply_filter)
 
-        # Create other screens (Header, VendorsScreen) and wrap them
+        # Initialize and add FilteredVendorsScreen
+        self.filtered_vendors_screen = FilteredVendorsScreen()
+        self.content_layout.add_widget(self.filtered_vendors_screen)
+
+        # Add other screens (Header, VendorsScreen) to the content layout
         header = self.wrap_screen(Header(), height=50)
         vendors = self.wrap_screen(VendorsScreen(), height=450)
 
-        # Add the wrapped screens to the content layout
-        content_layout.add_widget(header)
-        content_layout.add_widget(filter_widget)
-        content_layout.add_widget(vendors)
+        self.content_layout.add_widget(header)
+        self.content_layout.add_widget(self.filter_widget)
+        self.content_layout.add_widget(vendors)
 
         # Create the ScrollView and add the content_layout inside it
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=10)
-        scroll_view.add_widget(content_layout)
+        scroll_view.add_widget(self.content_layout)
 
-        # Create and add the navbar, fix it at the bottom of the screen
+        # Create and add the navbar, fixed at the bottom of the screen
         nav_bar = Navbar(size_hint=(1, None), height=50)
-        nav_bar.pos_hint = {'x': 0, 'y': 0}  # Position at the bottom of the screen
+        nav_bar.pos_hint = {'x': 0, 'y': 0}
 
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(scroll_view)  # Add ScrollView with content on top
@@ -55,12 +60,45 @@ class LandingPage(FloatLayout):
         return layout
 
     def apply_filter(self, location=None, service=None, price_range=None):
-        """
-        Method to handle the filter callback.
-        Update vendors or perform other actions based on the filter criteria.
-        """
-        # Implement your logic here to update vendors based on filter criteria
         print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
-        # For example, you can update the VendorsScreen with filtered results
-        vendors_screen = self.layout.children[2]  # Assuming VendorsScreen is the third child
-        vendors_screen.update_vendors(location=location, service=service, price_range=price_range)
+
+        # Fetch services to resolve the service name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services = services_response.json() if services_response.status_code == 200 else []
+
+        # Get the service ID from the service name (if the service exists)
+        service_id = None
+        if service:
+            for s in services:
+                if s['service'] == service:
+                    service_id = s['id']
+                    break
+
+        # Construct the API URL with the service ID
+        api_url = 'http://localhost:8000/api/vendor/'
+        filters = {}
+        if location:
+            filters['location'] = location
+        if service_id:
+            filters['service'] = service_id  # Use the service ID instead of the name
+        if price_range:
+            filters['price_range'] = price_range
+
+        # Call the API with the updated filters
+        response = requests.get(api_url, params=filters)
+
+        if response.status_code == 200:
+            filtered_vendors = response.json()
+            print("Filtered Vendors:", filtered_vendors)
+
+            # Switch to the filtered vendors screen and load vendors
+            app = App.get_running_app()
+            app.root.current = 'filtered_vendors'
+
+            # Load filtered vendors into FilteredVendorsScreen
+            if self.filtered_vendors_screen:
+                self.filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            else:
+                print("FilteredVendorsScreen not found in content_layout.")
+        else:
+            print(f"Failed to retrieve vendors. Status code: {response.status_code}")

@@ -1,0 +1,15 @@
+Step1
+Call the correct api url in the filter.py file
+
+Step2
+Go through the filter_widget code and make sure it is structured okay.
+
+Step3
+We go through the apply filter method when called by the button being pressed in the landing page.
+When the apply filter button is clicked and the apply_filter method is called we print the filtered vendors
+
+Step4
+Change the screen to filtered vendors screen(Blank/Static)
+
+Step5
+Call the vendors filtered in the filtered vendors screen

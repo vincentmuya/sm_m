@@ -121,4 +121,3 @@ class Filter(BoxLayout):
         if self.filter_callback:
             filtered_vendors = self.filter_callback(location=location, service=service, price_range=price_range)
             # Perform actions with filtered_vendors (e.g., update UI)
-            print("Filtered Vendors:", filtered_vendors)

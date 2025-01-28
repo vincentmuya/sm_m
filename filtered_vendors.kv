@@ -1,44 +1,7 @@
 <FilteredVendorsCard>:
+    size_hint_y: None
+    height: self.minimum_height
     BoxLayout:
         orientation: 'vertical'
-        spacing: '10dp'  # Adjust the spacing between elements
-
-        AsyncImage:
-            id: image_source
-            source: root.image_source
-            size_hint: 1, None
-            height: '145dp'
-            on_touch_down: root.view_filtered_vendor() if self.collide_point(*args[1].pos) else None
-
-
-        Label:
-            text: root.institution_name
-            font_size: '15sp'
-            size_hint_y: None
-            height: '5dp'
-            on_touch_down: root.view_filtered_vendor() if self.collide_point(*args[1].pos) else None
-            color: '000000'
-
-        Label:
-            text: root.price
-            font_size: '15sp'
-            size_hint_y: None
-            height: '5dp'
-            on_touch_down: root.view_filtered_vendor() if self.collide_point(*args[1].pos) else None
-            color: '000000'
-
-        Label:
-            text: root.service
-            font_size: '15sp'
-            size_hint_y: None
-            height: '5dp'
-            color: '000000'
-
-
-<FilteredVendorsScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        ScrollView:
-            GridLayout:
-                id: vendors_layout
-                cols: 2
+        size_hint_y: None
+        height: self.minimum_height

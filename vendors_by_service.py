@@ -9,6 +9,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from header import Header
 from kivy.factory import Factory
+from filter_widget import Filter
+from kivy.app import App
 
 Builder.load_file('vendors_by_service.kv')
 
@@ -27,6 +29,9 @@ class VendorsByServiceScreen(Screen):
         self.vendor_grid.bind(minimum_height=self.vendor_grid.setter('height'))  # Adjust height dynamically
         self.content_layout.add_widget(self.vendor_grid)
 
+        # Create and add the Filter widget
+        self.filter_widget = Filter(filter_callback=self.apply_filter)
+
         # Navbar at the bottom
         self.navbar = Navbar(size_hint=(1, 0.1))  # Takes 10% of the screen height
         self.header = Header(size_hint=(1, 0.1))
@@ -36,7 +41,8 @@ class VendorsByServiceScreen(Screen):
 
         # Add widgets to the layout
         self.layout.add_widget(self.header)  # Header at the top
-        self.layout.add_widget(spacer)  # Spacer for additional space
+        self.layout.add_widget(self.filter_widget)
+        self.layout.add_widget(spacer)
         self.layout.add_widget(self.content_layout)  # Content in the middle
         self.layout.add_widget(self.navbar)  # Navbar at the bottom
         self.add_widget(self.layout)
@@ -118,3 +124,42 @@ class VendorsByServiceScreen(Screen):
                 location=location_name  # Include the location name
             )
             self.vendor_grid.add_widget(vendor_card)
+
+    def apply_filter(self, location=None, service=None, price_range=None):
+        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+
+        # Fetch services to resolve the service name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services = services_response.json() if services_response.status_code == 200 else []
+
+        # Get the service ID from the service name (if the service exists)
+        service_id = None
+        if service:
+            for s in services:
+                if s['service'] == service:
+                    service_id = s['id']
+                    break
+
+        # Construct the API URL with the service ID
+        api_url = 'http://localhost:8000/api/vendor/'
+        filters = {}
+        if location:
+            filters['location'] = location
+        if service_id:
+            filters['service'] = service_id  # Use the service ID instead of the name
+        if price_range:
+            filters['price_range'] = price_range
+
+        # Call the API with the updated filters
+        response = requests.get(api_url, params=filters)
+
+        if response.status_code == 200:
+            filtered_vendors = response.json()
+            print("Filtered Vendors:", filtered_vendors)
+
+            app = App.get_running_app()
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            filtered_vendors_screen = app.root.get_screen('filtered_vendors')
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'filtered_vendors'

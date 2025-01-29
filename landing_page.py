@@ -9,6 +9,7 @@ from navbar import Navbar
 from kivy.uix.floatlayout import FloatLayout
 import requests
 from kivy.app import App
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 class LandingPage(FloatLayout):
     def __init__(self, **kwargs):
@@ -91,14 +92,9 @@ class LandingPage(FloatLayout):
             filtered_vendors = response.json()
             print("Filtered Vendors:", filtered_vendors)
 
-            # Switch to the filtered vendors screen and load vendors
             app = App.get_running_app()
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            filtered_vendors_screen = app.root.get_screen('filtered_vendors')
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
-
-            # Load filtered vendors into FilteredVendorsScreen
-            if self.filtered_vendors_screen:
-                self.filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
-            else:
-                print("FilteredVendorsScreen not found in content_layout.")
-        else:
-            print(f"Failed to retrieve vendors. Status code: {response.status_code}")

@@ -3,27 +3,16 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
-from kivy.properties import StringProperty
 import requests
 from navbar import Navbar
 from header import Header
-from kivy.uix.label import Label
-from kivy.uix.image import AsyncImage
-from kivy.clock import Clock
+from vendors import VendorsCard
+from kivy.uix.widget import Widget
+from filter_widget import Filter
+from kivy.app import App
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 Builder.load_file('filtered_vendors.kv')
-
-class FilteredVendorsCard(BoxLayout):
-    institution_name = StringProperty()
-    price = StringProperty()
-    image_source = StringProperty()
-    service = StringProperty()
-    location = StringProperty()
-    slug = StringProperty()
-    vendor_id = StringProperty()
-
-    def view_vendor(self):
-        print(f"Viewing vendor: {self.institution_name}")
 
 class FilteredVendorsScreen(Screen):
     def __init__(self, **kwargs):
@@ -32,95 +21,107 @@ class FilteredVendorsScreen(Screen):
         # Layout setup
         self.layout = BoxLayout(orientation='vertical')
 
+        # Content layout at the top
+        self.content_layout = ScrollView(size_hint=(1, 0.9))  # Takes 90% of the screen height
+        self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
+        self.vendor_grid.bind(minimum_height=self.vendor_grid.setter('height'))  # Adjust height dynamically
+        self.content_layout.add_widget(self.vendor_grid)
+
         self.navbar = Navbar(size_hint=(1, 0.1))
         self.header = Header(size_hint=(1, 0.1))
 
-        # Debug Label
-        self.test_label = Label(text="Filtered Vendors Screen", font_size="20sp", color=(1, 0, 0, 1))
+        # Create and add the Filter widget
+        self.filter_widget = Filter(filter_callback=self.apply_filter)
 
-        # ScrollView and GridLayout
-        self.scroll_view = ScrollView(size_hint=(1, 0.9), do_scroll_x=False)
-        self.grid_layout = GridLayout(cols=1, size_hint_y=None, spacing=10, padding=10)
-        self.grid_layout.bind(minimum_height=self.grid_layout.setter('height'))
-
-        # Force a larger height temporarily for debugging
-        self.grid_layout.height = 1000  # Large fixed height for testing
-        self.grid_layout.bind(minimum_height=self.grid_layout.setter('height'))
-
-        self.scroll_view.add_widget(self.grid_layout)
+        # Spacer widget to add space after the header
+        spacer = Widget(size_hint=(1, None), height=30)
 
         # Add widgets to layout
         self.layout.add_widget(self.header)
-        self.layout.add_widget(self.test_label)
-        self.layout.add_widget(self.scroll_view)
+        self.layout.add_widget(self.filter_widget)
+        self.layout.add_widget(spacer)
+        self.layout.add_widget(self.content_layout)
         self.layout.add_widget(self.navbar)
         self.add_widget(self.layout)
-
-        # ✅ Add a static test card to check if widgets are visible
-        test_card = FilteredVendorsCard(
-            institution_name="Test Vendor",
-            price="5000",
-            image_source="https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg",
-            service="Test Service",
-            location="Test Location",
-            slug="test-vendor",
-            vendor_id="1"
-        )
-        self.grid_layout.add_widget(test_card)
 
     def load_filtered_vendors(self, filtered_vendors, services):
         print(f"Loading {len(filtered_vendors)} filtered vendors...")
 
         # Clear grid before adding new vendors
-        self.grid_layout.clear_widgets()
+        self.vendor_grid.clear_widgets()
 
-        # Fetch location data
+        # Fetch all services and locations to map their IDs to names
+        services_response = requests.get('http://localhost:8000/api/services/')
         locations_response = requests.get('http://localhost:8000/api/locations/')
+
+        if services_response.status_code == 200:
+            services = {service['id']: service['service'] for service in services_response.json()}
+        else:
+            services = {}
+
         if locations_response.status_code == 200:
-            locations = {loc['id']: loc['location'] for loc in locations_response.json()}
+            locations = {location['id']: location['location'] for location in locations_response.json()}
         else:
             locations = {}
 
-        # Print fetched vendors list
-        print(f"Filtered Vendors List: {filtered_vendors}")
-
         for vendor in filtered_vendors:
-            print(f"Processing vendor: {vendor}")
-
-            # Check if essential fields exist
-            if 'institution_name' not in vendor or 'profile_image' not in vendor:
-                print(f"Skipping vendor due to missing fields: {vendor}")
-                continue  # Skip if data is incomplete
-
-            # Extract details
-            service_name = next((s['service'] for s in services if s['id'] == vendor['service']), "Unknown Service")
             full_image_url = f"http://localhost:8000{vendor['profile_image']}"
-            location_name = locations.get(vendor.get('location'), "Unknown Location")
 
-            print(f"Creating card for: {vendor['institution_name']} with Image URL: {full_image_url}")
+            # Get the location name
+            location_id = vendor.get('location')
+            location_name = locations.get(location_id, "Unknown Location")
 
-            # Create card
-            card = FilteredVendorsCard(
+            # Get the service name
+            service_id = vendor.get('service')
+            service_name = services.get(service_id, "Unknown Service")
+
+            # Create the vendor card
+            vendor_card = VendorsCard(
                 institution_name=vendor['institution_name'],
                 price=str(vendor['price']),
                 image_source=full_image_url,
-                service=service_name,
-                location=location_name,
+                vendor_id=str(vendor['id']),
                 slug=vendor['slug'],
-                vendor_id=str(vendor['id'])
+                service=service_name,
+                location=location_name
             )
+            self.vendor_grid.add_widget(vendor_card)
 
-            # Add to GridLayout
-            self.grid_layout.add_widget(card)
-            print(f"Widget Count in GridLayout: {len(self.grid_layout.children)}")
+    def apply_filter(self, location=None, service=None, price_range=None):
+        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
-            print(f"Added card for {vendor['institution_name']} to grid layout")
+        # Fetch services to resolve the service name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services = services_response.json() if services_response.status_code == 200 else []
 
-        # Print the number of widgets in the layout
-        print(f"Total widgets in grid layout after loading: {len(self.grid_layout.children)}")
+        # Get the service ID from the service name (if the service exists)
+        service_id = None
+        if service:
+            for s in services:
+                if s['service'] == service:
+                    service_id = s['id']
+                    break
 
-        self.grid_layout.do_layout()
-        self.layout.do_layout()
+        # Construct the API URL with the service ID
+        api_url = 'http://localhost:8000/api/vendor/'
+        filters = {}
+        if location:
+            filters['location'] = location
+        if service_id:
+            filters['service'] = service_id  # Use the service ID instead of the name
+        if price_range:
+            filters['price_range'] = price_range
 
-        Clock.schedule_once(lambda dt: self.grid_layout.do_layout(), 0)
-        Clock.schedule_once(lambda dt: self.layout.do_layout(), 0)
+        # Call the API with the updated filters
+        response = requests.get(api_url, params=filters)
+
+        if response.status_code == 200:
+            filtered_vendors = response.json()
+            print("Filtered Vendors:", filtered_vendors)
+
+            app = App.get_running_app()
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            filtered_vendors_screen = app.root.get_screen('filtered_vendors')
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'filtered_vendors'

@@ -1,7 +1,36 @@
 <FilteredVendorsCard>:
     size_hint_y: None
-    height: self.minimum_height
+    height: 200  # Ensure the card is visible
+
     BoxLayout:
         orientation: 'vertical'
         size_hint_y: None
-        height: self.minimum_height
+        height: self.height
+        spacing: '10dp'
+        padding: '10dp'
+
+        AsyncImage:
+            source: root.image_source if root.image_source else 'https://png.pngtree.com/png-vector/20210604/ourmid/pngtree-gray-network-placeholder-png-image_3416659.jpg'
+            size_hint_y: None
+            height: '100dp'
+
+        Label:
+            text: root.institution_name
+            font_size: '18sp'
+            size_hint_y: None
+            height: '30dp'
+            color: (1, 1, 1, 1)
+
+        Label:
+            text: root.location
+            font_size: '16sp'
+            size_hint_y: None
+            height: '20dp'
+            color: (0.8, 0.8, 0.8, 1)
+
+        Label:
+            text: root.service
+            font_size: '16sp'
+            size_hint_y: None
+            height: '20dp'
+            color: (0.6, 0.6, 0.6, 1)

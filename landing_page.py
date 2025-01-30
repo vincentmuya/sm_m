@@ -39,7 +39,7 @@ class LandingPage(FloatLayout):
 
         # Add other screens (Header, VendorsScreen) to the content layout
         header = self.wrap_screen(Header(), height=50)
-        vendors = self.wrap_screen(VendorsScreen(), height=450)
+        vendors = self.wrap_screen(VendorsScreen(), height=400)
 
         self.content_layout.add_widget(header)
         self.content_layout.add_widget(self.search_widget)
@@ -101,7 +101,7 @@ class LandingPage(FloatLayout):
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen
             filtered_vendors_screen = app.root.get_screen('filtered_vendors')
-            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
 

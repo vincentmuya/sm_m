@@ -6,14 +6,8 @@
         # Header for Parent Service Name
         BoxLayout:
             size_hint_y: None
-            height: '50dp'  # Adjust height for your header
-            padding: [10, 10, 10, 10]  # Optional padding for spacing
-            canvas.before:
-                Color:
-                    rgba: 0.2, 0.4, 0.6, 1  # Background color of the header
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            height: '140dp'  # Adjust height for your header
+
             Label:
                 id: parent_service_name
                 text: "Parent Service Name"  # Will be updated dynamically

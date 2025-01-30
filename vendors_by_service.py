@@ -11,6 +11,7 @@ from header import Header
 from kivy.factory import Factory
 from filter_widget import Filter
 from kivy.app import App
+from search_widget import SearchWidget
 
 Builder.load_file('vendors_by_service.kv')
 
@@ -32,6 +33,9 @@ class VendorsByServiceScreen(Screen):
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
+        # Create and add the Search widget
+        self.search_widget = SearchWidget(search_callback=self.display_search_results)
+
         # Navbar at the bottom
         self.navbar = Navbar(size_hint=(1, 0.1))  # Takes 10% of the screen height
         self.header = Header(size_hint=(1, 0.1))
@@ -41,6 +45,7 @@ class VendorsByServiceScreen(Screen):
 
         # Add widgets to the layout
         self.layout.add_widget(self.header)  # Header at the top
+        self.layout.add_widget(self.search_widget)
         self.layout.add_widget(self.filter_widget)
         self.layout.add_widget(spacer)
         self.layout.add_widget(self.content_layout)  # Content in the middle
@@ -160,6 +165,16 @@ class VendorsByServiceScreen(Screen):
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen
             filtered_vendors_screen = app.root.get_screen('filtered_vendors')
-            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
+
+    def display_search_results(self, vendors, search_query):
+        # print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'

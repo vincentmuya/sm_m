@@ -11,49 +11,49 @@ from kivy.uix.widget import Widget
 from filter_widget import Filter
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
-from kivy.uix.label import Label
+from search_widget import SearchWidget
 
 Builder.load_file('search_results.kv')
 
 class SearchResultsScreen(Screen):
     """A screen to display search results."""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         # Layout setup
         self.layout = BoxLayout(orientation='vertical')
 
-        # Search results title label
-        self.search_label = Label(
-            text="Showing Search Results for: ",
-            size_hint=(1, None),
-            height=40,
-            font_size="18sp",
-            bold=True
-        )
+        self.header = Header(size_hint=(1, 0.1))
+
+        # Create and add the Search widget
+        self.search_widget = SearchWidget(search_callback=self.display_search_results)
+
+        self.filter_widget = Filter(filter_callback=self.apply_filter)
+
+        # Spacer widget to add space between the filter and the search title
+        spacer_top = Widget(size_hint=(1, None), height=20)
+
+        # Spacer widget to add space below the search title
+        spacer_bottom = Widget(size_hint=(1, None), height=10)
 
         # Content layout at the top
-        self.content_layout = ScrollView(size_hint=(1, 0.9))  # Takes 90% of the screen height
+        self.content_layout = ScrollView(size_hint=(1, 0.9))
         self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
-        self.vendor_grid.bind(minimum_height=self.vendor_grid.setter('height'))  # Adjust height dynamically
+        self.vendor_grid.bind(minimum_height=self.vendor_grid.setter('height'))
         self.content_layout.add_widget(self.vendor_grid)
 
         self.navbar = Navbar(size_hint=(1, 0.1))
-        self.header = Header(size_hint=(1, 0.1))
 
-        # Create and add the Filter widget
-        self.filter_widget = Filter(filter_callback=self.apply_filter)
-
-        # Spacer widget to add space after the header
-        spacer = Widget(size_hint=(1, None), height=30)
-
-        # Add widgets to layout
+        # Add widgets to layout in the correct order
         self.layout.add_widget(self.header)
+        self.layout.add_widget(self.search_widget)
         self.layout.add_widget(self.filter_widget)
-        self.layout.add_widget(spacer)
-        self.layout.add_widget(self.search_label)
+        self.layout.add_widget(spacer_top)
+        self.layout.add_widget(spacer_bottom)
         self.layout.add_widget(self.content_layout)
         self.layout.add_widget(self.navbar)
+
         self.add_widget(self.layout)
 
     def load_search_results(self, vendors, search_query):
@@ -61,8 +61,9 @@ class SearchResultsScreen(Screen):
         print("Search results:", vendors)
 
         # Update the search results title
-        self.ids.search_label.text = f"Showing Search Results for: {search_query}"
         print("Search Query:", search_query)
+        self.ids.search_label.text = f"Showing Search Results for: {search_query}"
+
 
         # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
@@ -104,7 +105,6 @@ class SearchResultsScreen(Screen):
             )
             self.vendor_grid.add_widget(vendor_card)
 
-
     def apply_filter(self, location=None, service=None, price_range=None):
         print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
@@ -140,6 +140,16 @@ class SearchResultsScreen(Screen):
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen
             filtered_vendors_screen = app.root.get_screen('filtered_vendors')
-            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
+
+    def display_search_results(self, vendors, search_query):
+        # print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'

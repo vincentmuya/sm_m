@@ -11,6 +11,7 @@ from kivy.uix.widget import Widget
 from filter_widget import Filter
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
+from search_widget import SearchWidget
 
 Builder.load_file('filtered_vendors.kv')
 
@@ -36,16 +37,31 @@ class FilteredVendorsScreen(Screen):
         # Spacer widget to add space after the header
         spacer = Widget(size_hint=(1, None), height=30)
 
+        # Create and add the Search widget
+        self.search_widget = SearchWidget(search_callback=self.display_search_results)
+
         # Add widgets to layout
         self.layout.add_widget(self.header)
+        self.layout.add_widget(self.search_widget)
         self.layout.add_widget(self.filter_widget)
         self.layout.add_widget(spacer)
         self.layout.add_widget(self.content_layout)
         self.layout.add_widget(self.navbar)
         self.add_widget(self.layout)
 
-    def load_filtered_vendors(self, filtered_vendors, services):
+    def load_filtered_vendors(self, filtered_vendors, services, location, service, price_range):
         print(f"Loading {len(filtered_vendors)} filtered vendors...")
+
+        # Update the filter display text
+        filter_text = "Viewing filtered vendors:"
+        if location:
+            filter_text += f" Location: {location}"
+        if service:
+            filter_text += f" Service: {service}"
+        if price_range:
+            filter_text += f" Price Range: {price_range}"
+
+        self.ids.filter_info_label.text = filter_text
 
         # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
@@ -122,6 +138,16 @@ class FilteredVendorsScreen(Screen):
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen
             filtered_vendors_screen = app.root.get_screen('filtered_vendors')
-            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
+
+    def display_search_results(self, vendors, search_query):
+        # print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'

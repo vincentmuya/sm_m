@@ -10,6 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
+from search_widget import SearchWidget
 
 class LandingPage(FloatLayout):
     def __init__(self, **kwargs):
@@ -25,8 +26,12 @@ class LandingPage(FloatLayout):
         self.content_layout = BoxLayout(orientation='vertical', size_hint_y=None)
         self.content_layout.bind(minimum_height=self.content_layout.setter('height'))
 
+        # Create and add the Search widget
+        self.search_widget = SearchWidget(search_callback=self.display_search_results)
+
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
+
 
         # Initialize and add FilteredVendorsScreen
         self.filtered_vendors_screen = FilteredVendorsScreen()
@@ -37,6 +42,7 @@ class LandingPage(FloatLayout):
         vendors = self.wrap_screen(VendorsScreen(), height=450)
 
         self.content_layout.add_widget(header)
+        self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(vendors)
 
@@ -98,3 +104,6 @@ class LandingPage(FloatLayout):
             filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
+
+    def display_search_results(self, vendors):
+        print("Search results:", vendors)

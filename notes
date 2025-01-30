@@ -1,15 +1,18 @@
+Great! This approach ensures flexibility and dynamic filtering of vendors while keeping the UI structured. Let me know if you need any refinements or enhancements. 🚀
+
+The next feature I would like to create a search widget[Input area and button].
+
+Create Search feature of vendors
+
 Step1
-Call the correct api url in the filter.py file
+Create a search widget[Input area and button].
 
 Step2
-Go through the filter_widget code and make sure it is structured okay.
+When the search button is pressed, it calls for the searched vendor in the vendors API and print results
 
 Step3
-We go through the apply filter method when called by the button being pressed in the landing page.
-When the apply filter button is clicked and the apply_filter method is called we print the filtered vendors
+Change to result screen(Blank/static)
 
 Step4
-Change the screen to filtered vendors screen(Blank/Static)
+Call the results[printed items in step2] in results screen
 
-Step5
-Call the vendors filtered in the filtered vendors screen

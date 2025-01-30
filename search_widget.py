@@ -32,7 +32,7 @@ class SearchWidget(BoxLayout):
                 try:
                     vendors = response.json()
                     print(f"Found {len(vendors)} vendors")
-                    search_callback(vendors)  # Pass vendors to callback function
+                    search_callback(vendors, search_query)  # Pass vendors and Query to callback function
                 except requests.exceptions.JSONDecodeError:
                     print("Error: Response is not valid JSON")
             else:

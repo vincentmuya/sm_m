@@ -1,0 +1,31 @@
+<SearchResultsScreen>:
+    name: 'vendors'
+    BoxLayout:
+        orientation: 'vertical'
+
+        # Search Results Title
+        Label:
+            id: search_label
+            text: "Showing Search Results for: "
+            size_hint: 1, None
+            height: 40
+            font_size: "18sp"
+            bold: True
+
+        # Content Layout for Vendors
+        ScrollView:
+            size_hint: 1, 0.9  # Takes 90% of the screen height
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+                # Vendors will be added dynamically here
+                GridLayout:
+                    id: vendors_layout
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '10dp'
+
+                    # Each vendor card will be added here dynamically in Python

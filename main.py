@@ -6,6 +6,8 @@ from landing_page import LandingPage
 from vendors import VendorsScreen
 from vendors_by_service import VendorsByServiceScreen
 from filtered_vendors import FilteredVendorsScreen
+from search_results import SearchResultsScreen
+
 
 class MyApp(MDApp):
     def build(self):
@@ -35,6 +37,10 @@ class MyApp(MDApp):
         # Create the FilteredVendorsScreen instance and add it to the ScreenManager
         filtered_vendors = FilteredVendorsScreen(name='filtered_vendors')
         screen_manager.add_widget(filtered_vendors)
+
+        # Create the SearchResultsScreen instance and add it to the ScreenManager
+        search_results = SearchResultsScreen(name='search_results')
+        screen_manager.add_widget(search_results)
 
         return screen_manager
 

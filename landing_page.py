@@ -105,5 +105,12 @@ class LandingPage(FloatLayout):
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
 
-    def display_search_results(self, vendors):
-        print("Search results:", vendors)
+    def display_search_results(self, vendors, search_query):
+        # print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'

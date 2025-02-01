@@ -1,26 +1,54 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.graphics import Color, Rectangle
-from kivy.uix.label import Label
+from kivy.uix.floatlayout import FloatLayout
+from kivymd.uix.navigationdrawer import MDNavigationDrawer
+from kivymd.uix.list import MDList, OneLineListItem
+from kivymd.uix.toolbar import MDTopAppBar
 
 
-class Header(BoxLayout):
+class Header(FloatLayout):  # Use FloatLayout to allow absolute positioning
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Set the orientation of the Header to vertical
-        self.orientation = 'vertical'
+        # Create a top bar with a hamburger menu button
+        self.top_bar = MDTopAppBar(
+            title="Sherehe Mall.\nCelebrations Made Easy",
+            left_action_items=[["menu", lambda x: self.toggle_drawer()]],
+            elevation=5,
+            pos_hint={"top": 1}  # Keep it at the top
+        )
+        self.add_widget(self.top_bar)
 
-        # Apply the pink background
-        with self.canvas.before:
-            Color(0, 0, 0, 1)  # Black color (RGBA)
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-            self.bind(size=self._update_rect, pos=self._update_rect)
+        # Create Navigation Drawer
+        self.nav_drawer = MDNavigationDrawer(
+            pos_hint={"x": -1}  # Initially hidden
+        )
 
-        # Add a Label with the "What are you looking for?" text
-        label = Label(text="Sherehe Mall.\nCelebrations Made Easy", size_hint_y=None, height=50)
-        self.add_widget(label)
+        self.nav_list = MDList()
 
-    def _update_rect(self, instance, value):
-        self.rect.pos = instance.pos
-        self.rect.size = instance.size
+        # Add menu items
+        self.nav_list.add_widget(OneLineListItem(text="Home", on_release=lambda x: self.navigate_to("landing_page")))
+        self.nav_list.add_widget(
+            OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
+        self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
+        self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
 
+        self.nav_drawer.add_widget(self.nav_list)
+
+        # Make sure drawer overlays everything
+        self.nav_drawer.elevation = 10  # Ensures it's above other widgets
+        self.add_widget(self.nav_drawer)
+
+    def toggle_drawer(self):
+        """Opens or closes the drawer when the menu button is clicked."""
+        if self.nav_drawer.state == "open":
+            self.nav_drawer.set_state("close")
+        else:
+            self.nav_drawer.set_state("open")
+            self.nav_drawer.pos_hint = {"x": 0}  # Make sure it moves into view
+
+    def navigate_to(self, screen_name):
+        """Handles navigation from the drawer."""
+        from kivy.app import App
+        app = App.get_running_app()
+        app.root.current = screen_name
+        self.nav_drawer.set_state("close")  # Close the drawer after navigation

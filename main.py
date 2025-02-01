@@ -1,6 +1,9 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.button import MDIconButton
+from navigation_drawer import NavigationDrawer
 from vendor_details import VendorDetailsScreen
 from landing_page import LandingPage
 from vendors import VendorsScreen
@@ -13,6 +16,17 @@ class MyApp(MDApp):
     def build(self):
         # Create a ScreenManager
         screen_manager = ScreenManager()
+
+        # Create a BoxLayout for main UI (including nav drawer)
+        self.main_layout = BoxLayout(orientation='vertical')
+
+        # Add a top navigation bar
+        self.top_bar = BoxLayout(size_hint_y=0.1)
+        self.menu_button = MDIconButton(icon="menu", on_release=self.open_nav_drawer)
+        self.top_bar.add_widget(self.menu_button)
+
+        # Add navigation drawer
+        self.nav_drawer = NavigationDrawer()
 
         # Create and add the landing page screen
         landing_page_screen = Screen(name='landing_page')
@@ -42,7 +56,18 @@ class MyApp(MDApp):
         search_results = SearchResultsScreen(name='search_results')
         screen_manager.add_widget(search_results)
 
-        return screen_manager
+        # Add screen manager to layout
+        self.main_layout.add_widget(self.top_bar)
+        self.main_layout.add_widget(screen_manager)
+
+        # Add navigation drawer separately
+        self.main_layout.add_widget(self.nav_drawer)
+
+        return self.main_layout
+
+    def open_nav_drawer(self, instance):
+        """Opens the navigation drawer."""
+        self.nav_drawer.set_state("open")
 
 
 if __name__ == '__main__':

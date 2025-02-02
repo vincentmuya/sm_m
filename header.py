@@ -32,6 +32,7 @@ class Header(FloatLayout):  # Use FloatLayout to allow absolute positioning
         self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
         self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
 
+
         self.nav_drawer.add_widget(self.nav_list)
 
         # Make sure drawer overlays everything

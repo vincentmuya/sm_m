@@ -11,6 +11,7 @@ import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from search_widget import SearchWidget
+from kivy.uix.widget import Widget
 
 class LandingPage(FloatLayout):
     def __init__(self, **kwargs):
@@ -37,26 +38,35 @@ class LandingPage(FloatLayout):
         self.filtered_vendors_screen = FilteredVendorsScreen()
         self.content_layout.add_widget(self.filtered_vendors_screen)
 
-        # Add other screens (Header, VendorsScreen) to the content layout
-        header = self.wrap_screen(Header(), height=50)
+        # Add other screens (VendorsScreen) to the content layout
         vendors = self.wrap_screen(VendorsScreen(), height=400)
 
-        self.content_layout.add_widget(header)
+        # Spacer widget to add space after the header
+        spacer = Widget(size_hint=(1, None), height=45)
+
+        self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(vendors)
 
         # Create the ScrollView and add the content_layout inside it
-        scroll_view = ScrollView(size_hint=(1, 1), bar_width=10)
+        scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
+
+        # Create and add the Header, fixed at the bottom of the screen
+        header = Header(size_hint=(1, None), height=50)
+        header.pos_hint = {'x': 0, 'y': 0.95}
+
+        # Add ScrollView and navbar to the FloatLayout
+        self.add_widget(scroll_view)  # Add ScrollView with content on top
+        self.add_widget(header)  # Add navbar at the bottom
 
         # Create and add the navbar, fixed at the bottom of the screen
         nav_bar = Navbar(size_hint=(1, None), height=50)
         nav_bar.pos_hint = {'x': 0, 'y': 0}
 
         # Add ScrollView and navbar to the FloatLayout
-        self.add_widget(scroll_view)  # Add ScrollView with content on top
-        self.add_widget(nav_bar)  # Add navbar at the bottom
+        self.add_widget(nav_bar)
 
     def wrap_screen(self, screen, height=None):
         """

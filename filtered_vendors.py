@@ -1,14 +1,15 @@
+from navbar import Navbar
+from header import Header
+from vendors import VendorsCard
+from kivy.uix.widget import Widget
+from filter_widget import Filter
+
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 import requests
-from navbar import Navbar
-from header import Header
-from vendors import VendorsCard
-from kivy.uix.widget import Widget
-from filter_widget import Filter
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from search_widget import SearchWidget
@@ -19,43 +20,57 @@ class FilteredVendorsScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Layout setup
-        self.layout = BoxLayout(orientation='vertical')
+        # Set up the ScrollView
+        self.scroll_type = ['bars']
+        self.bar_width = 10
+        self.do_scroll_x = False
+        self.do_scroll_y = True
 
-        # Content layout at the top
-        self.content_layout = ScrollView(size_hint=(1, 0.9))  # Takes 90% of the screen height
-        self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
-        self.vendor_grid.bind(minimum_height=self.vendor_grid.setter('height'))  # Adjust height dynamically
-        self.content_layout.add_widget(self.vendor_grid)
-
-        self.navbar = Navbar(size_hint=(1, 0.1))
-
-        # Create and add the Header, fixed at the top of the screen
-        header = Header(size_hint=(1, None), height=50)
-        header.pos_hint = {'x': 0, 'y': 0.95}
-        self.header = header
-        # Add the ScrollView and header to the screen
-        self.add_widget(header)
-
-        # Create and add the Filter widget
-        self.filter_widget = Filter(filter_callback=self.apply_filter)
-
-        # Spacer widget to add space after the header
-        top_spacer = Widget(size_hint=(1, None), height=45)
-        spacer = Widget(size_hint=(1, None), height=30)
-
+        # Create a layout to contain the content and wrap it in a scrollview
+        self.content_layout = BoxLayout(orientation='vertical', size_hint_y=None)
+        self.content_layout.bind(minimum_height=self.content_layout.setter('height'))
 
         # Create and add the Search widget
         self.search_widget = SearchWidget(search_callback=self.display_search_results)
 
-        # Add widgets to layout
-        self.layout.add_widget(top_spacer)
-        self.layout.add_widget(self.search_widget)
-        self.layout.add_widget(self.filter_widget)
-        self.layout.add_widget(spacer)
-        self.layout.add_widget(self.content_layout)
-        self.layout.add_widget(self.navbar)
-        self.add_widget(self.layout)
+        # Create and add the Filter widget
+        self.filter_widget = Filter(filter_callback=self.apply_filter)
+
+        # Add other screens (VendorsScreen) to the content layout
+        self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
+
+        # Spacer widget to add space after the header
+        top_spacer = Widget(size_hint=(1, None), height=45)
+        spacer = Widget(size_hint=(1, None), height=20)
+        bottom_spacer = Widget(size_hint=(1, None), height=650)
+
+        self.content_layout.add_widget(top_spacer)
+        self.content_layout.add_widget(self.search_widget)
+        self.content_layout.add_widget(self.filter_widget)
+        self.content_layout.add_widget(spacer)
+        self.content_layout.add_widget(self.vendor_grid)
+        self.content_layout.add_widget(bottom_spacer)
+
+
+        # Create the ScrollView and add the content_layout inside it
+        scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
+        scroll_view.add_widget(self.content_layout)
+
+        # Create and add the Header, fixed at the bottom of the screen
+        header = Header(size_hint=(1, None), height=50)
+        header.pos_hint = {'x': 0, 'y': 0.95}
+
+        # Add ScrollView and navbar to the FloatLayout
+        self.add_widget(scroll_view)  # Add ScrollView with content on top
+        self.add_widget(header)
+
+        # Create and add the navbar, fixed at the bottom of the screen
+        nav_bar = Navbar(size_hint=(1, None), height=50)
+        nav_bar.pos_hint = {'x': 0, 'y': 0}
+
+        # Add ScrollView and navbar to the FloatLayout
+        self.add_widget(nav_bar)
+
 
     def load_filtered_vendors(self, filtered_vendors, services, location, service, price_range):
         print(f"Loading {len(filtered_vendors)} filtered vendors...")

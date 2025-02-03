@@ -29,19 +29,27 @@ class FilteredVendorsScreen(Screen):
         self.content_layout.add_widget(self.vendor_grid)
 
         self.navbar = Navbar(size_hint=(1, 0.1))
-        self.header = Header(size_hint=(1, 0.1))
+
+        # Create and add the Header, fixed at the top of the screen
+        header = Header(size_hint=(1, None), height=50)
+        header.pos_hint = {'x': 0, 'y': 0.95}
+        self.header = header
+        # Add the ScrollView and header to the screen
+        self.add_widget(header)
 
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Spacer widget to add space after the header
+        top_spacer = Widget(size_hint=(1, None), height=45)
         spacer = Widget(size_hint=(1, None), height=30)
+
 
         # Create and add the Search widget
         self.search_widget = SearchWidget(search_callback=self.display_search_results)
 
         # Add widgets to layout
-        self.layout.add_widget(self.header)
+        self.layout.add_widget(top_spacer)
         self.layout.add_widget(self.search_widget)
         self.layout.add_widget(self.filter_widget)
         self.layout.add_widget(spacer)

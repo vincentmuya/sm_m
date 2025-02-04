@@ -20,7 +20,7 @@ def filter_vendors(location=None, service=None, price_range=None):
 
         if response.status_code == 200:
             vendors = response.json()
-            print("Vendors:", vendors)
+            # print("Vendors:", vendors)
 
             # Format the price field for each vendor
             for vendor in vendors:

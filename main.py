@@ -1,6 +1,3 @@
-from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivymd.app import MDApp
 from vendor_details import VendorDetailsScreen
 from landing_page import LandingPage
 from vendors import VendorsScreen
@@ -8,6 +5,12 @@ from vendors_by_service import VendorsByServiceScreen
 from filtered_vendors import FilteredVendorsScreen
 from search_results import SearchResultsScreen
 from location_vendors import LocationVendorsScreen
+from service_vendors import ServiceVendorsScreen
+
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.app import MDApp
+
 
 class MyApp(MDApp):
     def build(self):
@@ -42,9 +45,13 @@ class MyApp(MDApp):
         search_results = SearchResultsScreen(name='search_results')
         screen_manager.add_widget(search_results)
 
-        # Create the FilteredVendorsScreen instance and add it to the ScreenManager
+        # Create the LocationVendorsScreen instance and add it to the ScreenManager
         location_vendors = LocationVendorsScreen(name='location_vendors')
         screen_manager.add_widget(location_vendors)
+
+        # Create the LocationVendorsScreen instance and add it to the ScreenManager
+        service_vendors = ServiceVendorsScreen(name='service_vendors')
+        screen_manager.add_widget(service_vendors)
 
         return screen_manager
 

@@ -15,9 +15,9 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.label import Label
 
-Builder.load_file('filtered_vendors.kv')
+Builder.load_file('service_vendors.kv')
 
-class FilteredVendorsScreen(Screen):
+class ServiceVendorsScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -48,7 +48,7 @@ class FilteredVendorsScreen(Screen):
         self.content_layout.add_widget(top_spacer)
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
-        # self.content_layout.add_widget(spacer)
+        self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.vendor_grid)
         self.content_layout.add_widget(bottom_spacer)
 
@@ -72,88 +72,42 @@ class FilteredVendorsScreen(Screen):
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(nav_bar)
 
-    def load_filtered_vendors(self, filtered_vendors, services, location, service, price_range):
-        print(f"Loading {len(filtered_vendors)} filtered vendors...")
+    def load_service_vendors(self,vendors, service):
+        print(f"Loading {len(vendors)} Service vendors...")
 
         # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
 
-        # Update the filter display text
-        filter_text = "Viewing filtered vendors:"
-        if location:
-            filter_text += f" Location: {location}"
-        if service:
-            filter_text += f" Service: {service}"
-        if price_range:
-            filter_text += f" Price Range: {price_range}"
-
-        # Create a BoxLayout for alignment
-        filter_box1 = BoxLayout(
+        # Create a Label for the location name
+        location_label1 = Label(
+            text='',
             size_hint_y=None,
-            height=50,
-            orientation='vertical'
-        )
-
-        # Create the Label for filter info
-        filter_label = Label(
-            text="",
-            font_size="2sp",
-            bold=True,
+            height=5,
+            font_size="10sp",
             color=(0, 0, 0, 1),
-            halign='center',  # Horizontal alignment
-            valign='middle'  # Vertical alignment
+            bold=True
         )
-        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
 
-        # Add the Label to the BoxLayout
-        filter_box1.add_widget(filter_label)
-
-        # Create a BoxLayout for alignment
-        filter_box = BoxLayout(
+        location_label = Label(
+            text=f"Viewing {service} Vendors",
             size_hint_y=None,
-            height=50,
-            orientation='vertical'
+            height=5,
+            font_size="20sp",
+            color= (0, 0, 0, 1),
+            bold=True
         )
-
-        # Create the Label for filter info
-        filter_label = Label(
-            text=filter_text,
-            font_size="15sp",
-            bold=True,
-            color=(0, 0, 0, 1),
-            halign='center',  # Horizontal alignment
-            valign='middle'  # Vertical alignment
-        )
-        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
-
-        # Add the Label to the BoxLayout
-        filter_box.add_widget(filter_label)
-
-        # Create a BoxLayout for alignment
-        filter_box3 = BoxLayout(
+        location_label3 = Label(
+            text='',
             size_hint_y=None,
-            height=50,
-            orientation='vertical'
-        )
-
-        # Create the Label for filter info
-        filter_label = Label(
-            text="",
-            font_size="2sp",
-            bold=True,
+            height=5,
+            font_size="10sp",
             color=(0, 0, 0, 1),
-            halign='center',  # Horizontal alignment
-            valign='middle'  # Vertical alignment
+            bold=True
         )
-        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
 
-        # Add the Label to the BoxLayout
-        filter_box3.add_widget(filter_label)
-
-        # Add the filter text box to the vendor grid
-        self.vendor_grid.add_widget(filter_box1)
-        self.vendor_grid.add_widget(filter_box)
-        self.vendor_grid.add_widget(filter_box3)
+        self.vendor_grid.add_widget(location_label1)
+        self.vendor_grid.add_widget(location_label)
+        self.vendor_grid.add_widget(location_label3)
 
         # Fetch all services and locations to map their IDs to names
         services_response = requests.get('http://localhost:8000/api/services/')
@@ -169,7 +123,7 @@ class FilteredVendorsScreen(Screen):
         else:
             locations = {}
 
-        for vendor in filtered_vendors:
+        for vendor in vendors:
             full_image_url = f"http://localhost:8000{vendor['profile_image']}"
 
             # Get the location name
@@ -232,7 +186,7 @@ class FilteredVendorsScreen(Screen):
             app.root.current = 'filtered_vendors'
 
     def display_search_results(self, vendors, search_query):
-        print(f"Search results: {len(vendors)}")
+        # print(f"Search results: {len(vendors)}")
         # print("Search results:", vendors)
         app = App.get_running_app()
         # Pass the service_id (parent category) to the search_results screen

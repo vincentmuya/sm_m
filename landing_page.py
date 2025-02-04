@@ -1,16 +1,17 @@
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
 from filter_widget import Filter
 from filtered_vendors import FilteredVendorsScreen
 from vendors import VendorsScreen
 from header import Header
 from navbar import Navbar
+from search_widget import SearchWidget
+
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
-from search_widget import SearchWidget
 from kivy.uix.widget import Widget
 
 class LandingPage(FloatLayout):
@@ -53,7 +54,7 @@ class LandingPage(FloatLayout):
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
 
-        # Create and add the Header, fixed at the bottom of the screen
+        # Create and add the Header, fixed at the top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
 
@@ -106,7 +107,7 @@ class LandingPage(FloatLayout):
 
         if response.status_code == 200:
             filtered_vendors = response.json()
-            print("Filtered Vendors:", filtered_vendors)
+            # print("Filtered Vendors:", filtered_vendors)
 
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen

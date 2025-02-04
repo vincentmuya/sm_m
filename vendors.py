@@ -10,8 +10,8 @@ from kivy.uix.label import Label
 from kivy.factory import Factory
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
-Builder.load_file('vendors.kv')
 
+Builder.load_file('vendors.kv')
 
 class VendorsCard(BoxLayout):
     institution_name = StringProperty()
@@ -33,7 +33,7 @@ class VendorsCard(BoxLayout):
 
         if response.status_code == 200:
             vendor_details = response.json()
-            print("Vendor Details:", vendor_details)
+            # print("Vendor Details:", vendor_details)
 
             app = App.get_running_app()
             vendor_details_screen = app.root.get_screen('vendor_details')
@@ -43,7 +43,6 @@ class VendorsCard(BoxLayout):
             app.root.current = 'vendor_details'
         else:
             print("Failed to fetch vendor details.")
-
 
 class VendorsScreen(Screen):
     def __init__(self, **kwargs):
@@ -81,7 +80,7 @@ class VendorsScreen(Screen):
         services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
-            print("Services:", services)
+            # print("Services:", services)
         else:
             services = []
 
@@ -89,7 +88,7 @@ class VendorsScreen(Screen):
         locations_response = requests.get('http://localhost:8000/api/locations/')
         if locations_response.status_code == 200:
             locations = locations_response.json()
-            print("Locations:", locations)
+            # print("Locations:", locations)
         else:
             locations = []
 
@@ -97,7 +96,7 @@ class VendorsScreen(Screen):
         response = requests.get('http://localhost:8000/api/vendor/')
         if response.status_code == 200:
             vendors = response.json()
-            print("Vendors:", vendors)
+            # print("Vendors:", vendors)
 
             self.clear_vendors()  # Clear existing vendors before loading new ones
 
@@ -106,7 +105,7 @@ class VendorsScreen(Screen):
 
             # Identify parent categories
             parent_categories = {s['id']: s for s in services if s['parent'] is None}
-            print("Parent Categories:", parent_categories)
+            # print("Parent Categories:", parent_categories)
 
             # Group vendors by their parent category
             vendors_by_parent = {parent_id: [] for parent_id in parent_categories.keys()}

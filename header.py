@@ -156,7 +156,7 @@ class Header(FloatLayout):
 
         if response.status_code == 200:
             vendors = response.json()
-            print(f"Vendors in {location}: {vendors}")
+            # print(f"Vendors in {location}: {vendors}")
 
             app = App.get_running_app()
             # Pass the Location to the location_vendors screen
@@ -173,6 +173,48 @@ class Header(FloatLayout):
         """Sets selected service from dropdown."""
         self.service_button.text = service
         self.service_menu.dismiss()
+
+        # Fetch vendors based on selected location
+        self.fetch_vendors_by_service(service)
+
+    def fetch_vendors_by_service(self, service_name):
+        """Fetch vendors from the API based on the selected service ID and print them."""
+
+        # Fetch all services from API to map service names to IDs
+        services_response = requests.get('http://localhost:8000/api/services/')
+
+        if services_response.status_code == 200:
+            services = {service['service']: service['id'] for service in
+                        services_response.json()}  # Map service name to ID
+        else:
+            print("Failed to fetch services.")
+            return
+
+        # Get the service ID from the service name
+        service_id = services.get(service_name)
+
+        if not service_id:
+            print(f"Service '{service_name}' not found.")
+            return
+
+        # Use the service ID to fetch vendors
+        api_url = f'http://localhost:8000/api/vendor/?service={service_id}'
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            vendors = response.json()
+            print(f"Vendors in {service_name} (ID: {service_id}): {len(vendors)}")
+
+            # Get the current app instance
+            app = App.get_running_app()
+
+            # Pass the service ID to the service_vendors screen
+            service_vendors_screen = app.root.get_screen('service_vendors')
+            service_vendors_screen.load_service_vendors(vendors, service_name)  # Passing name for UI purposes
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'service_vendors'
+        else:
+            print(f"Failed to fetch vendors for service '{service_name}' (ID: {service_id}).")
 
     def navigate_to(self, screen_name):
         """Handles navigation from the drawer."""

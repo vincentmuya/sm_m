@@ -3,6 +3,7 @@ from header import Header
 from vendors import VendorsCard
 from kivy.uix.widget import Widget
 from filter_widget import Filter
+from search_widget import SearchWidget
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -12,7 +13,6 @@ from kivy.uix.gridlayout import GridLayout
 import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
-from search_widget import SearchWidget
 from kivy.uix.label import Label
 
 Builder.load_file('search_results.kv')
@@ -58,7 +58,7 @@ class SearchResultsScreen(Screen):
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
 
-        # Create and add the Header, fixed at the bottom of the screen
+        # Create and add the Header, fixed at the top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
 
@@ -75,7 +75,7 @@ class SearchResultsScreen(Screen):
 
     def load_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")
-        print("Search results:", vendors)
+        # print("Search results:", vendors)
 
         # Update the search results title
         print("Search Query:", search_query)
@@ -179,7 +179,7 @@ class SearchResultsScreen(Screen):
 
         if response.status_code == 200:
             filtered_vendors = response.json()
-            print("Filtered Vendors:", filtered_vendors)
+            # print("Filtered Vendors:", filtered_vendors)
 
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen

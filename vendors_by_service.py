@@ -17,7 +17,6 @@ from kivy.uix.label import Label
 
 Builder.load_file('vendors_by_service.kv')
 
-
 class VendorsByServiceScreen(Screen):
     """A screen to show vendors for the selected parent category."""
     def __init__(self, **kwargs):
@@ -58,7 +57,7 @@ class VendorsByServiceScreen(Screen):
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
 
-        # Create and add the Header, fixed at the bottom of the screen
+        # Create and add the Header, fixed at the top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
 
@@ -114,7 +113,7 @@ class VendorsByServiceScreen(Screen):
         # Fetch and display vendors for the parent service
         if response.status_code == 200:
             vendors = response.json()
-            print(f"Vendors for Parent Service ID {service_id}:", vendors)
+            # print(f"Vendors for Parent Service ID {service_id}:", vendors)
 
             # Ensure layout is properly reset
             self.ids.vendors_layout.clear_widgets()  # Clear previous widgets if needed
@@ -201,7 +200,7 @@ class VendorsByServiceScreen(Screen):
 
         if response.status_code == 200:
             filtered_vendors = response.json()
-            print("Filtered Vendors:", filtered_vendors)
+            # print("Filtered Vendors:", filtered_vendors)
 
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen

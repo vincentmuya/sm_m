@@ -26,7 +26,7 @@ class SearchWidget(BoxLayout):
 
             response = requests.get(f"http://localhost:8000/api/vendor/?search={search_query}")
 
-            print("API Response:", response.text)  # Debugging
+            # print("API Response:", response.text)  # Debugging
 
             if response.status_code == 200:
                 try:

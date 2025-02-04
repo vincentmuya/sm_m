@@ -57,7 +57,7 @@ class LocationVendorsScreen(Screen):
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
 
-        # Create and add the Header, fixed at the bottom of the screen
+        # Create and add the Header, fixed at the Top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
 
@@ -71,7 +71,6 @@ class LocationVendorsScreen(Screen):
 
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(nav_bar)
-
 
     def load_location_vendors(self,vendors, location):
         print(f"Loading {len(vendors)} Location vendors...")
@@ -177,7 +176,7 @@ class LocationVendorsScreen(Screen):
 
         if response.status_code == 200:
             filtered_vendors = response.json()
-            print("Filtered Vendors:", filtered_vendors)
+            # print("Filtered Vendors:", filtered_vendors)
 
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen
@@ -185,7 +184,6 @@ class LocationVendorsScreen(Screen):
             filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
-
 
     def display_search_results(self, vendors, search_query):
         # print(f"Search results: {len(vendors)}")

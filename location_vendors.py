@@ -1,25 +1,23 @@
-from kivy.uix.screenmanager import Screen, SlideTransition
 from navbar import Navbar
-from vendors import VendorsCard
-from filter_widget import Filter
 from header import Header
-
-from kivy.lang import Builder
-import requests
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.boxlayout import BoxLayout
+from vendors import VendorsCard
 from kivy.uix.widget import Widget
-from kivy.factory import Factory
-from kivy.app import App
+from filter_widget import Filter
 from search_widget import SearchWidget
+
+from kivy.uix.screenmanager import Screen
+from kivy.uix.boxlayout import BoxLayout
+from kivy.lang import Builder
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
+import requests
+from kivy.app import App
+from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.label import Label
 
-Builder.load_file('vendors_by_service.kv')
+Builder.load_file('location_vendors.kv')
 
-
-class VendorsByServiceScreen(Screen):
-    """A screen to show vendors for the selected parent category."""
+class LocationVendorsScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -54,6 +52,7 @@ class VendorsByServiceScreen(Screen):
         self.content_layout.add_widget(self.vendor_grid)
         self.content_layout.add_widget(bottom_spacer)
 
+
         # Create the ScrollView and add the content_layout inside it
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
@@ -73,66 +72,43 @@ class VendorsByServiceScreen(Screen):
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(nav_bar)
 
-    def load_vendors_for_service(self, service_id):
-        """Load vendors based on the selected parent service category."""
-        # Fetch vendors for the selected parent category
-        response = requests.get(f'http://localhost:8000/api/vendor/?parent_service={service_id}')
 
-        # Fetch the parent service name
-        services_response = requests.get('http://localhost:8000/api/services/')
-        parent_service_name = "Unknown Category"  # Default name if the parent service is not found
+    def load_location_vendors(self,vendors, location):
+        print(f"Loading {len(vendors)} Location vendors...")
 
-        if services_response.status_code == 200:
-            services = services_response.json()
-            # Find the parent service name using the service_id
-            for service in services:
-                if service['id'] == service_id:
-                    parent_service_name = service['service']
-                    break
-        else:
-            print("Failed to fetch services for finding parent name.")
-
-        # Create the header with the parent service name
-        header = Factory.CategoryHeader(text=f"[b]{parent_service_name}[/b]")
-        header2 = Label(
-            text="",
-            size_hint_y=None,
-            height=5,
-            font_size="2sp",
-            color=(0, 0, 0, 1),
-            bold=True
-        )
-        header3 = Label(
-            text="",
-            size_hint_y=None,
-            height=5,
-            font_size="2sp",
-            color=(0, 0, 0, 1),
-            bold=True
-        )
-
-        # Fetch and display vendors for the parent service
-        if response.status_code == 200:
-            vendors = response.json()
-            print(f"Vendors for Parent Service ID {service_id}:", vendors)
-
-            # Ensure layout is properly reset
-            self.ids.vendors_layout.clear_widgets()  # Clear previous widgets if needed
-
-            # Display vendors under this parent category
-            self.display_vendors(vendors, header, header2, header3)  # Call display_vendors to render the vendors
-        else:
-            print("Failed to fetch vendors for this service.")
-
-    def display_vendors(self, vendors, header,header2, header3):
-        """Display the vendors on the screen."""
-        # Clear the previous vendor grid
+        # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
 
-        # Ensure the parent service header is displayed
-        self.vendor_grid.add_widget(header2)
-        self.vendor_grid.add_widget(header)
-        self.vendor_grid.add_widget(header3)
+        # Create a Label for the location name
+        location_label1 = Label(
+            text='',
+            size_hint_y=None,
+            height=5,
+            font_size="10sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        location_label = Label(
+            text=f"Viewing {location} Vendors",
+            size_hint_y=None,
+            height=5,
+            font_size="20sp",
+            color= (0, 0, 0, 1),
+            bold=True
+        )
+        location_label3 = Label(
+            text='',
+            size_hint_y=None,
+            height=5,
+            font_size="10sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        self.vendor_grid.add_widget(location_label1)
+        self.vendor_grid.add_widget(location_label)
+        self.vendor_grid.add_widget(location_label3)
 
         # Fetch all services and locations to map their IDs to names
         services_response = requests.get('http://localhost:8000/api/services/')
@@ -166,8 +142,8 @@ class VendorsByServiceScreen(Screen):
                 image_source=full_image_url,
                 vendor_id=str(vendor['id']),
                 slug=vendor['slug'],
-                service=service_name,  # Use the service name instead of the ID
-                location=location_name  # Include the location name
+                service=service_name,
+                location=location_name
             )
             self.vendor_grid.add_widget(vendor_card)
 
@@ -209,6 +185,7 @@ class VendorsByServiceScreen(Screen):
             filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
+
 
     def display_search_results(self, vendors, search_query):
         # print(f"Search results: {len(vendors)}")

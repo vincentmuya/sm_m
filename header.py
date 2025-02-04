@@ -8,6 +8,8 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.menu import MDDropdownMenu
 import requests
 from functools import partial
+from kivy.app import App
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 
 class Header(FloatLayout):
@@ -25,7 +27,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer with a background color and move it up
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -5},  # Moves the drawer up
+            pos_hint={"x": -1, "top": -6},  # Moves the drawer up
             size_hint_y=1,  # Adjusts height
             md_bg_color=get_color_from_hex("#FFFFFF")  # White background
         )
@@ -45,7 +47,7 @@ class Header(FloatLayout):
         self.location_button = MDRaisedButton(
             text='Location', on_release=self.ensure_location_menu_open
         )
-        self.location_layout.add_widget(self.location_button)
+        # self.location_layout.add_widget(self.location_button)
         self.nav_list.add_widget(self.location_layout)
 
         # Service Dropdown Container
@@ -53,8 +55,18 @@ class Header(FloatLayout):
         self.service_button = MDRaisedButton(
             text='Service', on_release=self.ensure_service_menu_open
         )
-        self.service_layout.add_widget(self.service_button)
+        # self.service_layout.add_widget(self.service_button)
         self.nav_list.add_widget(self.service_layout)
+
+        # Create a horizontal BoxLayout to hold the buttons
+        button_layout = BoxLayout(orientation="horizontal", spacing=10, size_hint_y=None, height="48dp")
+
+        # Add buttons to the horizontal layout
+        button_layout.add_widget(self.location_button)
+        button_layout.add_widget(self.service_button)
+
+        # Add the horizontal layout to the nav_list
+        self.nav_list.add_widget(button_layout)
 
         # Now create the dropdown menus after buttons are defined
         self.location_menu = MDDropdownMenu(
@@ -130,9 +142,32 @@ class Header(FloatLayout):
             print(f"Failed to retrieve services. Status code: {response.status_code}")
 
     def set_location(self, location):
-        """Sets selected location from dropdown."""
+        """Sets selected location from dropdown and fetches vendors."""
         self.location_button.text = location
         self.location_menu.dismiss()
+
+        # Fetch vendors based on selected location
+        self.fetch_vendors_by_location(location)
+
+    def fetch_vendors_by_location(self, location):
+        """Fetch vendors from the API based on the selected location and print them."""
+        api_url = f'http://localhost:8000/api/vendor/?location={location}'  # Adjust API endpoint as needed
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            vendors = response.json()
+            print(f"Vendors in {location}: {vendors}")
+
+            app = App.get_running_app()
+            # Pass the Location to the location_vendors screen
+            location_vendors_screen = app.root.get_screen('location_vendors')
+            location_vendors_screen.load_location_vendors(vendors, location)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'location_vendors'
+
+
+        else:
+            print(f"Failed to retrieve vendors for {location}. Status code: {response.status_code}")
 
     def set_service(self, service):
         """Sets selected service from dropdown."""

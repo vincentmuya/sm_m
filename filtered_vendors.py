@@ -3,6 +3,7 @@ from header import Header
 from vendors import VendorsCard
 from kivy.uix.widget import Widget
 from filter_widget import Filter
+from search_widget import SearchWidget
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -12,7 +13,7 @@ from kivy.uix.gridlayout import GridLayout
 import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
-from search_widget import SearchWidget
+from kivy.uix.label import Label
 
 Builder.load_file('filtered_vendors.kv')
 
@@ -47,7 +48,7 @@ class FilteredVendorsScreen(Screen):
         self.content_layout.add_widget(top_spacer)
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
-        self.content_layout.add_widget(spacer)
+        # self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.vendor_grid)
         self.content_layout.add_widget(bottom_spacer)
 
@@ -75,6 +76,9 @@ class FilteredVendorsScreen(Screen):
     def load_filtered_vendors(self, filtered_vendors, services, location, service, price_range):
         print(f"Loading {len(filtered_vendors)} filtered vendors...")
 
+        # Clear grid before adding new vendors
+        self.vendor_grid.clear_widgets()
+
         # Update the filter display text
         filter_text = "Viewing filtered vendors:"
         if location:
@@ -84,10 +88,73 @@ class FilteredVendorsScreen(Screen):
         if price_range:
             filter_text += f" Price Range: {price_range}"
 
-        self.ids.filter_info_label.text = filter_text
+        # Create a BoxLayout for alignment
+        filter_box1 = BoxLayout(
+            size_hint_y=None,
+            height=50,
+            orientation='vertical'
+        )
 
-        # Clear grid before adding new vendors
-        self.vendor_grid.clear_widgets()
+        # Create the Label for filter info
+        filter_label = Label(
+            text="",
+            font_size="2sp",
+            bold=True,
+            color=(0, 0, 0, 1),
+            halign='center',  # Horizontal alignment
+            valign='middle'  # Vertical alignment
+        )
+        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
+
+        # Add the Label to the BoxLayout
+        filter_box1.add_widget(filter_label)
+
+        # Create a BoxLayout for alignment
+        filter_box = BoxLayout(
+            size_hint_y=None,
+            height=50,
+            orientation='vertical'
+        )
+
+        # Create the Label for filter info
+        filter_label = Label(
+            text=filter_text,
+            font_size="15sp",
+            bold=True,
+            color=(0, 0, 0, 1),
+            halign='center',  # Horizontal alignment
+            valign='middle'  # Vertical alignment
+        )
+        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
+
+        # Add the Label to the BoxLayout
+        filter_box.add_widget(filter_label)
+
+        # Create a BoxLayout for alignment
+        filter_box3 = BoxLayout(
+            size_hint_y=None,
+            height=50,
+            orientation='vertical'
+        )
+
+        # Create the Label for filter info
+        filter_label = Label(
+            text="",
+            font_size="2sp",
+            bold=True,
+            color=(0, 0, 0, 1),
+            halign='center',  # Horizontal alignment
+            valign='middle'  # Vertical alignment
+        )
+        filter_label.bind(size=filter_label.setter('text_size'))  # Ensure text is centered properly
+
+        # Add the Label to the BoxLayout
+        filter_box3.add_widget(filter_label)
+
+        # Add the filter text box to the vendor grid
+        self.vendor_grid.add_widget(filter_box1)
+        self.vendor_grid.add_widget(filter_box)
+        self.vendor_grid.add_widget(filter_box3)
 
         # Fetch all services and locations to map their IDs to names
         services_response = requests.get('http://localhost:8000/api/services/')

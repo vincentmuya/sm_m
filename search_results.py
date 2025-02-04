@@ -13,6 +13,7 @@ import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from search_widget import SearchWidget
+from kivy.uix.label import Label
 
 Builder.load_file('search_results.kv')
 
@@ -78,11 +79,38 @@ class SearchResultsScreen(Screen):
 
         # Update the search results title
         print("Search Query:", search_query)
-        self.ids.search_label.text = f"Showing Search Results for: {search_query}"
-
 
         # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
+
+        location_label = Label(
+            text=f"Viewing Search Results: {search_query}",
+            size_hint_y=None,
+            height=5,
+            font_size="15sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        location_label2 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        location_label3 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        self.vendor_grid.add_widget(location_label2)
+        self.vendor_grid.add_widget(location_label)
+        self.vendor_grid.add_widget(location_label3)
 
         # Fetch all services and locations to map their IDs to names
         services_response = requests.get('http://localhost:8000/api/services/')

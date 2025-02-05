@@ -1,17 +1,21 @@
+from header import Header
+from navbar import Navbar
+from filter_widget import Filter
+from search_widget import SearchWidget
+
+import requests
 from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty, ListProperty
 from kivy.lang import Builder
-import requests
 from kivy.uix.carousel import Carousel
 from kivy.uix.image import AsyncImage
 from kivy.app import App
-from navbar import Navbar
 from kivymd.app import MDApp
 from kivymd.uix.card import MDCard
 from kivy.uix.label import Label
 from kivy.metrics import dp
 from kivy.uix.scrollview import ScrollView
-
+from kivy.uix.screenmanager import Screen, SlideTransition
 
 Builder.load_file('vendor_details.kv')
 
@@ -127,6 +131,73 @@ class VendorDetailsScreen(Screen):
         self.property('gallery_images').dispatch(self)
 
         self.add_widget(Navbar())
+
+        # Create and add the Search, at the top of the screen
+        search = SearchWidget(search_callback=self.display_search_results, size_hint=(1, None))
+        search.pos_hint = {'x':0, 'y':0.849}
+        self.add_widget(search)
+
+        # Create and add the Filter Widget, at the top of the screen
+        filter_widget = Filter(filter_callback=self.apply_filter)
+        filter_widget.pos_hint = {'x': 0, 'y': 0.772}
+        self.add_widget(filter_widget)
+
+        # Create and add the Header, fixed at the top of the screen
+        header = Header(size_hint=(1, None), height=50)
+        header.pos_hint = {'x': 0, 'y': 0.95}
+        self.add_widget(header)
+
+
+
+
+    def display_search_results(self, vendors, search_query):
+        print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'
+
+    def apply_filter(self, location=None, service=None, price_range=None):
+        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+
+        # Fetch services to resolve the service name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services = services_response.json() if services_response.status_code == 200 else []
+
+        # Get the service ID from the service name (if the service exists)
+        service_id = None
+        if service:
+            for s in services:
+                if s['service'] == service:
+                    service_id = s['id']
+                    break
+
+        # Construct the API URL with the service ID
+        api_url = 'http://localhost:8000/api/vendor/'
+        filters = {}
+        if location:
+            filters['location'] = location
+        if service_id:
+            filters['service'] = service_id  # Use the service ID instead of the name
+        if price_range:
+            filters['price_range'] = price_range
+
+        # Call the API with the updated filters
+        response = requests.get(api_url, params=filters)
+
+        if response.status_code == 200:
+            filtered_vendors = response.json()
+            # print("Filtered Vendors:", filtered_vendors)
+
+            app = App.get_running_app()
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            filtered_vendors_screen = app.root.get_screen('filtered_vendors')
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'filtered_vendors'
 
 
 class CarouselApp(App):

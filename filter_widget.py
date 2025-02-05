@@ -4,6 +4,37 @@ from kivy.uix.dropdown import DropDown
 import requests
 from kivy.uix.label import Label
 from kivy.utils import rgba
+from kivy.graphics import Color, Rectangle
+
+
+class ColoredLabel(BoxLayout):
+    def __init__(self, text, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint_x = None
+        self.width = 150  # Adjust width as needed
+        self.height = 50  # Adjust height as needed
+        self.padding = [10, 5]  # Add padding for better appearance
+
+        with self.canvas.before:
+            Color(*rgba("#A020F0"))  # Background color (Blue shade)
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+
+        self.bind(pos=self.update_rect, size=self.update_rect)
+
+        self.label = Label(
+            text=text,
+            color=rgba("#FFFFFF"),  # White text color
+            halign="center",
+            valign="middle",
+            size_hint=(None, None),
+            size=self.size
+        )
+        self.label.bind(size=self.label.setter('text_size'))  # Ensure text wraps properly
+        self.add_widget(self.label)
+
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size
 
 
 class Filter(BoxLayout):
@@ -14,9 +45,8 @@ class Filter(BoxLayout):
         self.size_hint_y = None
         self.height = 50
 
-        # Introductory Label with color
-        self.intro_label = Label(text="Filter By Location,\nService, Price Or All", size_hint_x=None, width=150)
-        self.intro_label.color = rgba("#000000")  # Set color using RGBA hex format
+        # Introductory Label with background color
+        self.intro_label = ColoredLabel("Filter By Location,\nService, Price Or All")
         self.add_widget(self.intro_label)
 
         # Location Dropdown

@@ -10,7 +10,7 @@ import requests
 from functools import partial
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
-
+from kivy.utils import rgba
 
 class Header(FloatLayout):
     def __init__(self, **kwargs):
@@ -21,7 +21,8 @@ class Header(FloatLayout):
             title="Sherehe Mall.\nCelebrations Made Easy",
             left_action_items=[["menu", lambda x: self.toggle_drawer()]],
             elevation=5,
-            pos_hint={"top": 1}  # Keep it at the top
+            pos_hint={"top": 1},  # Keep it at the top
+            md_bg_color = rgba("#A020F0")
         )
         self.add_widget(self.top_bar)
 

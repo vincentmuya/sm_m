@@ -16,6 +16,7 @@ from kivy.uix.label import Label
 from kivy.metrics import dp
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen, SlideTransition
+from kivymd.uix.boxlayout import MDBoxLayout
 
 Builder.load_file('vendor_details.kv')
 
@@ -221,28 +222,42 @@ class MyCard(MDCard):
     social_media = StringProperty()
 
     def __init__(self, **kwargs):
-        super(MyCard, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.orientation = 'vertical'
         self.padding = dp(16)
         self.spacing = dp(20)
         self.size_hint_y = None
-        self.size = (dp(600), dp(300))  # Adjust the card height as needed
+        self.height = dp(350)  # Adjust height as needed
         self.pos_hint = {'center_x': 0.5}
-        self.add_labels()
+        self.elevation = 5  # Add shadow for better visibility
+        self.md_bg_color = (1, 1, 1, 1)  # White background
+        self.radius = [10, 10, 10, 10]  # Rounded corners
+        self.add_content()
 
-    def add_labels(self):
+    def add_content(self):
+        content = MDBoxLayout(orientation="vertical", spacing=dp(8), padding=dp(8))
+
         labels_data = [
             ('Institution Name', self.institution_name),
             ('Price', self.price),
             ('Location', self.location),
             ('Description', self.description),
-            ('Phone Number', self.phone_number),
+            ('Phone', self.phone_number),
             ('Email', self.email),
             ('Website', self.website),
-            ('Social Media', self.social_media)
+            ('Social', self.social_media)
         ]
 
         for label_text, data_value in labels_data:
             if data_value:
-                label = Label(text=f"{label_text}: {data_value}", color=(0, 0, 0, 1))
-                self.add_widget(label)
+                label = MDLabel(
+                    text=f"[b]{label_text}:[/b] {data_value}",
+                    markup=True,
+                    theme_text_color="Primary",
+                    halign="left",
+                    size_hint_y=None,
+                    height=dp(20)
+                )
+                content.add_widget(label)
+
+        self.add_widget(content)

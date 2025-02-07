@@ -1,0 +1,30 @@
+                    *****DONE*****
+Things we will do in the Django application:
+
+Install any dependencies required.
+
+Define views api if any.
+
+Define the url(Register, Login, Log Out).
+
+Test them.
+                    *****DONE*****
+------------------------------------------------------------------------------------------------------------------------
+
+Next step is to create API calls in kivy.
+
+Next Steps:
+1. Make API Calls in Kivy for Register, Login, and Logout.
+**-Create Login Screen.
+-Add login Logic and call the api.
+-Print username and password[Debug and make sure authentication of login is being handled properly].
+-Test login and redirect to home.[If user is logged in, log out button is visible else login].
+
+
+2. Handle JWT/Token Authentication in Kivy after login.
+
+3. Store the token locally so the user stays logged in.
+
+4. Use the token for authenticated requests in Kivy.
+
+------------------------------------------------------------------------------------------------------------------------

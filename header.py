@@ -28,7 +28,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer with a background color and move it up
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -6},  # Moves the drawer up
+            pos_hint={"x": -1, "top": -7},  # Moves the drawer up
             size_hint_y=1,  # Adjusts height
             md_bg_color=get_color_from_hex("#FFFFFF")  # White background
         )
@@ -42,6 +42,10 @@ class Header(FloatLayout):
             OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
         self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
         self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
+
+        #Login Button
+        self.login_button = MDRaisedButton(text='Log-In',md_bg_color = rgba("#008000"), on_release=lambda x: self.navigate_to("login_screen"))
+        self.nav_list.add_widget(self.login_button)
 
         # Location Dropdown Container
         self.location_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=40)
@@ -223,3 +227,4 @@ class Header(FloatLayout):
         app = App.get_running_app()
         app.root.current = screen_name
         self.nav_drawer.set_state("close")  # Close the drawer after navigation
+

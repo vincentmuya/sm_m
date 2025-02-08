@@ -17,7 +17,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.utils import rgba
-
+from kivy.clock import mainthread
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
@@ -111,7 +111,45 @@ class LoginScreen(Screen):
         self.add_widget(self.header)
 
     def login_user(self, instance):
-        pass
+        username = self.username.text
+        password = self.password.text
+
+        print(f"Attempting login with Username: {username}, Password: {password}")
+
+        url = "http://localhost:8000/api/kivy_login/"
+        data = {"username": username, "password": password}
+
+        try:
+            response = requests.post(url, json=data)
+            print(f"Status Code: {response.status_code}")
+
+            if "application/json" in response.headers.get("Content-Type", ""):
+                response_data = response.json()
+                print(f"Response: {response_data}")
+
+                if response.status_code == 200:
+                    user_id = response_data.get("user_id", "N/A")
+                    print(f"Login Successful! User ID: {user_id}")
+
+                    # Store user session
+                    app = App.get_running_app()
+                    app.user_data = {"user_id": user_id, "username": username}
+
+                    # Find the header instance in your app and update it
+                    for screen in self.manager.screens:
+                        if hasattr(screen, "header"):  # Check if the screen has a header
+                            screen.header.update_logged_in_user(username)
+
+                    # Redirect to the landing page
+                    self.manager.current = "landing_page"
+
+                else:
+                    print("Login Failed! Please check your credentials.")
+            else:
+                print("Error: Received unexpected HTML content instead of JSON.")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
 
     def display_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")

@@ -20,6 +20,10 @@ Next Steps:
 -Print username and password[Debug and make sure authentication of login is being handled properly].
 -Test login and redirect to home.[If user is logged in, log out button is visible else login].
 
+Step 1: Store User Session
+Step 2: Store User Data in App Class
+Step 3: Display Username
+
 
 2. Handle JWT/Token Authentication in Kivy after login.
 

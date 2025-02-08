@@ -148,9 +148,6 @@ class VendorDetailsScreen(Screen):
         header.pos_hint = {'x': 0, 'y': 0.95}
         self.add_widget(header)
 
-
-
-
     def display_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")
         # print("Search results:", vendors)

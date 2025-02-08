@@ -11,37 +11,49 @@ from functools import partial
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.utils import rgba
+from kivymd.uix.label import MDLabel
 
 class Header(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Create a top bar with a hamburger menu button
+        # Create a top bar
         self.top_bar = MDTopAppBar(
             title="Sherehe Mall.\nCelebrations Made Easy",
             left_action_items=[["menu", lambda x: self.toggle_drawer()]],
             elevation=5,
-            pos_hint={"top": 1},  # Keep it at the top
-            md_bg_color = rgba("#A020F0")
+            pos_hint={"top": 1},
+            md_bg_color=rgba("#A020F0")
         )
         self.add_widget(self.top_bar)
 
-        # Create Navigation Drawer with a background color and move it up
+        # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -7},  # Moves the drawer up
-            size_hint_y=1,  # Adjusts height
-            md_bg_color=get_color_from_hex("#FFFFFF")  # White background
+            pos_hint={"x": -1, "top": -7},
+            size_hint_y=1,
+            md_bg_color=get_color_from_hex("#FFFFFF")
         )
 
         self.nav_list = MDList()
-        self.nav_list.md_bg_color = get_color_from_hex("#F0F0F0")  # Light gray background for contrast
+        self.nav_list.md_bg_color = get_color_from_hex("#F0F0F0")
 
         # Add menu items
         self.nav_list.add_widget(OneLineListItem(text="Home", on_release=lambda x: self.navigate_to("landing_page")))
-        self.nav_list.add_widget(
-            OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
+        self.nav_list.add_widget(OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
         self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
         self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
+
+        # Logged-in user label
+        self.logged_in_label = MDLabel(
+            text="Not logged in",
+            theme_text_color="Secondary",
+            halign="center",
+            font_style="Body1",
+            size_hint_y=None,
+            color=(0, 0, 0, 1),
+            height=40
+        )
+        self.nav_list.add_widget(self.logged_in_label)
 
         #Login Button
         self.login_button = MDRaisedButton(text='Log-In',md_bg_color = rgba("#008000"), on_release=lambda x: self.navigate_to("login_screen"))
@@ -227,4 +239,10 @@ class Header(FloatLayout):
         app = App.get_running_app()
         app.root.current = screen_name
         self.nav_drawer.set_state("close")  # Close the drawer after navigation
+
+    def update_logged_in_user(self, username):
+        """Update the label with the logged-in username."""
+        user_data = App.get_running_app().user_data
+        if user_data:
+            self.logged_in_label.text = f"Logged in as {user_data['username']}"
 

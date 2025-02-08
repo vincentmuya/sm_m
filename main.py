@@ -14,6 +14,11 @@ from kivymd.app import MDApp
 
 
 class MyApp(MDApp):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.user_data = {}  # Stores logged-in user info
+
     def build(self):
         # Create a ScreenManager
         screen_manager = ScreenManager()

@@ -20,17 +20,21 @@ Next Steps:
 **-Print username and password[Debug and make sure authentication of login is being handled properly].
 **-Test login and redirect to home.[If user is logged in, log out button is visible else login].
 **-Print logged in user if any when landing_page screen loads.
--Add user name to header.
 
-Step 1: Store User Session
-Step 2: Store User Data in App Class
-Step 3: Display Username
+**Step 1: Store User Session
+**Step 2: Store User Data in App Class
+**Step 3: Display Username
 
 
-2. Handle JWT/Token Authentication in Kivy after login.
+**2. Handle JWT/Token Authentication in Kivy after login.
+**-1. Store the Token Locally.
+**-2. Auto-Login the User
+**-3. Use the Token for Authenticated Requests
+**-4. Implement Logout
 
-3. Store the token locally so the user stays logged in.
+**3. Store the token locally so the user stays logged in.
 
-4. Use the token for authenticated requests in Kivy.
+**4. Use the token for authenticated requests in Kivy.
 
+Call user Data in header in all screens.
 ------------------------------------------------------------------------------------------------------------------------

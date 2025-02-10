@@ -11,17 +11,67 @@ from login_screen import LoginScreen
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
+from kivy.storage.jsonstore import JsonStore
+import requests
 
 
 class MyApp(MDApp):
 
+    def get_authenticated_data(self, endpoint):
+        """Make an authenticated request with a stored token."""
+        token = self.user_data.get("token", "")
+
+        if not token:
+            print("❌ No token found. User not logged in.")
+            return None
+
+        headers = {"Authorization": f"Bearer {token}"}
+        url = f"http://localhost:8000/api/{endpoint}/"
+
+        try:
+            response = requests.get(url, headers=headers)
+            print(f"Status Code: {response.status_code}")
+
+            if response.status_code == 200:
+                print("✅ Authenticated Request Successful!")
+                return response.json()
+            else:
+                print(f"❌ Failed to fetch data. Status Code: {response.status_code}")
+                return None
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            return None
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user_data = {}  # Stores logged-in user info
+        self.token = None
+
+    def logout_user(self):
+        """Clears user session and redirects to landing_page screen."""
+        print("🔴 Logging out user...")
+
+        # Clear user session data
+        self.user_data = {}
+        self.token = None
+
+        # Redirect to login screen
+        self.root.current = "login_screen"
+
+        print("✅ Successfully logged out. Redirecting to login screen.")
 
     def build(self):
         # Create a ScreenManager
         screen_manager = ScreenManager()
+
+        # Load stored user data
+        store = JsonStore("user_session.json")
+        if store.exists("user"):
+            self.user_data = store.get("user")
+            print(f"User session loaded: {self.user_data}")
+        else:
+            print("No user session found.")
 
         # LandingPage is added as a Screen
         landing_page = LandingPage(name="landing_page")

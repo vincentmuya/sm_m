@@ -17,7 +17,8 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.utils import rgba
-from kivy.clock import mainthread
+import json
+from kivy.storage.jsonstore import JsonStore
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
@@ -123,32 +124,28 @@ class LoginScreen(Screen):
             response = requests.post(url, json=data)
             print(f"Status Code: {response.status_code}")
 
-            if "application/json" in response.headers.get("Content-Type", ""):
+            if response.status_code == 200:
                 response_data = response.json()
                 print(f"Response: {response_data}")
 
-                if response.status_code == 200:
-                    user_id = response_data.get("user_id", "N/A")
-                    print(f"Login Successful! User ID: {user_id}")
-                    print(f"Login Screen Print: {username}")
+                user_id = response_data.get("user_id", "N/A")
+                token = response_data.get("token", "")
 
-                    # Store user session
-                    app = App.get_running_app()
-                    app.user_data = {"user_id": user_id, "username": username}
-                    # print(f"Login Screen User Data: {app.user_data}")
+                print(f"Login Successful! User ID: {user_id}, Token: {token}")
 
-                    # Find the header instance in your app and update it
-                    for screen in self.manager.screens:
-                        if hasattr(screen, "header"):  # Check if the screen has a header
-                            screen.header.update_logged_in_user(username)
+                # Store user session locally
+                store = JsonStore("user_session.json")
+                store.put("user", user_id=user_id, username=username, token=token)
 
-                    # Redirect to the landing page
-                    self.manager.current = "landing_page"
+                # Store in app memory as well
+                app = App.get_running_app()
+                app.user_data = {"user_id": user_id, "username": username, "token": token}
 
-                else:
-                    print("Login Failed! Please check your credentials.")
+                # Redirect to the landing page
+                self.manager.current = "landing_page"
+
             else:
-                print("Error: Received unexpected HTML content instead of JSON.")
+                print("Login Failed! Please check your credentials.")
 
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")

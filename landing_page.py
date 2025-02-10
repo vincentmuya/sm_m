@@ -14,9 +14,13 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 
-class LandingPage(FloatLayout):
+class LandingPage(Screen):  # Change from FloatLayout to Screen
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        super(LandingPage, self).__init__(**kwargs)
+
+        # Set up the main layout
+        self.layout = FloatLayout()
 
         # Set up the ScrollView
         self.scroll_type = ['bars']
@@ -33,7 +37,6 @@ class LandingPage(FloatLayout):
 
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
-
 
         # Initialize and add FilteredVendorsScreen
         self.filtered_vendors_screen = FilteredVendorsScreen()
@@ -59,15 +62,40 @@ class LandingPage(FloatLayout):
         header.pos_hint = {'x': 0, 'y': 0.95}
 
         # Add ScrollView and navbar to the FloatLayout
-        self.add_widget(scroll_view)  # Add ScrollView with content on top
-        self.add_widget(header)  # Add navbar at the bottom
+        self.layout.add_widget(scroll_view)  # Add ScrollView with content on top
+        self.layout.add_widget(header)  # Add navbar at the top
 
         # Create and add the navbar, fixed at the bottom of the screen
         nav_bar = Navbar(size_hint=(1, None), height=50)
         nav_bar.pos_hint = {'x': 0, 'y': 0}
 
-        # Add ScrollView and navbar to the FloatLayout
-        self.add_widget(nav_bar)
+        self.layout.add_widget(nav_bar)
+
+        # User Info Label (default text: "Not logged in")
+        self.user_label = Label(
+            text="Not logged in",
+            font_size=20,
+            size_hint=(None, None),
+            size=(300, 50),
+            pos_hint={'center_x': 0.5, 'top': 0.99}
+        )
+        self.layout.add_widget(self.user_label)
+
+        # Add everything to the Screen widget
+        self.add_widget(self.layout)
+
+    def on_pre_enter(self):
+        """Update the label when the screen is entered."""
+        print("🚀 LandingPage on_pre_enter triggered")  # Debug
+
+        app = App.get_running_app()
+        if hasattr(app, "user_data") and "username" in app.user_data:
+            username = app.user_data["username"]
+            self.user_label.text = f"Logged in as: {username}"
+            print(f"User is logged in as: {username}")
+        else:
+            self.user_label.text = "Not logged in"
+            print("Not logged in")
 
     def wrap_screen(self, screen, height=None):
         """

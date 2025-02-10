@@ -130,10 +130,12 @@ class LoginScreen(Screen):
                 if response.status_code == 200:
                     user_id = response_data.get("user_id", "N/A")
                     print(f"Login Successful! User ID: {user_id}")
+                    print(f"Login Screen Print: {username}")
 
                     # Store user session
                     app = App.get_running_app()
                     app.user_data = {"user_id": user_id, "username": username}
+                    # print(f"Login Screen User Data: {app.user_data}")
 
                     # Find the header instance in your app and update it
                     for screen in self.manager.screens:

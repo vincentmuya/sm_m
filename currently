@@ -16,9 +16,11 @@ Next step is to create API calls in kivy.
 Next Steps:
 1. Make API Calls in Kivy for Register, Login, and Logout.
 **-Create Login Screen.
--Add login Logic and call the api.
--Print username and password[Debug and make sure authentication of login is being handled properly].
--Test login and redirect to home.[If user is logged in, log out button is visible else login].
+**-Add login Logic and call the api.
+**-Print username and password[Debug and make sure authentication of login is being handled properly].
+**-Test login and redirect to home.[If user is logged in, log out button is visible else login].
+**-Print logged in user if any when landing_page screen loads.
+-Add user name to header.
 
 Step 1: Store User Session
 Step 2: Store User Data in App Class

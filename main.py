@@ -23,11 +23,9 @@ class MyApp(MDApp):
         # Create a ScreenManager
         screen_manager = ScreenManager()
 
-        # Create and add the landing page screen
-        landing_page_screen = Screen(name='landing_page')
-        landing_page = LandingPage()
-        landing_page_screen.add_widget(landing_page)
-        screen_manager.add_widget(landing_page_screen)
+        # LandingPage is added as a Screen
+        landing_page = LandingPage(name="landing_page")
+        screen_manager.add_widget(landing_page)
 
         # Create the VendorDetailsScreen instance and add it to the ScreenManager
         vendor_details_screen = VendorDetailsScreen(name='vendor_details')

@@ -3,48 +3,47 @@ from navbar import Navbar
 from search_widget import SearchWidget
 from filter_widget import Filter
 
-import requests
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen
+from kivy.uix.floatlayout import FloatLayout
 from kivymd.uix.card import MDCard
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
-from kivy.utils import get_color_from_hex
-from kivy.app import App
-from kivy.uix.screenmanager import Screen, SlideTransition
-from kivy.uix.widget import Widget
+from kivymd.uix.button import MDRaisedButton
 from kivy.utils import rgba
-import json
-from kivy.storage.jsonstore import JsonStore
+from kivy.uix.widget import Widget
+from kivy.app import App
 
-class LoginScreen(Screen):
+
+class RegisterScreen(Screen):
     def __init__(self, **kwargs):
-        super(LoginScreen, self).__init__(**kwargs)
+        super(RegisterScreen, self).__init__(**kwargs)
         self.layout = FloatLayout()
 
         card = MDCard(
             orientation='vertical',
             size_hint=(None, None),
-            size=(300, 300),
+            size=(300, 320),
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             padding=10,
             elevation=4,
         )
-
         title = MDLabel(
-            text="Log-In",
+            text="Register",
             theme_text_color="Primary",
             font_style="H5",
             halign="center",
             size_hint_y=None,
             height=40
         )
-
         self.username = MDTextField(
             hint_text='Username',
+            size_hint=(None, None),
+            size=(280, 40),
+            pos_hint={'center_x': 0.5}
+        )
+
+        self.email = MDTextField(
+            hint_text='Email',
             size_hint=(None, None),
             size=(280, 40),
             pos_hint={'center_x': 0.5}
@@ -58,32 +57,33 @@ class LoginScreen(Screen):
             pos_hint={'center_x': 0.5}
         )
 
-        self.login_button = MDRaisedButton(
-            text='Login',
+        self.register_button = MDRaisedButton(
+            text='Register',
             size_hint=(None, None),
             size=(280, 40),
             pos_hint={'center_x': 0.5}
         )
-        self.login_button.bind(on_release=self.login_user)
+        self.register_button.bind(on_release=self.register_user)
 
-        self.dont_button = MDRaisedButton(
-            text="Don't have an account? Register here.",
+        self.have_button = MDRaisedButton(
+            text="Have an account? Login here.",
             size_hint=(None, None),
             size=(280, 40),
             pos_hint={'center_x': 0.5},
-            md_bg_color = rgba("#FFA500")
+            md_bg_color=rgba("#FFA500")
         )
-        self.dont_button.bind(on_release=self.go_to_register_user)
+        self.have_button.bind(on_release=self.go_to_login)
 
         # Spacer widget to add space after the login button
         spacer = Widget(size_hint=(1, None), height=15)
 
         card.add_widget(title)
         card.add_widget(self.username)
+        card.add_widget(self.email)
         card.add_widget(self.password)
-        card.add_widget(self.login_button)
+        card.add_widget(self.register_button)
         card.add_widget(spacer)
-        card.add_widget(self.dont_button)
+        card.add_widget(self.have_button)
 
         self.layout.add_widget(card)
 
@@ -112,49 +112,13 @@ class LoginScreen(Screen):
 
         self.add_widget(self.header)
 
-    def login_user(self, instance):
-        username = self.username.text
-        password = self.password.text
+    def register_user(self, instance):
+        pass
 
-        print(f"Attempting login with Username: {username}, Password: {password}")
-
-        url = "http://localhost:8000/api/kivy_login/"
-        data = {"username": username, "password": password}
-
-        try:
-            response = requests.post(url, json=data)
-            print(f"Status Code: {response.status_code}")
-
-            if response.status_code == 200:
-                response_data = response.json()
-                print(f"Response: {response_data}")
-
-                user_id = response_data.get("user_id", "N/A")
-                token = response_data.get("token", "")
-
-                print(f"Login Successful! User ID: {user_id}, Token: {token}")
-
-                # Store user session locally
-                store = JsonStore("user_session.json")
-                store.put("user", user_id=user_id, username=username, token=token)
-
-                # Store in app memory as well
-                app = App.get_running_app()
-                app.user_data = {"user_id": user_id, "username": username, "token": token}
-
-                # Redirect to the landing page
-                self.manager.current = "landing_page"
-
-            else:
-                print("Login Failed! Please check your credentials.")
-
-        except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
-
-    def go_to_register_user(self, instance):
-        """Redirects to register screen."""
+    def go_to_login(self, instance):
+        """Redirects to login screen."""
         app = App.get_running_app()
-        app.root.current = "register_screen"
+        app.root.current = "login_screen"  # Ensure "login_screen" is registered in your ScreenManager
 
     def display_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")

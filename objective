@@ -12,7 +12,9 @@ Django web app should expose authentication endpoints via Django Rest Framework 
 ------------------------------------------------------------------------------------------------------------------------
 2. Create API Calls in Kivy
 
-Your Kivy app should send login and registration requests to these endpoints.
+**Your Kivy app should send login requests to endpoint.
+
+Your Kivy app should send  Registration requests to endpoint.
 
 ------------------------------------------------------------------------------------------------------------------------
 3. Handle JWT/Token Authentication

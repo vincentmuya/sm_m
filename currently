@@ -15,6 +15,8 @@ Next step is to create API calls in kivy.
 
 Next Steps:
 1. Make API Calls in Kivy for Register, Login, and Logout.
+Login:
+
 **-Create Login Screen.
 **-Add login Logic and call the api.
 **-Print username and password[Debug and make sure authentication of login is being handled properly].
@@ -36,5 +38,15 @@ Next Steps:
 
 **4. Use the token for authenticated requests in Kivy.
 
-Call user Data in header in all screens.
+**Logout.
+
+Register:
+
+-Create register screen.
+-Add register logic and call the API endpoint.
+-Call user Data in header in all screens.
+-Print registration details input.
+-Test register and redirect to home if user is registered successful.
+-Print Registered user/Logged in user after registration.
+-Add register button to dynamic authentication UI.
 ------------------------------------------------------------------------------------------------------------------------

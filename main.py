@@ -7,6 +7,7 @@ from search_results import SearchResultsScreen
 from location_vendors import LocationVendorsScreen
 from service_vendors import ServiceVendorsScreen
 from login_screen import LoginScreen
+from register_screen import RegisterScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -110,6 +111,10 @@ class MyApp(MDApp):
         # Create the LoginScreen instance and add it to the ScreenManager
         login_screen = LoginScreen(name='login_screen')
         screen_manager.add_widget(login_screen)
+
+        # Create the RegisterScreen instance and add it to the ScreenManager
+        register_screen = RegisterScreen(name='register_screen')
+        screen_manager.add_widget(register_screen)
 
         return screen_manager
 

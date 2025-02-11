@@ -22,7 +22,7 @@ class SearchWidget(BoxLayout):
     def search_vendors(self, search_callback):
         search_query = self.search_input.text.strip()
         if search_query:
-            print(f"Searching for: {search_query}")
+            # print(f"Searching for: {search_query}")
 
             response = requests.get(f"http://localhost:8000/api/vendor/?search={search_query}")
 
@@ -31,7 +31,7 @@ class SearchWidget(BoxLayout):
             if response.status_code == 200:
                 try:
                     vendors = response.json()
-                    print(f"Found {len(vendors)} vendors")
+                    # print(f"Found {len(vendors)} vendors")
                     search_callback(vendors, search_query)  # Pass vendors and Query to callback function
                 except requests.exceptions.JSONDecodeError:
                     print("Error: Response is not valid JSON")

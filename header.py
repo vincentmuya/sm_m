@@ -220,7 +220,7 @@ class Header(FloatLayout):
 
         if response.status_code == 200:
             vendors = response.json()
-            print(f"Vendors in {service_name} (ID: {service_id}): {len(vendors)}")
+            # print(f"Vendors in {service_name} (ID: {service_id}): {len(vendors)}")
 
             # Get the current app instance
             app = App.get_running_app()

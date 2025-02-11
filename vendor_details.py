@@ -17,9 +17,10 @@ from kivy.metrics import dp
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 
 Builder.load_file('vendor_details.kv')
-
 
 class VendorDetailsScreen(Screen):
     institution_name = StringProperty()
@@ -148,6 +149,36 @@ class VendorDetailsScreen(Screen):
         header.pos_hint = {'x': 0, 'y': 0.95}
         self.add_widget(header)
 
+        # ✅ Use a proxy button instead of moving the original button
+        app = App.get_running_app()
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),
+                                          pos=(650, 560))
+        # ✅ Create a proxy button
+        self.account_proxy_button = Button(text=app.account_button.text)
+        # ✅ Open dropdown manually when proxy button is clicked
+        self.account_proxy_button.bind(on_release=self.open_account_dropdown)
+        # ✅ Add proxy button instead of the real one
+        self.user_info_layout.add_widget(self.account_proxy_button)
+        self.add_widget(self.user_info_layout)
+
+    def open_account_dropdown(self, instance):
+        """Manually opens the account dropdown."""
+        app = App.get_running_app()
+
+        # ✅ Ensure dropdown is updated before opening
+        app.update_account_dropdown()
+
+        # ✅ Open dropdown manually
+        app.account_dropdown.open(instance)
+
+    def on_pre_enter(self):
+        """Update dropdown dynamically when entering the screen."""
+        app = App.get_running_app()
+        app.update_account_dropdown()
+
+        # ✅ Ensure the proxy button always has updated text
+        self.account_proxy_button.text = app.account_button.text
+
     def display_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")
         # print("Search results:", vendors)
@@ -197,7 +228,6 @@ class VendorDetailsScreen(Screen):
             app.root.transition = SlideTransition(direction='left')
             app.root.current = 'filtered_vendors'
 
-
 class CarouselApp(App):
     def build(self):
         carousel = Carousel(direction='right')
@@ -206,7 +236,6 @@ class CarouselApp(App):
             image = AsyncImage(source=src, fit_mode="contain")
             carousel.add_widget(image)
         return carousel
-
 
 class MyCard(MDCard):
     institution_name = StringProperty()

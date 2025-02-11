@@ -24,12 +24,12 @@ class VendorsCard(BoxLayout):
 
     def view_vendor(self):
         vendor_id = self.vendor_id
-        print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {self.slug}")
+        # print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {self.slug}")
 
         api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{self.slug}/"
         response = requests.get(api_url)
-        print("API Response Status Code:", response.status_code)
-        print("API Response Content:", response.content.decode())
+        # print("API Response Status Code:", response.status_code)
+        # print("API Response Content:", response.content.decode())
 
         if response.status_code == 200:
             vendor_details = response.json()
@@ -122,7 +122,7 @@ class VendorsScreen(Screen):
             # Display vendors grouped by parent category
             for parent_id, parent_category in parent_categories.items():
                 parent_name = parent_category['service']
-                print(f"Displaying Vendors for Parent Category: {parent_name}")
+                # print(f"Displaying Vendors for Parent Category: {parent_name}")
 
                 # Create a header for the parent category
                 header = Factory.CategoryHeader(text=f"[b]{parent_name}[/b]")

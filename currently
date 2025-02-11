@@ -57,6 +57,6 @@ Register:
 **-Add register button to dynamic authentication UI.
 
 **Add labels {The print statements when user logs in or registers and when credentials are incorrect}
-Call user Data in header in all screens.
-
+**Call user Data in header in all screens.
 ------------------------------------------------------------------------------------------------------------------------
+**Style as you review progress, restructure, comment out print and delete unused code

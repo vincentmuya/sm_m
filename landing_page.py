@@ -15,11 +15,8 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivymd.toast import toast
-from kivy.uix.dropdown import DropDown
-from kivymd.uix.label import MDLabel
-from kivymd.uix.card import MDCard
 
-class LandingPage(Screen):  # Change from FloatLayout to Screen
+class LandingPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super(LandingPage, self).__init__(**kwargs)
@@ -76,88 +73,21 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
         self.layout.add_widget(nav_bar)
 
         # Create a dropdown for account actions
-        self.account_dropdown = DropDown()
-
-        # Create the main button that will trigger the dropdown
-        self.account_button = Button(text="Account ", size_hint=(None, None), size=(150, 40))
-        self.account_button.bind(on_release=self.account_dropdown.open)
-
-        # Add dropdown to user info layout
+        # Get the app instance to access account_button
+        app = App.get_running_app()
+        # User Info Layout (Horizontal Box Layout)
         self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40), pos=(650, 560))
-        self.user_info_layout.add_widget(self.account_button)
-
-        # Add user info layout to main layout
+        # Add the account dropdown button to the layout
+        self.user_info_layout.add_widget(app.account_button)
+        # Add to the screen
         self.layout.add_widget(self.user_info_layout)
 
         self.add_widget(self.layout)
 
     def on_pre_enter(self):
-        """Update dropdown options based on login state."""
+        """Update dropdown dynamically when entering the screen."""
         app = App.get_running_app()
-
-        # Clear previous items in the dropdown to avoid duplication
-        self.account_dropdown.clear_widgets()
-
-        if "username" in app.user_data:
-            username = app.user_data["username"]
-            self.account_button.text = f"Account"
-
-            # Label to show logged-in user
-            user_label = MDCard(
-                size_hint=(None, None),
-                size=(130, 40),
-                md_bg_color=(0.2, 0.6, 1, 1),  # Background color (Blue)
-                radius=[10],  # Rounded corners
-                elevation=4  # Adds a shadow effect
-            )
-
-            label_text = MDLabel(
-                text=f"Logged in as {username}",
-                theme_text_color="Primary",
-                halign="center",
-                valign="middle",
-                size_hint_y=None,
-                height=40
-            )
-
-            user_label.add_widget(label_text)
-            self.account_dropdown.add_widget(user_label)
-
-            # Logout button
-            logout_btn = Button(text="Logout", size_hint_y=None, height=40)
-            logout_btn.bind(on_release=self.logout)
-            self.account_dropdown.add_widget(logout_btn)
-
-        else:
-            self.account_button.text = "Account ▼"
-
-            # Login button
-            login_btn = Button(text="Login", size_hint_y=None, height=40)
-            login_btn.bind(on_release=self.go_to_login)
-            self.account_dropdown.add_widget(login_btn)
-
-            # Register button
-            register_btn = Button(text="Register", size_hint_y=None, height=40)
-            register_btn.bind(on_release=self.go_to_register)
-            self.account_dropdown.add_widget(register_btn)
-
-    def go_to_register(self, instance):
-        """Redirect to the Register screen."""
-        app = App.get_running_app()
-        app.root.current = "register_screen"
-
-    def go_to_login(self, instance):
-        """Redirect to the Login screen."""
-        app = App.get_running_app()
-        app.root.current = "login_screen"
-
-    def logout(self, instance):
-        """Calls the globally defined logout function in MyApp."""
-        toast("Logged Out Successful.")
-
-        app = App.get_running_app()
-        app.logout_user()  # Clears session and logs out
-        self.on_pre_enter()
+        app.update_account_dropdown()
 
     def wrap_screen(self, screen, height=None):
         """
@@ -168,7 +98,7 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
         return layout
 
     def apply_filter(self, location=None, service=None, price_range=None):
-        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+        # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
         services_response = requests.get('http://localhost:8000/api/services/')

@@ -14,6 +14,7 @@ import requests
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 
 Builder.load_file('location_vendors.kv')
 
@@ -60,7 +61,6 @@ class LocationVendorsScreen(Screen):
         # Create and add the Header, fixed at the Top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
-
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(scroll_view)  # Add ScrollView with content on top
         self.add_widget(header)
@@ -68,12 +68,37 @@ class LocationVendorsScreen(Screen):
         # Create and add the navbar, fixed at the bottom of the screen
         nav_bar = Navbar(size_hint=(1, None), height=50)
         nav_bar.pos_hint = {'x': 0, 'y': 0}
-
         # Add ScrollView and navbar to the FloatLayout
         self.add_widget(nav_bar)
 
+        # ✅ Use a proxy button instead of moving the original button
+        app = App.get_running_app()
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),pos=(650, 560))
+        # ✅ Create a proxy button
+        self.account_proxy_button = Button(text=app.account_button.text)
+        # ✅ Open dropdown manually when proxy button is clicked
+        self.account_proxy_button.bind(on_release=self.open_account_dropdown)
+        # ✅ Add proxy button instead of the real one
+        self.user_info_layout.add_widget(self.account_proxy_button)
+        self.add_widget(self.user_info_layout)
+
+    def open_account_dropdown(self, instance):
+        """Manually opens the account dropdown."""
+        app = App.get_running_app()
+        # ✅ Ensure dropdown is updated before opening
+        app.update_account_dropdown()
+        # ✅ Open dropdown manually
+        app.account_dropdown.open(instance)
+
+    def on_pre_enter(self):
+        """Update dropdown dynamically when entering the screen."""
+        app = App.get_running_app()
+        app.update_account_dropdown()
+        # ✅ Ensure the proxy button always has updated text
+        self.account_proxy_button.text = app.account_button.text
+
     def load_location_vendors(self,vendors, location):
-        print(f"Loading {len(vendors)} Location vendors...")
+        # print(f"Loading {len(vendors)} Location vendors...")
 
         # Clear grid before adding new vendors
         self.vendor_grid.clear_widgets()
@@ -147,7 +172,7 @@ class LocationVendorsScreen(Screen):
             self.vendor_grid.add_widget(vendor_card)
 
     def apply_filter(self, location=None, service=None, price_range=None):
-        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+        # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
         services_response = requests.get('http://localhost:8000/api/services/')
@@ -176,7 +201,7 @@ class LocationVendorsScreen(Screen):
 
         if response.status_code == 200:
             filtered_vendors = response.json()
-            # print("Filtered Vendors:", filtered_vendors)
+            print("Filtered Vendors:", filtered_vendors)
 
             app = App.get_running_app()
             # Pass the service_id (parent category) to the vendors_by_service screen

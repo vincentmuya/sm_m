@@ -6,7 +6,6 @@ from kivy.uix.label import Label
 from kivy.utils import rgba
 from kivy.graphics import Color, Rectangle
 
-
 class ColoredLabel(BoxLayout):
     def __init__(self, text, **kwargs):
         super().__init__(**kwargs)
@@ -35,7 +34,6 @@ class ColoredLabel(BoxLayout):
     def update_rect(self, *args):
         self.rect.pos = self.pos
         self.rect.size = self.size
-
 
 class Filter(BoxLayout):
     def __init__(self, filter_callback=None, **kwargs):

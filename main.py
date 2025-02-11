@@ -14,6 +14,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
 from kivy.storage.jsonstore import JsonStore
 import requests
+from kivy.uix.dropdown import DropDown
+from kivy.uix.button import Button
+from kivymd.toast import toast
 
 
 class MyApp(MDApp):
@@ -31,10 +34,10 @@ class MyApp(MDApp):
 
         try:
             response = requests.get(url, headers=headers)
-            print(f"Status Code: {response.status_code}")
+            # print(f"Status Code: {response.status_code}")
 
             if response.status_code == 200:
-                print("✅ Authenticated Request Successful!")
+                # print("✅ Authenticated Request Successful!")
                 return response.json()
             else:
                 print(f"❌ Failed to fetch data. Status Code: {response.status_code}")
@@ -48,19 +51,54 @@ class MyApp(MDApp):
         super().__init__(**kwargs)
         self.user_data = {}  # Stores logged-in user info
         self.token = None
+        self.account_dropdown = DropDown()
+        self.account_button = Button(text="Account", size_hint=(None, None), size=(150, 40))
+        self.account_button.bind(on_release=self.account_dropdown.open)
 
-    def logout_user(self):
+    def logout_user(self, instance=None):
         """Clears user session and redirects to landing_page screen."""
-        print("🔴 Logging out user...")
+        # print("🔴 Logging out user...")
 
         # Clear user session data
         self.user_data = {}
         self.token = None
-
+        toast("Logged Out Successful.")
         # Redirect to login screen
         self.root.current = "login_screen"
 
-        print("✅ Successfully logged out. Redirecting to login screen.")
+        self.user_data.pop("username", None)  # Remove user session
+        self.update_account_dropdown()
+        # print("✅ Successfully logged out. Redirecting to login screen.")
+
+    def update_account_dropdown(self):
+        """Update dropdown contents based on user login state."""
+        self.account_dropdown.clear_widgets()
+
+        if "username" in self.user_data:
+            username = self.user_data["username"]
+            self.account_button.text = "Account"
+
+            # Logged-in user label
+            user_label = Button(text=f"Logged in as {username}", size_hint_y=None, height=40)
+            self.account_dropdown.add_widget(user_label)
+
+            # Logout button
+            logout_btn = Button(text="Logout", size_hint_y=None, height=40)
+            logout_btn.bind(on_release=self.logout_user)
+            self.account_dropdown.add_widget(logout_btn)
+
+        else:
+            self.account_button.text = "Account"
+
+            # Login button
+            login_btn = Button(text="Login", size_hint_y=None, height=40)
+            login_btn.bind(on_release=self.go_to_login)
+            self.account_dropdown.add_widget(login_btn)
+
+            # Register button
+            register_btn = Button(text="Register", size_hint_y=None, height=40)
+            register_btn.bind(on_release=self.go_to_register)
+            self.account_dropdown.add_widget(register_btn)
 
     def build(self):
         # Create a ScreenManager
@@ -70,7 +108,7 @@ class MyApp(MDApp):
         store = JsonStore("user_session.json")
         if store.exists("user"):
             self.user_data = store.get("user")
-            print(f"User session loaded: {self.user_data}")
+            # print(f"User session loaded: {self.user_data}")
         else:
             print("No user session found.")
 
@@ -117,6 +155,16 @@ class MyApp(MDApp):
         screen_manager.add_widget(register_screen)
 
         return screen_manager
+
+    def go_to_login(self, instance):
+        """Redirect to the Login screen."""
+        app = App.get_running_app()
+        app.root.current = "login_screen"
+
+    def go_to_register(self, instance):
+        """Redirect to the Register screen."""
+        app = App.get_running_app()
+        app.root.current = "register_screen"
 
 
 if __name__ == '__main__':

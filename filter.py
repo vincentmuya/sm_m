@@ -16,7 +16,7 @@ def filter_vendors(location=None, service=None, price_range=None):
     # Make API request with query parameters
     try:
         response = requests.get(api_url, params=params)
-        print(f"API URL called: {response.url}")  # Debug: View the constructed URL
+        # print(f"API URL called: {response.url}")  # Debug: View the constructed URL
 
         if response.status_code == 200:
             vendors = response.json()

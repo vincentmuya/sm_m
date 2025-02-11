@@ -12,7 +12,6 @@ from kivymd.uix.card import MDCard
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
-from kivy.utils import get_color_from_hex
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
@@ -20,6 +19,7 @@ from kivy.utils import rgba
 import json
 from kivy.storage.jsonstore import JsonStore
 from kivymd.toast import toast
+from kivy.uix.boxlayout import BoxLayout
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
@@ -104,20 +104,44 @@ class LoginScreen(Screen):
         # Create and add the navbar, fixed at the bottom of the screen
         self.nav_bar = Navbar(size_hint=(1, None), height=50)
         self.nav_bar.pos_hint = {'x': 0, 'y': 0}
-
         self.add_widget(self.nav_bar)
 
         # Create and add the Header, fixed at the top of the screen
         self.header = Header(size_hint=(1, None), height=50)
         self.header.pos_hint = {'x': 0, 'y': 0.95}
-
         self.add_widget(self.header)
+
+        # Use a proxy button instead of moving the original button
+        app = App.get_running_app()
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),pos=(650, 560))
+        # Create a proxy button
+        self.account_proxy_button = Button(text=app.account_button.text)
+        # Open dropdown manually when proxy button is clicked
+        self.account_proxy_button.bind(on_release=self.open_account_dropdown)
+        # Add proxy button instead of the real one
+        self.user_info_layout.add_widget(self.account_proxy_button)
+        self.add_widget(self.user_info_layout)
+
+    def open_account_dropdown(self, instance):
+        """Manually opens the account dropdown."""
+        app = App.get_running_app()
+        # Ensure dropdown is updated before opening
+        app.update_account_dropdown()
+        # Open dropdown manually
+        app.account_dropdown.open(instance)
+
+    def on_pre_enter(self):
+        """Update dropdown dynamically when entering the screen."""
+        app = App.get_running_app()
+        app.update_account_dropdown()
+        # Ensure the proxy button always has updated text
+        self.account_proxy_button.text = app.account_button.text
 
     def login_user(self, instance):
         username = self.username.text
         password = self.password.text
 
-        print(f"Attempting login with Username: {username}, Password: {password}")
+        # print(f"Attempting login with Username: {username}, Password: {password}")
 
         url = "http://localhost:8000/api/kivy_login/"
         data = {"username": username, "password": password}
@@ -133,7 +157,7 @@ class LoginScreen(Screen):
                 user_id = response_data.get("user_id", "N/A")
                 token = response_data.get("token", "")
 
-                print(f"Login Successful! User ID: {user_id}, Token: {token}")
+                # print(f"Login Successful! User ID: {user_id}, Token: {token}")
 
                 # Store user session locally
                 store = JsonStore("user_session.json")
@@ -160,7 +184,7 @@ class LoginScreen(Screen):
         app.root.current = "register_screen"
 
     def display_search_results(self, vendors, search_query):
-        print(f"Search results: {len(vendors)}")
+        # print(f"Search results: {len(vendors)}")
         # print("Search results:", vendors)
         app = App.get_running_app()
         # Pass the service_id (parent category) to the search_results screen
@@ -170,7 +194,7 @@ class LoginScreen(Screen):
         app.root.current = 'search_results'
 
     def apply_filter(self, location=None, service=None, price_range=None):
-        print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+        # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
         services_response = requests.get('http://localhost:8000/api/services/')

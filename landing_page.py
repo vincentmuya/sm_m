@@ -14,6 +14,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivymd.toast import toast
 
 class LandingPage(Screen):  # Change from FloatLayout to Screen
     def __init__(self, **kwargs):
@@ -125,6 +126,8 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
 
     def logout(self, instance):
         """Calls the globally defined logout function in MyApp."""
+        toast("Logged Out Successful.")
+
         app = App.get_running_app()
         app.logout_user()  # Clears session and logs out
 

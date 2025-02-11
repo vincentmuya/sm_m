@@ -19,6 +19,7 @@ from kivy.uix.widget import Widget
 from kivy.utils import rgba
 import json
 from kivy.storage.jsonstore import JsonStore
+from kivymd.toast import toast
 
 class LoginScreen(Screen):
     def __init__(self, **kwargs):
@@ -142,10 +143,12 @@ class LoginScreen(Screen):
                 app = App.get_running_app()
                 app.user_data = {"user_id": user_id, "username": username, "token": token}
 
+                toast("Login Successful!")
                 # Redirect to the landing page
                 self.manager.current = "landing_page"
 
             else:
+                toast("Login Failed! Please check your credentials.")
                 print("Login Failed! Please check your credentials.")
 
         except requests.exceptions.RequestException as e:

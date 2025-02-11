@@ -12,7 +12,9 @@ from kivymd.uix.button import MDRaisedButton
 from kivy.utils import rgba
 from kivy.uix.widget import Widget
 from kivy.app import App
-
+from kivy.network.urlrequest import UrlRequest
+import json
+from kivymd.toast import toast
 
 class RegisterScreen(Screen):
     def __init__(self, **kwargs):
@@ -113,7 +115,52 @@ class RegisterScreen(Screen):
         self.add_widget(self.header)
 
     def register_user(self, instance):
-        pass
+        username = self.username.text.strip()
+        email = self.email.text.strip()
+        password = self.password.text.strip()
+
+        # Validate input fields
+        if not username or not email or not password:
+            toast("All fields are required!")
+            return
+
+        #  API URL for registration
+        url = "http://localhost:8000/api/kivy/register/"
+
+        #  Prepare request data
+        data = json.dumps({
+            "username": username,
+            "email": email,
+            "password": password
+        })
+
+        # Define headers
+        headers = {'Content-Type': 'application/json'}
+
+        # Send POST request
+        UrlRequest(
+            url,
+            req_body=data,
+            req_headers=headers,
+            method='POST',
+            on_success=self.on_register_success,
+            on_failure=self.on_register_failure,
+            on_error=self.on_register_error
+        )
+
+    def on_register_success(self, request, result):
+        """ Handle successful registration """
+        toast("Registration successful! Please log in.")
+        self.manager.current = "login_screen"  # Redirect to login screen
+
+    def on_register_failure(self, request, result):
+        """ Handle failure (e.g., username/email exists) """
+        error_msg = result.get("error", "Registration failed. Try again.")
+        toast(error_msg)
+
+    def on_register_error(self, request, error):
+        """ Handle network or server errors """
+        toast(f"Error: {error}")
 
     def go_to_login(self, instance):
         """Redirects to login screen."""

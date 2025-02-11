@@ -71,45 +71,62 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
         # Add Nav to the Screen widget
         self.layout.add_widget(nav_bar)
 
+        # 🔹 **DYNAMIC LOGIN/LOGOUT UI**
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(100, 40),pos=(500, 555))
+
         # User Info Label (default text: "Not logged in")
-        self.user_label = Label(text="Not logged in", size_hint=(None, None), pos=(90, 530))
-        self.layout.add_widget(self.user_label)
+        self.user_label = Label(text="Not logged in", size_hint=(None, None), size=(200, 40))
+        self.user_info_layout.add_widget(self.user_label)
+
+        # Create Login Button
+        self.login_button = Button(text="Login", size_hint=(None, None), size=(80, 40))
+        self.login_button.bind(on_release=self.go_to_login)
+
+        # Create Logout Button
+        self.logout_button = Button(text="Logout", size_hint=(None, None), size=(80, 40))
+        self.logout_button.bind(on_release=self.logout)
+
+        # Add user info layout to main layout
+        self.layout.add_widget(self.user_info_layout)
+
         # Add everything to the Screen widget
         self.add_widget(self.layout)
 
-        # Create Logout Button
-        self.logout_button = Button(text="Logout", size_hint=(None, None), pos=(120, 530))
-        self.logout_button.bind(on_release=self.logout)
-
-        self.add_widget(self.logout_button)
-
     def on_pre_enter(self):
-        """Update the label when the screen is entered."""
+        """Update the label and toggle the login/logout button when screen loads."""
         print("🚀 LandingPage on_pre_enter triggered")  # Debug
 
         app = App.get_running_app()
 
+        # Remove buttons if already present to avoid duplication
+        if self.login_button in self.user_info_layout.children:
+            self.user_info_layout.remove_widget(self.login_button)
+        if self.logout_button in self.user_info_layout.children:
+            self.user_info_layout.remove_widget(self.logout_button)
+
         if "username" in app.user_data:
             username = app.user_data["username"]
             self.user_label.text = f"Logged in as: {username}"
-            print(f"User is logged in as: {username}")
+            print(f"Logged in: {username}")
 
-            # Call the globally defined function to get authenticated data
-            user_data = app.get_authenticated_data("protected_endpoint")
-
-            if user_data:
-                print(f"User Profile: {user_data}")  # Debugging print
-                self.user_label.text = f"Hello, {user_data.get('username', 'User')}!"
-            else:
-                print("❌ Failed to fetch user profile.")
+            # Show Logout button
+            self.user_info_layout.add_widget(self.logout_button)
         else:
             self.user_label.text = "Not logged in"
-            print("❌ Not logged in")
+            print("Not logged in")
+
+            # Show Login button
+            self.user_info_layout.add_widget(self.login_button)
+
+    def go_to_login(self, instance):
+        """Redirects to login screen."""
+        app = App.get_running_app()
+        app.root.current = "login_screen"  # Ensure "login_screen" is registered in your ScreenManager
 
     def logout(self, instance):
         """Calls the globally defined logout function in MyApp."""
         app = App.get_running_app()
-        app.logout_user()  # Calls logout function
+        app.logout_user()  # Clears session and logs out
 
     def wrap_screen(self, screen, height=None):
         """

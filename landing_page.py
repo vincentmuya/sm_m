@@ -15,6 +15,9 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivymd.toast import toast
+from kivy.uix.dropdown import DropDown
+from kivymd.uix.label import MDLabel
+from kivymd.uix.card import MDCard
 
 class LandingPage(Screen):  # Change from FloatLayout to Screen
     def __init__(self, **kwargs):
@@ -72,57 +75,81 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
         # Add Nav to the Screen widget
         self.layout.add_widget(nav_bar)
 
-        # 🔹 **DYNAMIC LOGIN/LOGOUT UI**
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(100, 40),pos=(500, 555))
+        # Create a dropdown for account actions
+        self.account_dropdown = DropDown()
 
-        # User Info Label (default text: "Not logged in")
-        self.user_label = Label(text="Not logged in", size_hint=(None, None), size=(200, 40))
-        self.user_info_layout.add_widget(self.user_label)
+        # Create the main button that will trigger the dropdown
+        self.account_button = Button(text="Account ", size_hint=(None, None), size=(150, 40))
+        self.account_button.bind(on_release=self.account_dropdown.open)
 
-        # Create Login Button
-        self.login_button = Button(text="Login", size_hint=(None, None), size=(80, 40))
-        self.login_button.bind(on_release=self.go_to_login)
-
-        # Create Logout Button
-        self.logout_button = Button(text="Logout", size_hint=(None, None), size=(80, 40))
-        self.logout_button.bind(on_release=self.logout)
+        # Add dropdown to user info layout
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40), pos=(650, 560))
+        self.user_info_layout.add_widget(self.account_button)
 
         # Add user info layout to main layout
         self.layout.add_widget(self.user_info_layout)
 
-        # Add everything to the Screen widget
         self.add_widget(self.layout)
 
     def on_pre_enter(self):
-        """Update the label and toggle the login/logout button when screen loads."""
-        print("🚀 LandingPage on_pre_enter triggered")  # Debug
-
+        """Update dropdown options based on login state."""
         app = App.get_running_app()
 
-        # Remove buttons if already present to avoid duplication
-        if self.login_button in self.user_info_layout.children:
-            self.user_info_layout.remove_widget(self.login_button)
-        if self.logout_button in self.user_info_layout.children:
-            self.user_info_layout.remove_widget(self.logout_button)
+        # Clear previous items in the dropdown to avoid duplication
+        self.account_dropdown.clear_widgets()
 
         if "username" in app.user_data:
             username = app.user_data["username"]
-            self.user_label.text = f"Logged in as: {username}"
-            print(f"Logged in: {username}")
+            self.account_button.text = f"Account"
 
-            # Show Logout button
-            self.user_info_layout.add_widget(self.logout_button)
+            # Label to show logged-in user
+            user_label = MDCard(
+                size_hint=(None, None),
+                size=(130, 40),
+                md_bg_color=(0.2, 0.6, 1, 1),  # Background color (Blue)
+                radius=[10],  # Rounded corners
+                elevation=4  # Adds a shadow effect
+            )
+
+            label_text = MDLabel(
+                text=f"Logged in as {username}",
+                theme_text_color="Primary",
+                halign="center",
+                valign="middle",
+                size_hint_y=None,
+                height=40
+            )
+
+            user_label.add_widget(label_text)
+            self.account_dropdown.add_widget(user_label)
+
+            # Logout button
+            logout_btn = Button(text="Logout", size_hint_y=None, height=40)
+            logout_btn.bind(on_release=self.logout)
+            self.account_dropdown.add_widget(logout_btn)
+
         else:
-            self.user_label.text = "Not logged in"
-            print("Not logged in")
+            self.account_button.text = "Account ▼"
 
-            # Show Login button
-            self.user_info_layout.add_widget(self.login_button)
+            # Login button
+            login_btn = Button(text="Login", size_hint_y=None, height=40)
+            login_btn.bind(on_release=self.go_to_login)
+            self.account_dropdown.add_widget(login_btn)
+
+            # Register button
+            register_btn = Button(text="Register", size_hint_y=None, height=40)
+            register_btn.bind(on_release=self.go_to_register)
+            self.account_dropdown.add_widget(register_btn)
+
+    def go_to_register(self, instance):
+        """Redirect to the Register screen."""
+        app = App.get_running_app()
+        app.root.current = "register_screen"
 
     def go_to_login(self, instance):
-        """Redirects to login screen."""
+        """Redirect to the Login screen."""
         app = App.get_running_app()
-        app.root.current = "login_screen"  # Ensure "login_screen" is registered in your ScreenManager
+        app.root.current = "login_screen"
 
     def logout(self, instance):
         """Calls the globally defined logout function in MyApp."""
@@ -130,6 +157,7 @@ class LandingPage(Screen):  # Change from FloatLayout to Screen
 
         app = App.get_running_app()
         app.logout_user()  # Clears session and logs out
+        self.on_pre_enter()
 
     def wrap_screen(self, screen, height=None):
         """

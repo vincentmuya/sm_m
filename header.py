@@ -3,7 +3,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.list import MDList, OneLineListItem
 from kivymd.uix.toolbar import MDTopAppBar
-from kivy.utils import get_color_from_hex  # For hex color support
+from kivy.utils import get_color_from_hex
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.menu import MDDropdownMenu
 import requests
@@ -239,10 +239,4 @@ class Header(FloatLayout):
         app = App.get_running_app()
         app.root.current = screen_name
         self.nav_drawer.set_state("close")  # Close the drawer after navigation
-
-    def update_logged_in_user(self, username):
-        """Update the label with the logged-in username."""
-        user_data = App.get_running_app().user_data
-        if user_data:
-            self.logged_in_label.text = f"Logged in as {user_data['username']}"
 

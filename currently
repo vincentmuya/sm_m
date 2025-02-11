@@ -42,19 +42,19 @@ Login:
 
 Register:
 
--Create register screen.
+**-Create register screen.
 **-Add register logic and call the API endpoint.
 🔹 Steps to Implement Registration Logic
 **-Get User Input: Fetch values from the username, email, and password fields.
 **-Validate Input Fields: Ensure no field is empty before sending the request.
 **-Send API Request: Make a POST request to the Django register API.
--Handle API Response:
+**-Handle API Response:
 **=If registration is successful, display a success message and redirect to the login screen.
 **=If registration fails, show an error message.
 **-Print registration details input.
 **-Test register and redirect to home if user is registered successful.
 **-Print Registered user/Logged in user after registration.
--Add register button to dynamic authentication UI.
+**-Add register button to dynamic authentication UI.
 
 **Add labels {The print statements when user logs in or registers and when credentials are incorrect}
 Call user Data in header in all screens.

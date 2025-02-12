@@ -1,62 +1,30 @@
-                    *****DONE*****
+------------------------------------------------------------------------------------------------------------------------
+                                        ***Done***
+
 Things we will do in the Django application:
 
-Install any dependencies required.
+Create django profile api.
+=Views
+=url pattern
+=Additional modification to handle profile, if any.
 
-Define views api if any.
+Test the profile api url.
 
-Define the url(Register, Login, Log Out).
-
-Test them.
-                    *****DONE*****
+                                        ***Done***
 ------------------------------------------------------------------------------------------------------------------------
 
 Next step is to create API calls in kivy.
 
 Next Steps:
-1. Make API Calls in Kivy for Register, Login, and Logout.
-Login:
+1. Make API Calls in Kivy for Profile.
+Profile:
 
-**-Create Login Screen.
-**-Add login Logic and call the api.
-**-Print username and password[Debug and make sure authentication of login is being handled properly].
-**-Test login and redirect to home.[If user is logged in, log out button is visible else login].
-**-Print logged in user if any when landing_page screen loads.
+**-Create Profile Screen.
+-Add profile Logic and call the api.
+-Print username and profile id[Debug and make sure request of profile is being handled properly].
+-Add user name label in profile.
 
-**Step 1: Store User Session
-**Step 2: Store User Data in App Class
-**Step 3: Display Username
+2. Call user posts in profile.
 
-
-**2. Handle JWT/Token Authentication in Kivy after login.
-**-1. Store the Token Locally.
-**-2. Auto-Login the User
-**-3. Use the Token for Authenticated Requests
-**-4. Implement Logout
-
-**3. Store the token locally so the user stays logged in.
-
-**4. Use the token for authenticated requests in Kivy.
-
-**Logout.
-
-Register:
-
-**-Create register screen.
-**-Add register logic and call the API endpoint.
-🔹 Steps to Implement Registration Logic
-**-Get User Input: Fetch values from the username, email, and password fields.
-**-Validate Input Fields: Ensure no field is empty before sending the request.
-**-Send API Request: Make a POST request to the Django register API.
-**-Handle API Response:
-**=If registration is successful, display a success message and redirect to the login screen.
-**=If registration fails, show an error message.
-**-Print registration details input.
-**-Test register and redirect to home if user is registered successful.
-**-Print Registered user/Logged in user after registration.
-**-Add register button to dynamic authentication UI.
-
-**Add labels {The print statements when user logs in or registers and when credentials are incorrect}
-**Call user Data in header in all screens.
 ------------------------------------------------------------------------------------------------------------------------
-**Style as you review progress, restructure, comment out print and delete unused code
+Style as you review progress, restructure, comment out print and delete unused code

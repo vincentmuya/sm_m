@@ -148,11 +148,11 @@ class LoginScreen(Screen):
 
         try:
             response = requests.post(url, json=data)
-            print(f"Status Code: {response.status_code}")
+            # print(f"Status Code: {response.status_code}")
 
             if response.status_code == 200:
                 response_data = response.json()
-                print(f"Response: {response_data}")
+                # print(f"Response: {response_data}")
 
                 user_id = response_data.get("user_id", "N/A")
                 token = response_data.get("token", "")

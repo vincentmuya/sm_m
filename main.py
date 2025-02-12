@@ -8,6 +8,7 @@ from location_vendors import LocationVendorsScreen
 from service_vendors import ServiceVendorsScreen
 from login_screen import LoginScreen
 from register_screen import RegisterScreen
+from profile import ProfileScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -82,6 +83,11 @@ class MyApp(MDApp):
             user_label = Button(text=f"Logged in as {username}", size_hint_y=None, height=40)
             self.account_dropdown.add_widget(user_label)
 
+            # Profile button
+            profile_btn = Button(text="Profile", size_hint_y=None, height=40)
+            profile_btn.bind(on_release=self.user_profile)
+            self.account_dropdown.add_widget(profile_btn)
+
             # Logout button
             logout_btn = Button(text="Logout", size_hint_y=None, height=40)
             logout_btn.bind(on_release=self.logout_user)
@@ -154,6 +160,10 @@ class MyApp(MDApp):
         register_screen = RegisterScreen(name='register_screen')
         screen_manager.add_widget(register_screen)
 
+        # Create the ProfileScreen instance and add it to the ScreenManager
+        profile_screen = ProfileScreen(name='profile_screen')
+        screen_manager.add_widget(profile_screen)
+
         return screen_manager
 
     def go_to_login(self, instance):
@@ -165,6 +175,26 @@ class MyApp(MDApp):
         """Redirect to the Register screen."""
         app = App.get_running_app()
         app.root.current = "register_screen"
+
+    def user_profile(self, instance):
+        """Fetch and print the user's profile details."""
+        app = App.get_running_app()
+        app.root.current = "profile_screen"
+
+        if "token" in app.user_data:
+            headers = {"Authorization": f"Token {app.user_data['token']}"}
+            profile_url = "http://localhost:8000/api_profile/"
+
+            response = requests.get(profile_url, headers=headers)
+
+            if response.status_code == 200:
+                profile_data = response.json()
+                print(f"User ID: {profile_data['user']}, Profile ID: {profile_data['id']}")
+
+            else:
+                print(f"Failed to fetch profile. Status Code: {response.status_code}")
+        else:
+            print("User not authenticated.")
 
 
 if __name__ == '__main__':

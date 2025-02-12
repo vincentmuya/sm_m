@@ -1,20 +1,16 @@
 ------------------------------------------------------------------------------------------------------------------------
-Authentication.
+Profile.
 ------------------------------------------------------------------------------------------------------------------------
-                    *****DONE*****
-1. Set Up API Endpoints in Django
+                    DONE
+1. Create API for profile in Django.
 
-Django web app should expose authentication endpoints via Django Rest Framework (DRF). Ensure:
-    -Login Endpoint: /api/login/
-    -Register Endpoint: /api/register/
-    -Token Authentication: Use JWT or DRF Token Authentication.
-                    *****DONE*****
+Create django profile api.
+Test the API.
+                    DONE
 ------------------------------------------------------------------------------------------------------------------------
-2. Create API Calls in Kivy
+2. Create API Calls in Kivy.
 
-**Your Kivy app should send login requests to endpoint.
-
-Your Kivy app should send  Registration requests to endpoint.
+Your Kivy app should send profile requests to endpoint.
 
 ------------------------------------------------------------------------------------------------------------------------
-3. Handle JWT/Token Authentication
+3. Call user posts in profile.

@@ -23,29 +23,29 @@ from kivymd.toast import toast
 class MyApp(MDApp):
 
     def get_authenticated_data(self, endpoint):
-        """Make an authenticated request with a stored token."""
         token = self.user_data.get("token", "")
 
         if not token:
             print("❌ No token found. User not logged in.")
             return None
 
-        headers = {"Authorization": f"Bearer {token}"}
-        url = f"http://localhost:8000/api/{endpoint}/"
+        headers = {"Authorization": f"Token {token}"}
+        url = f"http://localhost:8000/{endpoint}/"
+
+        print(f"📡 Sending request to: {url}")
 
         try:
             response = requests.get(url, headers=headers)
-            # print(f"Status Code: {response.status_code}")
+            print(f"📡 Status Code: {response.status_code}")
 
             if response.status_code == 200:
-                # print("✅ Authenticated Request Successful!")
                 return response.json()
             else:
-                print(f"❌ Failed to fetch data. Status Code: {response.status_code}")
+                print(f"❌ Failed to fetch data. Response: {response.text}")
                 return None
 
         except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
+            print(f"❌ Request Error: {e}")
             return None
 
     def __init__(self, **kwargs):
@@ -179,22 +179,27 @@ class MyApp(MDApp):
     def user_profile(self, instance):
         """Fetch and print the user's profile details."""
         app = App.get_running_app()
-        app.root.current = "profile_screen"
 
-        if "token" in app.user_data:
-            headers = {"Authorization": f"Token {app.user_data['token']}"}
-            profile_url = "http://localhost:8000/api_profile/"
+        # 🔍 Print token before making a request
+        token = app.user_data.get("token", "")
+        print(f"🔍 Token being used: {token}")
 
-            response = requests.get(profile_url, headers=headers)
+        if not token:
+            print("❌ User not authenticated.")
+            return
 
-            if response.status_code == 200:
-                profile_data = response.json()
-                print(f"User ID: {profile_data['user']}, Profile ID: {profile_data['id']}")
+        # 🔍 Debugging: Ensure function is being called
+        print("📡 Calling get_authenticated_data()...")
 
-            else:
-                print(f"Failed to fetch profile. Status Code: {response.status_code}")
+        # ✅ Use the reusable function to fetch profile data
+        profile_data = app.get_authenticated_data("api_profile")
+
+        if profile_data:
+            print(f"✅ User ID: {profile_data['user']}, Profile ID: {profile_data['id']}")
+
+            app.root.current = "profile_screen"
         else:
-            print("User not authenticated.")
+            print("❌ Failed to fetch profile.")
 
 
 if __name__ == '__main__':

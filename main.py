@@ -177,7 +177,7 @@ class MyApp(MDApp):
         app.root.current = "register_screen"
 
     def user_profile(self, instance):
-        """Fetch and print the user's profile details."""
+        """Fetch and print the user's profile details and vendor count."""
         app = App.get_running_app()
 
         # 🔍 Print token before making a request
@@ -188,19 +188,34 @@ class MyApp(MDApp):
             print("❌ User not authenticated.")
             return
 
-        # 🔍 Debugging: Ensure function is being called
         print("📡 Calling get_authenticated_data()...")
 
-        # ✅ Use the reusable function to fetch profile data
+        # ✅ Fetch the user profile data
         profile_data = app.get_authenticated_data("api_profile")
 
         if profile_data:
-            print(f"✅ User ID: {profile_data['user']}, Profile ID: {profile_data['id']}")
+            user_id = profile_data['user']  # ✅ Ensure correct key usage
+            print(f"✅ User ID: {user_id}, Profile ID: {profile_data['id']}")
+            print("📡 Fetching vendor count...")
 
+            # ✅ Fetch the vendor list using the correct endpoint
+            vendors_data = app.get_authenticated_data("api/vendor")
+
+            if vendors_data:
+                # print(f"📡 Vendors Data: {vendors_data}")  # 🔍 Debugging
+
+                # ✅ Ensure correct key usage (change "user_id" to "user")
+                user_vendors = [vendor for vendor in vendors_data if vendor.get("user") == user_id]
+                vendor_count = len(user_vendors)
+                print(f"📊 Total Vendors Posted: {vendor_count}")
+            else:
+                print("❌ Failed to fetch vendors.")
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            profile_vendors_screen = app.root.get_screen('profile_screen')
+            profile_vendors_screen.load_profile_vendors(user_vendors)
             app.root.current = "profile_screen"
         else:
             print("❌ Failed to fetch profile.")
-
 
 if __name__ == '__main__':
     MyApp().run()

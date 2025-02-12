@@ -43,13 +43,13 @@ class ProfileScreen(Screen):
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
-        spacer = Widget(size_hint=(1, None), height=20)
+        spacer = Widget(size_hint=(1, None), height=15)
         bottom_spacer = Widget(size_hint=(1, None), height=650)
 
         self.content_layout.add_widget(top_spacer)
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
-        # self.content_layout.add_widget(spacer)
+        self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.vendor_grid)
         self.content_layout.add_widget(bottom_spacer)
 
@@ -98,6 +98,77 @@ class ProfileScreen(Screen):
         app.update_account_dropdown()
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
+
+    def load_profile_vendors(self, user_vendors):
+        # print(f"Loading {len(user_vendors)} User Vendors ...")
+        self.vendor_grid.clear_widgets()
+
+        location_label = Label(
+            text=f"Vendors Posted",
+            size_hint_y=None,
+            height=5,
+            font_size="15sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        location_label2 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        location_label3 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        self.vendor_grid.add_widget(location_label2)
+        self.vendor_grid.add_widget(location_label)
+        self.vendor_grid.add_widget(location_label3)
+
+        # Fetch all services and locations to map their IDs to names
+        services_response = requests.get('http://localhost:8000/api/services/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
+
+        if services_response.status_code == 200:
+            services = {service['id']: service['service'] for service in services_response.json()}
+        else:
+            services = {}
+
+        if locations_response.status_code == 200:
+            locations = {location['id']: location['location'] for location in locations_response.json()}
+        else:
+            locations = {}
+
+        for vendor in user_vendors:
+            full_image_url = f"http://localhost:8000{vendor['profile_image']}"
+
+            # Get the location name
+            location_id = vendor.get('location')
+            location_name = locations.get(location_id, "Unknown Location")
+
+            # Get the service name
+            service_id = vendor.get('service')
+            service_name = services.get(service_id, "Unknown Service")
+
+            # Create the vendor card
+            vendor_card = VendorsCard(
+                institution_name=vendor['institution_name'],
+                price=str(vendor['price']),
+                image_source=full_image_url,
+                vendor_id=str(vendor['id']),
+                slug=vendor['slug'],
+                service=service_name,
+                location=location_name
+            )
+            self.vendor_grid.add_widget(vendor_card)
+        pass
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

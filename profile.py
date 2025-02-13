@@ -99,12 +99,12 @@ class ProfileScreen(Screen):
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
-    def load_profile_vendors(self, user_vendors):
+    def load_profile_vendors(self, user_vendors, username):
         # print(f"Loading {len(user_vendors)} User Vendors ...")
         self.vendor_grid.clear_widgets()
 
-        location_label = Label(
-            text=f"Vendors Posted",
+        profile_label = Label(
+            text=f"{username}'s Profile ",
             size_hint_y=None,
             height=5,
             font_size="15sp",
@@ -129,8 +129,37 @@ class ProfileScreen(Screen):
         )
 
         self.vendor_grid.add_widget(location_label2)
-        self.vendor_grid.add_widget(location_label)
+        self.vendor_grid.add_widget(profile_label)
         self.vendor_grid.add_widget(location_label3)
+
+        vendors_label = Label(
+            text=f"Vendors Posted By {username}",
+            size_hint_y=None,
+            height=5,
+            font_size="15sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        vendors_label2 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        vendors_label3 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        self.vendor_grid.add_widget(vendors_label2)
+        self.vendor_grid.add_widget(vendors_label)
+        self.vendor_grid.add_widget(vendors_label3)
 
         # Fetch all services and locations to map their IDs to names
         services_response = requests.get('http://localhost:8000/api/services/')

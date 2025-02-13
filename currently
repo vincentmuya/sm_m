@@ -22,19 +22,12 @@ Profile:
 **-Create Profile Screen.
 **-Add profile Logic and call the api.
 **-Print username and profile id[Debug and make sure request of profile is being handled properly].
--Add user name label in profile.
+**-Add user name label in profile.
 
 **2. Call user posts in profile.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
+------------------------------------------------------------------------------------------------------------------------
 
-
->>>from rest_framework.authtoken.models import Token
->>> from django.contrib.auth import get_user_model
->>>
->>> User = get_user_model()
->>> user = User.objects.get(username="sherehe")
->>> token = Token.objects.filter(user=user).first()
->>> print(f"Token: {token.key}" if token else "No token found!")
 Token: d927868b7027a1dd7a0dc1139efa1a572fe5e6b2

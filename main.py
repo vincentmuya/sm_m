@@ -194,25 +194,34 @@ class MyApp(MDApp):
         profile_data = app.get_authenticated_data("api_profile")
 
         if profile_data:
-            user_id = profile_data['user']  # ✅ Ensure correct key usage
+            user_id = profile_data.get("user")  # ✅ Ensure correct key usage
             print(f"✅ User ID: {user_id}, Profile ID: {profile_data['id']}")
+
+            # ✅ Fetch the username using the user_id
+            user_data = app.get_authenticated_data(f"api/user")
+
+            if user_data and "username" in user_data:
+                username = user_data["username"]
+                print(f"👤 Username: {username}")
+            else:
+                print("❌ Failed to fetch username.")
+
             print("📡 Fetching vendor count...")
 
             # ✅ Fetch the vendor list using the correct endpoint
             vendors_data = app.get_authenticated_data("api/vendor")
 
             if vendors_data:
-                # print(f"📡 Vendors Data: {vendors_data}")  # 🔍 Debugging
-
                 # ✅ Ensure correct key usage (change "user_id" to "user")
                 user_vendors = [vendor for vendor in vendors_data if vendor.get("user") == user_id]
                 vendor_count = len(user_vendors)
                 print(f"📊 Total Vendors Posted: {vendor_count}")
             else:
                 print("❌ Failed to fetch vendors.")
-            # Pass the service_id (parent category) to the vendors_by_service screen
+
+            # Pass the vendor data to the profile screen
             profile_vendors_screen = app.root.get_screen('profile_screen')
-            profile_vendors_screen.load_profile_vendors(user_vendors)
+            profile_vendors_screen.load_profile_vendors(user_vendors, username)
             app.root.current = "profile_screen"
         else:
             print("❌ Failed to fetch profile.")

@@ -132,19 +132,34 @@
                         text: root.social_media
                         color: (0, 0, 0, 1)
 
+                    Label:
+                        id: rating_label
+                        text: "Average Rating: 0/5"
+                        halign: "center"
+                        size_hint_y: None
+                        height: dp(30)
+                        color: (0, 0, 0, 1)
+
                 BoxLayout:
                     orientation: 'horizontal'
                     size_hint_y: None
                     height: '48dp'
 
+                    Label:
+                        text: "Rate Vendor:"
+                        color: (0, 0, 0, 1)
+                    Spinner:
+                        id: rating_spinner
+                        values: ['1', '2', '3', '4', '5']
+                    Button:
+                        text: "Submit"
+                        on_release: root.submit_rating(root.vendor_id, int(rating_spinner.text))
+
                     Button:
                         text: 'Send Message'
-                        size_hint_x: 0.33
 
                     Button:
                         text: 'Book Vendor'
-                        size_hint_x: 0.33
 
                     Button:
                         text: 'Review Vendor'
-                        size_hint_x: 0.33

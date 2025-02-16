@@ -11,7 +11,6 @@ from functools import partial
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.utils import rgba
-from kivymd.uix.label import MDLabel
 
 class Header(FloatLayout):
     def __init__(self, **kwargs):
@@ -29,7 +28,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -7},
+            pos_hint={"x": -1, "top": -5},
             size_hint_y=1,
             md_bg_color=get_color_from_hex("#FFFFFF")
         )
@@ -42,22 +41,6 @@ class Header(FloatLayout):
         self.nav_list.add_widget(OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
         self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
         self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
-
-        # Logged-in user label
-        self.logged_in_label = MDLabel(
-            text="Not logged in",
-            theme_text_color="Secondary",
-            halign="center",
-            font_style="Body1",
-            size_hint_y=None,
-            color=(0, 0, 0, 1),
-            height=40
-        )
-        self.nav_list.add_widget(self.logged_in_label)
-
-        #Login Button
-        self.login_button = MDRaisedButton(text='Log-In',md_bg_color = rgba("#008000"), on_release=lambda x: self.navigate_to("login_screen"))
-        self.nav_list.add_widget(self.login_button)
 
         # Location Dropdown Container
         self.location_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=40)

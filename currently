@@ -1,30 +1,28 @@
 ------------------------------------------------------------------------------------------------------------------------
-                                        ***Done***
+
 
 Things we will do in the Django application:
 
-Create django profile api.
+Create django rating api.
 =Views
 =url pattern
 =Additional modification to handle profile, if any.
 
 Test the profile api url.
 
-                                        ***Done***
 ------------------------------------------------------------------------------------------------------------------------
 
 Next step is to create API calls in kivy.
 
 Next Steps:
-1. Make API Calls in Kivy for Profile.
-Profile:
+1. Make API Calls in Kivy for Rating in vendor Details.
+Vendor Details:
 
-**-Create Profile Screen.
-**-Add profile Logic and call the api.
-**-Print username and profile id[Debug and make sure request of profile is being handled properly].
-**-Add user name label in profile.
+-Test the api response print for rating.
+-Call the vendor rating in vendor_details screen.
+-Create a post method for rating in the API views[Django Project]
 
-**2. Call user posts in profile.
+2. Call vendor rating in vendor details
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

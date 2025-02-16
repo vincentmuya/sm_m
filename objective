@@ -1,16 +1,34 @@
 ------------------------------------------------------------------------------------------------------------------------
-Profile.
+Call Pending APIs And Features to Kivy Relevant Screens.
 ------------------------------------------------------------------------------------------------------------------------
-                    DONE
-1. Create API for profile in Django.
 
-Create django profile api.
-Test the API.
-                    DONE
+1. Pending APIs:
+-Rating.
+-Review.
+-ReviewComment.
+-Bookings.
+-Conversation.
+-Message.
+-ImageMenu.
+-VendorMenu.
+-Favorite.
+-Invitation
+-Advertisement.
+-ChildrenHomes
+
+
 ------------------------------------------------------------------------------------------------------------------------
-2. Create API Calls in Kivy.
+2. Pending Features
 
-Your Kivy app should send profile requests to endpoint.
+-Post service.
+-Rate.
+-Review.
+-Review Comment.
+-Booking.
+-Message.
+-Favorite.
+-Invitation
 
 ------------------------------------------------------------------------------------------------------------------------
-3. Call user posts in profile.
+
+3. Test the APis and Features.

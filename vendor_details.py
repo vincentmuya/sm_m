@@ -19,6 +19,7 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.properties import NumericProperty
 
 Builder.load_file('vendor_details.kv')
 
@@ -36,6 +37,8 @@ class VendorDetailsScreen(Screen):
     slug = StringProperty()
     vendor_id = StringProperty()
     gallery_images = ListProperty()
+    vendor_id = StringProperty()
+    average_rating = NumericProperty(0)
 
     def load_details(self, vendor_details):
         # print("Loading vendor_details...")
@@ -52,6 +55,7 @@ class VendorDetailsScreen(Screen):
         self.image_source = f"http://localhost:8000{vendor_details['profile_image']}"
         self.slug = vendor_details['slug']
         self.vendor_id = str(vendor_details['id'])
+        self.fetch_ratings()
 
         # Fetch service details from the API using service ID
         service_id = vendor_details['service']
@@ -160,6 +164,48 @@ class VendorDetailsScreen(Screen):
         # ✅ Add proxy button instead of the real one
         self.user_info_layout.add_widget(self.account_proxy_button)
         self.add_widget(self.user_info_layout)
+
+    def fetch_ratings(self):
+        """Fetch ratings from the API for the selected vendor and update UI"""
+        api_url = f'http://localhost:8000/api/ratings/?vendor_id={self.vendor_id}'
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            ratings = response.json()
+            if ratings:
+                # Calculate the average rating
+                total_rating = sum(rating['rating'] for rating in ratings)
+                self.average_rating = total_rating / len(ratings)
+            else:
+                self.average_rating = 0  # No ratings available
+
+        # Update the UI with the average rating
+        self.ids.rating_label.text = f'Average Rating: {self.average_rating:.1f}/5'
+
+    def submit_rating(self, vendor_id, rating_value):
+        app = App.get_running_app()
+
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot submit rating.")
+            return
+
+        user_id = user_data["id"]  # Get the user ID
+
+        url = "http://localhost:8000/api/ratings/"
+        headers = {"Authorization": f"Token {app.user_data.get('token', '')}"}
+        data = {"user": user_id, "vendor": vendor_id, "rating": rating_value}
+
+        try:
+            response = requests.post(url, json=data, headers=headers)
+            if response.status_code == 201:
+                print("✅ Rating submitted successfully!")
+            else:
+                print(f"❌ Failed to submit rating. Response: {response.text}")
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Request Error: {e}")
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

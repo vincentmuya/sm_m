@@ -195,8 +195,13 @@ class VendorDetailsScreen(Screen):
         user_id = user_data["id"]  # Get the user ID
 
         url = "http://localhost:8000/api/ratings/"
-        headers = {"Authorization": f"Token {app.user_data.get('token', '')}"}
-        data = {"user": user_id, "vendor": vendor_id, "rating": rating_value}
+        headers = {
+            "Authorization": f"Token {app.user_data.get('token', '')}",
+            "Content-Type": "application/json"  # Ensure proper content type
+        }
+
+        # ✅ Fix field names
+        data = {"user_id": user_id, "vendor_id": vendor_id, "rating": rating_value}
 
         try:
             response = requests.post(url, json=data, headers=headers)

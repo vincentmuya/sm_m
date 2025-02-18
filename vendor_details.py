@@ -39,6 +39,7 @@ class VendorDetailsScreen(Screen):
     gallery_images = ListProperty()
     vendor_id = StringProperty()
     average_rating = NumericProperty(0)
+    menu_images = ListProperty([])
 
     def load_details(self, vendor_details):
         # print("Loading vendor_details...")
@@ -114,6 +115,18 @@ class VendorDetailsScreen(Screen):
 
         self.gallery_images = gallery_images
 
+        # Fetch menu images for this vendor
+        menu_images_api_url = f"http://localhost:8000/api/menu_images/?vendor_id={self.vendor_id}"
+
+        menu_images = []
+        response = requests.get(menu_images_api_url)
+        if response.status_code == 200:
+            image_mapping = response.json()
+            for image_id, image_data in image_mapping.items():
+                menu_images.append(image_data["image"])  # Append image URL
+
+        self.menu_images = menu_images
+
         # Update UI elements with fetched data
         self.ids.institution_name_label.text = self.institution_name
         self.ids.price_label.text = self.price
@@ -135,6 +148,7 @@ class VendorDetailsScreen(Screen):
         self.property('website').dispatch(self)
         self.property('social_media').dispatch(self)
         self.property('gallery_images').dispatch(self)
+        self.property('menu_images').dispatch(self)
 
         self.add_widget(Navbar())
 

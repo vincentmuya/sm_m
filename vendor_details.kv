@@ -1,3 +1,17 @@
+<MyPopup>:
+    size_hint: 0.8, 0.8
+    auto_dismiss: True
+    BoxLayout:
+        orientation: 'vertical'
+        AsyncImage:
+            source: root.menu_image  # This now correctly references MyPopup's property
+            size_hint: 1, 1
+        Button:
+            text: "Close"
+            size_hint_y: None
+            height: dp(40)
+            on_release: root.dismiss()
+
 <VendorDetailsScreen>:
     ScrollView:
         size_hint: 1, None
@@ -45,6 +59,14 @@
                 MyCard:
                     size_hint_y: None
                     height: self.minimum_height
+
+                    Button:
+                        text: "View Menu" if root.menu_images else "No menu provided"
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(200)
+                        on_release: app.show_menu_popup(root.menu_images[0]) if root.menu_images else None
+                        disabled: not root.menu_images  # Disable button if no menu is available
 
                     Label:
                         text: "[b]Name:[/b]"

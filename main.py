@@ -18,7 +18,19 @@ import requests
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivymd.toast import toast
+from kivy.uix.popup import Popup
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import AsyncImage
+from kivy.uix.modalview import ModalView
+from kivy.properties import StringProperty
 
+
+class MyPopup(ModalView):
+    menu_image = StringProperty('https://www.shutterstock.com/image-vector/image-icon-600nw-211642900.jpg') # Place holder
+
+    def __init__(self, menu_image, **kwargs):
+        super().__init__(**kwargs)
+        self.menu_image = menu_image
 
 class MyApp(MDApp):
 
@@ -225,6 +237,10 @@ class MyApp(MDApp):
             app.root.current = "profile_screen"
         else:
             print("❌ Failed to fetch profile.")
+
+    def show_menu_popup(self, menu_image):
+        popup = MyPopup(menu_image=menu_image)
+        popup.open()
 
 if __name__ == '__main__':
     MyApp().run()

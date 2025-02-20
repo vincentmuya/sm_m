@@ -9,6 +9,7 @@ from service_vendors import ServiceVendorsScreen
 from login_screen import LoginScreen
 from register_screen import RegisterScreen
 from profile import ProfileScreen
+from favorites import FavoritesScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -95,6 +96,11 @@ class MyApp(MDApp):
             user_label = Button(text=f"Logged in as {username}", size_hint_y=None, height=40)
             self.account_dropdown.add_widget(user_label)
 
+            # Favorite button
+            favorite_btn = Button(text="Favorites", size_hint_y=None, height=40)
+            favorite_btn.bind(on_release=self.user_favorite)
+            self.account_dropdown.add_widget(favorite_btn)
+
             # Profile button
             profile_btn = Button(text="Profile", size_hint_y=None, height=40)
             profile_btn.bind(on_release=self.user_profile)
@@ -176,6 +182,10 @@ class MyApp(MDApp):
         profile_screen = ProfileScreen(name='profile_screen')
         screen_manager.add_widget(profile_screen)
 
+        # Create the FavoritesScreen instance and add it to the ScreenManager
+        favorites_screen = FavoritesScreen(name='favorites_screen')
+        screen_manager.add_widget(favorites_screen)
+
         return screen_manager
 
     def go_to_login(self, instance):
@@ -237,6 +247,12 @@ class MyApp(MDApp):
             app.root.current = "profile_screen"
         else:
             print("❌ Failed to fetch profile.")
+
+    def user_favorite(self, instance):
+        """Fetch and print the user's favorites."""
+        app = App.get_running_app()
+        app.root.current = "favorites_screen"
+        pass
 
     def show_menu_popup(self, menu_image):
         popup = MyPopup(menu_image=menu_image)

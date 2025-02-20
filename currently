@@ -23,8 +23,8 @@ Vendor Details:
 
 2. Call user favorites in favorites screen.
 -Add favorite link in account drop down if user is authenticated.
--Create favorites screen.
--add it to screen manager.
+**-Create favorites screen.
+**-add it to screen manager.
 -If a user has any favorites they be called in the favorites screen.
 
 ------------------------------------------------------------------------------------------------------------------------

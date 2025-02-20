@@ -3,12 +3,12 @@
 
 Things we will do in the Django application:
 
-Create django favorite serializer and api.
+Create django Bookings serializer and api.
 =Views
 =url pattern
 =Additional modification to handle profile, if any.
 
-Test the favorite api url.
+Test the bookings api url.
                             **Done**
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -16,16 +16,18 @@ Test the favorite api url.
 Next step is to create API calls in kivy.
 
 Next Steps:
-**1. Make API Calls in Kivy for favorite in vendor Details.
+1. Make API Calls in Kivy for Bookings in bookings.
 Vendor Details:
 
-**-Enables a user to favorite a vendor.
+-Enables a user to make a booking.
 
-2. Call user favorites in favorites screen.
--Add favorite link in account drop down if user is authenticated.
-**-Create favorites screen.
+2. Call user Bookings in bookings screen.
+-Add bookings link in account drop down if user is authenticated.
+**-Create Bookings screen.
 **-add it to screen manager.
-**-If a user has any favorites they be called in the favorites screen.
+-If a user has any bookings they be called in the Bookings screen.
+
+3. Call bookings details associated with the current vendor.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

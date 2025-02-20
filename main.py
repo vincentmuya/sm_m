@@ -10,6 +10,7 @@ from login_screen import LoginScreen
 from register_screen import RegisterScreen
 from profile import ProfileScreen
 from favorites import FavoritesScreen
+from bookings import BookingsScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -101,6 +102,11 @@ class MyApp(MDApp):
             favorite_btn.bind(on_release=self.user_favorites)
             self.account_dropdown.add_widget(favorite_btn)
 
+            # Bookings button
+            bookings_btn = Button(text="Bookings", size_hint_y=None, height=40)
+            bookings_btn.bind(on_release=self.user_bookings)
+            self.account_dropdown.add_widget(bookings_btn)
+
             # Profile button
             profile_btn = Button(text="Profile", size_hint_y=None, height=40)
             profile_btn.bind(on_release=self.user_profile)
@@ -185,6 +191,10 @@ class MyApp(MDApp):
         # Create the FavoritesScreen instance and add it to the ScreenManager
         favorites_screen = FavoritesScreen(name='favorites_screen')
         screen_manager.add_widget(favorites_screen)
+
+        # Create the BookingsScreen instance and add it to the ScreenManager
+        bookings_screen = BookingsScreen(name='bookings_screen')
+        screen_manager.add_widget(bookings_screen)
 
         return screen_manager
 
@@ -309,6 +319,11 @@ class MyApp(MDApp):
         favorite_vendors_screen.load_favorite_vendors(user_favorites)
         # Navigate to favorites screen
         app.root.current = "favorites_screen"
+
+    def user_bookings(self, instance):
+        """Redirect to the Bookings screen."""
+        app = App.get_running_app()
+        app.root.current = "bookings_screen"
 
     def show_menu_popup(self, menu_image):
         popup = MyPopup(menu_image=menu_image)

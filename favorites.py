@@ -98,8 +98,79 @@ class FavoritesScreen(Screen):
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
-    def load_favorite_vendors(self):
-        pass
+    def load_favorite_vendors(self, user_favorites):
+        print(f"Loading {len(user_favorites)} Favorite vendors...")
+
+        # Clear grid before adding new vendors
+        self.vendor_grid.clear_widgets()
+
+        favorite_label = Label(
+            text=f"Viewing Favorite Vendors",
+            size_hint_y=None,
+            height=5,
+            font_size="15sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        favorite_label2 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+        favorite_label3 = Label(
+            text="",
+            size_hint_y=None,
+            height=5,
+            font_size="2sp",
+            color=(0, 0, 0, 1),
+            bold=True
+        )
+
+        self.vendor_grid.add_widget(favorite_label2)
+        self.vendor_grid.add_widget(favorite_label)
+        self.vendor_grid.add_widget(favorite_label3)
+
+        # Fetch all services and locations to map their IDs to names
+        services_response = requests.get('http://localhost:8000/api/services/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
+
+        if services_response.status_code == 200:
+            services = {service['id']: service['service'] for service in services_response.json()}
+        else:
+            services = {}
+
+        if locations_response.status_code == 200:
+            locations = {location['id']: location['location'] for location in locations_response.json()}
+        else:
+            locations = {}
+
+        for favorite in user_favorites:
+            vendor = favorite["vendor"]  # ✅ Extract vendor details
+
+            full_image_url = f"http://localhost:8000{vendor['profile_image']}"  # ✅ Now it exists
+
+            # Get the location name
+            location_id = vendor.get('location')
+            location_name = locations.get(location_id, "Unknown Location")
+
+            # Get the service name
+            service_id = vendor.get('service')
+            service_name = services.get(service_id, "Unknown Service")
+
+            # Create the vendor card
+            vendor_card = VendorsCard(
+                institution_name=vendor['institution_name'],
+                price=str(vendor['price']),
+                image_source=full_image_url,
+                vendor_id=str(vendor['id']),
+                slug=vendor['slug'],
+                service=service_name,
+                location=location_name
+            )
+            self.vendor_grid.add_widget(vendor_card)
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

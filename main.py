@@ -98,7 +98,7 @@ class MyApp(MDApp):
 
             # Favorite button
             favorite_btn = Button(text="Favorites", size_hint_y=None, height=40)
-            favorite_btn.bind(on_release=self.user_favorite)
+            favorite_btn.bind(on_release=self.user_favorites)
             self.account_dropdown.add_widget(favorite_btn)
 
             # Profile button
@@ -248,11 +248,67 @@ class MyApp(MDApp):
         else:
             print("❌ Failed to fetch profile.")
 
-    def user_favorite(self, instance):
+    def user_favorites(self, instance):
         """Fetch and print the user's favorites."""
         app = App.get_running_app()
+        # 🔍 Get the authentication token
+        token = app.user_data.get("token", "")
+        print(f"🔍 Token being used: {token}")
+
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # ✅ Fetch user data to get user ID
+        # print("📡 Calling get_authenticated_data() to fetch user ID...")
+        user_data = app.get_authenticated_data(f"api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]  # Extract the user ID
+        # print(f"✅ Authenticated user ID: {user_id}")
+
+        # 🔗 API URL for fetching favorites
+        url = f"http://localhost:8000/api/favorites/"
+
+        headers = {
+            "Authorization": f"Token {token}",
+            "Content-Type": "application/json",
+        }
+
+        try:
+            # print(f"📡 Sending request to: {url}")
+            response = requests.get(url, headers=headers)
+
+            # print(f"📡 Status Code: {response.status_code}")
+
+            if response.status_code == 200:
+                favorites = response.json()
+                # print(f"📡 API Response: {favorites}")
+
+                # Filter favorites for the current user
+                user_favorites = [fav for fav in favorites if fav["user_id"] == user_id]
+
+                if user_favorites:
+                    print("✅ User's Favorited Vendors:")
+                    for fav in user_favorites:
+                        print(f"➡ Vendor ID: {fav['vendor_id']}")
+                else:
+                    print("ℹ No favorites found for this user.")
+
+            else:
+                print(f"❌ Error fetching favorites: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"❌ Request failed: {e}")
+
+        # Pass the favorite Vendors to the favorite screen
+        favorite_vendors_screen = app.root.get_screen('favorites_screen')
+        favorite_vendors_screen.load_favorite_vendors(user_favorites)
+        # Navigate to favorites screen
         app.root.current = "favorites_screen"
-        pass
 
     def show_menu_popup(self, menu_image):
         popup = MyPopup(menu_image=menu_image)

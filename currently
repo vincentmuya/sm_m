@@ -25,7 +25,7 @@ Vendor Details:
 -Add favorite link in account drop down if user is authenticated.
 **-Create favorites screen.
 **-add it to screen manager.
--If a user has any favorites they be called in the favorites screen.
+**-If a user has any favorites they be called in the favorites screen.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

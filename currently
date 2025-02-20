@@ -3,12 +3,12 @@
 
 Things we will do in the Django application:
 
-Create django menu image and menu vendor serializer and api.
+Create django favorite serializer and api.
 =Views
 =url pattern
 =Additional modification to handle profile, if any.
 
-Test the menu image api url.
+Test the favorite api url.
                             **Done**
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -16,13 +16,16 @@ Test the menu image api url.
 Next step is to create API calls in kivy.
 
 Next Steps:
-**1. Make API Calls in Kivy for menu vendor in vendor Details.
+**1. Make API Calls in Kivy for favorite in vendor Details.
 Vendor Details:
 
-**-Test the api response print image url.
-**-Call the vendor menu image in vendor_details screen.
+**-Enables a user to favorite a vendor.
 
-**2. Call vendor menu in vendor details
+2. Call user favorites in favorites screen.
+-Add favorite link in account drop down if user is authenticated.
+-Create favorites screen.
+-add it to screen manager.
+-If a user has any favorites they be called in the favorites screen.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

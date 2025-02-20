@@ -211,7 +211,7 @@ class VendorDetailsScreen(Screen):
         url = "http://localhost:8000/api/ratings/"
         headers = {
             "Authorization": f"Token {app.user_data.get('token', '')}",
-            "Content-Type": "application/json"  # Ensure proper content type
+            "Content-Type": "application/json"
         }
 
         # ✅ Fix field names
@@ -221,10 +221,44 @@ class VendorDetailsScreen(Screen):
             response = requests.post(url, json=data, headers=headers)
             if response.status_code == 201:
                 print("✅ Rating submitted successfully!")
+                self.ids.rating_spinner.text = "Vendor Rated"
+                self.ids.rating_spinner.disabled = True  # Disable after rating
             else:
                 print(f"❌ Failed to submit rating. Response: {response.text}")
         except requests.exceptions.RequestException as e:
             print(f"❌ Request Error: {e}")
+
+    def favorite_vendor(self):
+        app = App.get_running_app()
+
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot favorite vendor.")
+            return
+
+        user_id = user_data["id"]  # Get the user ID
+        vendor_id = int(self.vendor_id)  # Convert vendor_id to integer
+
+        url = "http://localhost:8000/api/favorites/"
+        headers = {
+            "Authorization": f"Token {app.user_data.get('token', '')}",
+            "Content-Type": "application/json"
+        }
+
+        data = {"user_id": user_id, "vendor_id": vendor_id}
+
+        try:
+            response = requests.post(url, json=data, headers=headers)
+            if response.status_code == 201:
+                print("✅ Vendor favorited successfully!")
+                self.ids.favorite_button.text = "Favorited "
+                self.ids.favorite_button.disabled = True  # Disable after favoriting
+            else:
+                print("❌ Failed to favorite vendor:", response.json())
+        except Exception as e:
+            print("❌ Error favoriting vendor:", str(e))
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

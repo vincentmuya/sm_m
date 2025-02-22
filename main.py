@@ -25,6 +25,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.modalview import ModalView
 from kivy.properties import StringProperty
+from kivy.uix.label import Label
 
 
 class MyPopup(ModalView):
@@ -33,6 +34,35 @@ class MyPopup(ModalView):
     def __init__(self, menu_image, **kwargs):
         super().__init__(**kwargs)
         self.menu_image = menu_image
+
+
+class BookVendorPopup(ModalView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (0.8, 0.4)  # Adjust the size as needed
+        self.auto_dismiss = False  # Prevent dismissal by tapping outside
+
+        layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        message = Label(text="Booking Vendor?", size_hint_y=None, height=40)
+        layout.add_widget(message)
+
+        button_layout = BoxLayout(size_hint_y=None, height=40, spacing=10)
+
+        yes_button = Button(text="Book", on_release=self.confirm_booking)
+        close_button = Button(text="Close", on_release=self.dismiss)
+
+        button_layout.add_widget(yes_button)
+        button_layout.add_widget(close_button)
+
+        layout.add_widget(button_layout)
+
+
+        self.add_widget(layout)
+
+    def confirm_booking(self, instance):
+        print("✅ Booking Confirmed!")  # You can replace this with actual booking logic
+        self.dismiss()
 
 class MyApp(MDApp):
 
@@ -327,6 +357,10 @@ class MyApp(MDApp):
 
     def show_menu_popup(self, menu_image):
         popup = MyPopup(menu_image=menu_image)
+        popup.open()
+
+    def show_book_popup(self):
+        popup = BookVendorPopup()
         popup.open()
 
 if __name__ == '__main__':

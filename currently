@@ -22,11 +22,15 @@ Vendor Details:
 -Enables a user to make a booking.
 
 2. Call user Bookings in bookings screen.
+Bookings Screen
 -Add bookings link in account drop down if user is authenticated.
 **-Create Bookings screen.
 **-add it to screen manager.
 -If a user has any bookings they be called in the Bookings screen.
 
+Book a vendor.
+Create a pop up.
+Add the fields i.e date(calendar) and booking comment for booking a vendor in the pop up
 3. Call bookings details associated with the current vendor.
 
 ------------------------------------------------------------------------------------------------------------------------

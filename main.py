@@ -84,16 +84,40 @@ class BookVendorPopup(ModalView):
         self.date_label.text = f"Selected Date: {self.selected_date}"
 
     def submit_booking(self, instance):
+        app = App.get_running_app()
+        # 🔍 Get the authentication token
+        token = app.user_data.get("token", "")
+        # print(f"🔍 Token being used: {token}")
+
+        if not token:
+            # print("❌ User not authenticated.")
+            toast("❌ User not authenticated.")
+
+            return
+
+        # ✅ Fetch user data to get user ID
+        print("📡 Calling get_authenticated_data() to fetch user ID...")
+        user_data = app.get_authenticated_data(f"api/user")
+
+        if not user_data or "id" not in user_data:
+            # print("❌ Failed to fetch user data.")
+            toast("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]  # Extract the user ID
+        # print(f"✅ Authenticated user ID: {user_id}")
+
         if not self.selected_date:
             self.date_label.text = "[color=ff0000]Please select a date![/color]"
             return
 
         booking_data = {
             "vendor_id": self.vendor_id,
-            "user_id": self.user_id,
+            "user_id": user_id,
             "date": self.selected_date,
             "comment": self.comment_input.text,
         }
+        print("Booking data:", booking_data)
 
         # API Endpoint for Booking
         api_url = "http://localhost:8000/api/bookings/"
@@ -102,9 +126,11 @@ class BookVendorPopup(ModalView):
 
         if response.status_code == 201:
             print("✅ Booking Successful!")
+            toast("✅ Booking Successful!")
             self.dismiss()
         else:
             print("❌ Booking Failed:", response.text)
+            toast("❌ Booking Failed:")
 
 
 class MyApp(MDApp):

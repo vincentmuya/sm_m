@@ -40,6 +40,7 @@ class VendorDetailsScreen(Screen):
     vendor_id = StringProperty()
     average_rating = NumericProperty(0)
     menu_images = ListProperty([])
+    user_id = NumericProperty()
 
     def load_details(self, vendor_details):
         # print("Loading vendor_details...")

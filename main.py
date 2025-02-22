@@ -25,8 +25,12 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.modalview import ModalView
 from kivy.properties import StringProperty
+from datetime import date
+from kivy.uix.modalview import ModalView
 from kivy.uix.label import Label
-
+from kivy.uix.textinput import TextInput
+from kivy.uix.spinner import Spinner
+from kivymd.uix.pickers import MDDatePicker
 
 class MyPopup(ModalView):
     menu_image = StringProperty('https://www.shutterstock.com/image-vector/image-icon-600nw-211642900.jpg') # Place holder
@@ -37,32 +41,71 @@ class MyPopup(ModalView):
 
 
 class BookVendorPopup(ModalView):
-    def __init__(self, **kwargs):
+    def __init__(self, vendor_id, user_id, **kwargs):
         super().__init__(**kwargs)
-        self.size_hint = (0.8, 0.4)  # Adjust the size as needed
-        self.auto_dismiss = False  # Prevent dismissal by tapping outside
+        self.size_hint = (0.9, 0.6)
+        self.auto_dismiss = False
+        self.vendor_id = vendor_id
+        self.user_id = user_id
+        self.selected_date = None
 
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        message = Label(text="Booking Vendor?", size_hint_y=None, height=40)
-        layout.add_widget(message)
+        # Title
+        layout.add_widget(Label(text="Book Vendor", bold=True, size_hint_y=None, height=30))
 
+        # Date Picker
+        self.date_label = Label(text="Select Date", size_hint_y=None, height=30)
+        layout.add_widget(self.date_label)
+        self.date_button = Button(text="Pick a Date", on_release=self.open_date_picker)
+        layout.add_widget(self.date_button)
+
+        # Comment Input
+        self.comment_input = TextInput(hint_text="Enter your comment", multiline=True, size_hint_y=None, height=80)
+        layout.add_widget(self.comment_input)
+
+        # Buttons
         button_layout = BoxLayout(size_hint_y=None, height=40, spacing=10)
-
-        yes_button = Button(text="Book", on_release=self.confirm_booking)
-        close_button = Button(text="Close", on_release=self.dismiss)
-
-        button_layout.add_widget(yes_button)
-        button_layout.add_widget(close_button)
+        submit_button = Button(text="Submit", on_release=self.submit_booking)
+        cancel_button = Button(text="Cancel", on_release=self.dismiss)
+        button_layout.add_widget(submit_button)
+        button_layout.add_widget(cancel_button)
 
         layout.add_widget(button_layout)
-
-
         self.add_widget(layout)
 
-    def confirm_booking(self, instance):
-        print("✅ Booking Confirmed!")  # You can replace this with actual booking logic
-        self.dismiss()
+    def open_date_picker(self, instance):
+        date_picker = MDDatePicker()
+        date_picker.bind(on_save=self.on_date_selected)
+        date_picker.open()
+
+    def on_date_selected(self, instance, value, date_range):
+        self.selected_date = value.strftime("%Y-%m-%d")
+        self.date_label.text = f"Selected Date: {self.selected_date}"
+
+    def submit_booking(self, instance):
+        if not self.selected_date:
+            self.date_label.text = "[color=ff0000]Please select a date![/color]"
+            return
+
+        booking_data = {
+            "vendor_id": self.vendor_id,
+            "user_id": self.user_id,
+            "date": self.selected_date,
+            "comment": self.comment_input.text,
+        }
+
+        # API Endpoint for Booking
+        api_url = "http://localhost:8000/api/bookings/"
+
+        response = requests.post(api_url, json=booking_data)
+
+        if response.status_code == 201:
+            print("✅ Booking Successful!")
+            self.dismiss()
+        else:
+            print("❌ Booking Failed:", response.text)
+
 
 class MyApp(MDApp):
 
@@ -359,8 +402,8 @@ class MyApp(MDApp):
         popup = MyPopup(menu_image=menu_image)
         popup.open()
 
-    def show_book_popup(self):
-        popup = BookVendorPopup()
+    def show_book_popup(self, vendor_id, user_id):
+        popup = BookVendorPopup(vendor_id, user_id)
         popup.open()
 
 if __name__ == '__main__':

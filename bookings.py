@@ -98,7 +98,9 @@ class BookingsScreen(Screen):
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
-    def load_bookings_user(self):
+    def load_user_bookings(self, user_bookings):
+        """Load user bookings into the screen."""
+        print(f"User_bookings: {user_bookings}")
         pass
 
     def apply_filter(self, location=None, service=None, price_range=None):

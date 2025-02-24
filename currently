@@ -29,9 +29,11 @@ Bookings Screen
 -If a user has any bookings they be called in the Bookings screen.
 
 Book a vendor.
-Create a pop up.
-Add the fields i.e date(calendar) and booking comment for booking a vendor in the pop up
-3. Call bookings details associated with the current vendor.
+**Create a pop up.
+**Add the fields i.e date(calendar) and booking comment for booking a vendor in the pop up
+**Submit booking request.
+
+3. Call bookings in bookings screen associated with the current vendor.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

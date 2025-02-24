@@ -130,7 +130,7 @@ class BookVendorPopup(ModalView):
             self.dismiss()
         else:
             print("❌ Booking Failed:", response.text)
-            toast("❌ Booking Failed:")
+            toast(f"❌ Booking Failed: {response.status_code}")
 
 
 class MyApp(MDApp):
@@ -203,7 +203,7 @@ class MyApp(MDApp):
 
             # Bookings button
             bookings_btn = Button(text="Bookings", size_hint_y=None, height=40)
-            bookings_btn.bind(on_release=self.user_bookings)
+            bookings_btn.bind(on_release=lambda instance: self.user_bookings(instance))
             self.account_dropdown.add_widget(bookings_btn)
 
             # Profile button
@@ -420,9 +420,61 @@ class MyApp(MDApp):
         app.root.current = "favorites_screen"
 
     def user_bookings(self, instance):
-        """Redirect to the Bookings screen."""
+        """Fetch user bookings and pass them to the bookings screen."""
         app = App.get_running_app()
-        app.root.current = "bookings_screen"
+
+        # 🔍 Get the authentication token
+        token = app.user_data.get("token", "")
+        print(f"🔍 Token being used: {token}")
+
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # ✅ Fetch user data to get user ID
+        user_data = app.get_authenticated_data(f"api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]  # Extract the user ID
+        print(f"✅ Authenticated user ID: {user_id}")
+
+        # API endpoint to fetch bookings
+        api_url = f"http://localhost:8000/api/bookings/?user_id={user_id}"
+        headers = {
+            "Authorization": f"Token {token}",
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()  # Raise an error for non-2xx responses
+
+            # Store response in self.user_bookings
+            self.user_bookings = response.json()
+
+            # Print the stored bookings
+            if self.user_bookings:
+                print("📜 Stored User Bookings:")
+                for booking in self.user_bookings:
+                    print(
+                        f"- Booking ID: {booking['id']}, Date: {booking['date']}, Vendor: {booking['vendor_id']}, Status: {booking['booking_status']}")
+            else:
+                print("🛑 No bookings found.")
+                self.user_bookings = []  # Ensure it's an empty list if no bookings are found
+
+            # ✅ Pass the bookings data to the bookings screen
+            user_bookings_screen = app.root.get_screen('bookings_screen')
+            user_bookings_screen.load_user_bookings(self.user_bookings)
+
+            # 🚀 Switch to the bookings screen
+            app.root.current = "bookings_screen"
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Failed to fetch bookings: {e}")
+            self.user_bookings = []  # Reset to empty list in case of error
 
     def show_menu_popup(self, menu_image):
         popup = MyPopup(menu_image=menu_image)

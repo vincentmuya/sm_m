@@ -55,7 +55,7 @@ class VendorsScreen(Screen):
     def create_carousel(self):
         carousel = Carousel(direction='right')
         image_urls = [
-            "https://sherehemall.co.ke/static/images/sherehe_header.jpeg",
+            "http://localhost:8000/static/images/sherehe_header.jpeg",
             "https://polokwanespa.co.za/wp-content/uploads/2020/03/March_amazing-Autumn-spa-treatments_resized-v2.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Jay_nyama_Choma.jpg/2560px-Jay_nyama_Choma.jpg",
             "https://hashtagmagazine.in/wp-content/uploads/2022/08/Popular-Night-Clubs-in-India-Hashtag-Magazine.png",

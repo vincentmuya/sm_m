@@ -15,6 +15,9 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.graphics import Color, RoundedRectangle
+from kivy.uix.image import AsyncImage
 
 Builder.load_file('bookings.kv')
 
@@ -41,11 +44,11 @@ class BookingsScreen(Screen):
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Add other screens (VendorsScreen) to the content layout
-        self.booking_labels = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
+        self.booking_labels = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
-        spacer = Widget(size_hint=(1, None), height=20)
+        spacer = Widget(size_hint=(1, None), height=30)
         bottom_spacer = Widget(size_hint=(1, None), height=650)
 
         self.content_layout.add_widget(top_spacer)
@@ -99,7 +102,7 @@ class BookingsScreen(Screen):
         self.account_proxy_button.text = app.account_button.text
 
     def load_user_bookings(self, user_bookings):
-        """Load user bookings into the screen."""
+        """Load user bookings into the screen with card-style layouts."""
 
         app = App.get_running_app()
         user_data = app.get_authenticated_data("api/user")
@@ -120,30 +123,92 @@ class BookingsScreen(Screen):
                 text="No bookings found.",
                 size_hint_y=None,
                 height=40,
-                color=(0, 0, 0, 1)  # ✅ Set text color to black (RGBA format)
+                color=(0, 0, 0, 1)  # Black text
             )
             self.booking_labels.add_widget(no_bookings_label)
             return
 
         for booking in user_bookings:
-            if booking["user_id"] == current_user_id:
-                institution_name = booking["vendor"]["institution_name"]
-                booking_text = f"You sent a booking request to {institution_name}"
+            institution_name = booking["vendor"]["institution_name"]
 
-                # ✅ Create label with black text
-                booking_label = Label(
-                    text=booking_text,
-                    size_hint_y=None,
-                    height=40,
-                    color=(0, 0, 0, 1),  # Black text
-                    font_size='16sp'  # Slightly larger font for visibility
+            # Create a card layout
+            card = BoxLayout(
+                orientation="vertical",
+                size_hint_y=None,
+                height=170,
+                padding=10,
+                spacing=5
+            )
+
+            # Apply background color & rounded corners
+            with card.canvas.before:
+                Color(1, 1, 1, 1)  # White background
+                card.bg_rect = RoundedRectangle(radius=[10], pos=card.pos, size=card.size)
+
+            def update_bg(instance, value):
+                card.bg_rect.pos = card.pos
+                card.bg_rect.size = card.size
+
+            card.bind(pos=update_bg, size=update_bg)
+
+            # Vendor image (if available)
+            if "profile_image" in booking["vendor"]:
+                profile_img = AsyncImage(
+                    source=f"http://localhost:8000{booking["vendor"]["profile_image"]}",
+                    size_hint=(None, None),
+                    size=(80, 80),
+                    allow_stretch=True
                 )
+                card.add_widget(profile_img)
 
-                self.booking_labels.add_widget(booking_label)
+            # Booking information
+            booking_label = Label(
+                text=f"Booking for {institution_name}",
+                size_hint_y=None,
+                height=30,
+                color=(0, 0, 0, 1),  # Black text
+                font_size='16sp',
+                bold=True
+            )
+            card.add_widget(booking_label)
 
-        # ✅ Update layout height
-        self.booking_labels.height = len(self.booking_labels.children) * 50  # Adjust height per label
+            # ✅ Bookings the user made
+            if booking["user_id"] == current_user_id:
+                request_label = Label(
+                    text=f"You sent a booking request to {institution_name}",
+                    size_hint_y=None,
+                    height=30,
+                    color=(0, 0, 0, 1),
+                    font_size='12sp'
+                )
+                card.add_widget(request_label)
+
+            # ✅ Bookings received for the user's vendor
+            if booking["vendor"]["user"] == current_user_id:
+                request_label = Label(
+                    text=f"You have a booking request for {institution_name}",
+                    size_hint_y=None,
+                    height=30,
+                    color=(0, 0, 0, 1),
+                    font_size='14sp'
+                )
+                card.add_widget(request_label)
+
+            # Optional action button
+            view_button = Button(
+                text="View Details",
+                size_hint_y=None,
+                height=30,
+                background_color=(0.2, 0.6, 1, 1)  # Blue button
+            )
+            card.add_widget(view_button)
+
+            self.booking_labels.add_widget(card)
+
+        # ✅ Update layout height dynamically
+        self.booking_labels.height = len(self.booking_labels.children) * 130  # Adjust height per card
         print(f"✅ Total widgets in booking_labels: {len(self.booking_labels.children)}")  # Debugging
+
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

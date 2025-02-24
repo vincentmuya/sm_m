@@ -41,7 +41,7 @@ class BookingsScreen(Screen):
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Add other screens (VendorsScreen) to the content layout
-        self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
+        self.booking_labels = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -52,7 +52,7 @@ class BookingsScreen(Screen):
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(spacer)
-        self.content_layout.add_widget(self.vendor_grid)
+        self.content_layout.add_widget(self.booking_labels)
         self.content_layout.add_widget(bottom_spacer)
 
         # Create the ScrollView and add the content_layout inside it
@@ -100,8 +100,50 @@ class BookingsScreen(Screen):
 
     def load_user_bookings(self, user_bookings):
         """Load user bookings into the screen."""
-        print(f"User_bookings: {user_bookings}")
-        pass
+
+        app = App.get_running_app()
+        user_data = app.get_authenticated_data("api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot display bookings.")
+            return
+
+        current_user_id = user_data["id"]
+        print(f"🔍 Current User ID: {current_user_id}")
+        print(f"📜 User Bookings Count: {len(user_bookings)}")
+
+        # Clear previous bookings
+        self.booking_labels.clear_widgets()
+
+        if not user_bookings:
+            no_bookings_label = Label(
+                text="No bookings found.",
+                size_hint_y=None,
+                height=40,
+                color=(0, 0, 0, 1)  # ✅ Set text color to black (RGBA format)
+            )
+            self.booking_labels.add_widget(no_bookings_label)
+            return
+
+        for booking in user_bookings:
+            if booking["user_id"] == current_user_id:
+                institution_name = booking["vendor"]["institution_name"]
+                booking_text = f"You sent a booking request to {institution_name}"
+
+                # ✅ Create label with black text
+                booking_label = Label(
+                    text=booking_text,
+                    size_hint_y=None,
+                    height=40,
+                    color=(0, 0, 0, 1),  # Black text
+                    font_size='16sp'  # Slightly larger font for visibility
+                )
+
+                self.booking_labels.add_widget(booking_label)
+
+        # ✅ Update layout height
+        self.booking_labels.height = len(self.booking_labels.children) * 50  # Adjust height per label
+        print(f"✅ Total widgets in booking_labels: {len(self.booking_labels.children)}")  # Debugging
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

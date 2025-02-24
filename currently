@@ -34,7 +34,9 @@ Book a vendor.
 **Submit booking request.
 
 3. Call bookings in bookings screen associated with the current vendor.
-
+**Print user bookings if any when account dropdown booking is clicked.
+**Call the bookings the current user has sent in the bookings screen.
+Call any booking request for a vendor who is the vendor.user in bookings.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

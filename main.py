@@ -11,6 +11,7 @@ from register_screen import RegisterScreen
 from profile import ProfileScreen
 from favorites import FavoritesScreen
 from bookings import BookingsScreen
+from booking_details import BookingDetailsScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -294,6 +295,10 @@ class MyApp(MDApp):
         # Create the BookingsScreen instance and add it to the ScreenManager
         bookings_screen = BookingsScreen(name='bookings_screen')
         screen_manager.add_widget(bookings_screen)
+
+        # Create the BookingDetailsScreen instance and add it to the ScreenManager
+        booking_details_screen = BookingsScreen(name='booking_details')
+        screen_manager.add_widget(booking_details_screen)
 
         return screen_manager
 

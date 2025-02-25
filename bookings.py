@@ -18,8 +18,10 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
+from functools import partial
 
 Builder.load_file('bookings.kv')
+
 
 class BookingsScreen(Screen):
     """A screen to display Bookings."""
@@ -77,7 +79,8 @@ class BookingsScreen(Screen):
 
         # ✅ Use a proxy button instead of moving the original button
         app = App.get_running_app()
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),pos=(650, 560))
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),
+                                          pos=(650, 560))
         # ✅ Create a proxy button
         self.account_proxy_button = Button(text=app.account_button.text)
         # ✅ Open dropdown manually when proxy button is clicked
@@ -89,16 +92,16 @@ class BookingsScreen(Screen):
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""
         app = App.get_running_app()
-        #Ensure dropdown is updated before opening
+        # Ensure dropdown is updated before opening
         app.update_account_dropdown()
-        #Open dropdown manually
+        # Open dropdown manually
         app.account_dropdown.open(instance)
 
     def on_pre_enter(self):
         """Update dropdown dynamically when entering the screen."""
         app = App.get_running_app()
         app.update_account_dropdown()
-        #Ensure the proxy button always has updated text
+        # Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
     def load_user_bookings(self, user_bookings):
@@ -202,8 +205,8 @@ class BookingsScreen(Screen):
                 background_color=(0.2, 0.6, 1, 1)  # Blue button
             )
 
-            # ✅ Bind button to booking_details only for sent requests
-            view_button.bind(on_release=lambda instance: self.booking_details(booking))
+            # Correctly bind button to pass the specific booking object
+            view_button.bind(on_release=partial(self.booking_details, booking))
 
             card.add_widget(view_button)
 
@@ -213,7 +216,7 @@ class BookingsScreen(Screen):
         self.booking_labels.height = len(self.booking_labels.children) * 130  # Adjust height per card
         print(f"✅ Total widgets in booking_labels: {len(self.booking_labels.children)}")  # Debugging
 
-    def booking_details(self, booking):
+    def booking_details(self, booking, *args):
         """Handles displaying details for a selected booking request sent by the user."""
         print(f"🔍 Viewing booking details: {booking}")
         app = App.get_running_app()

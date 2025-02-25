@@ -18,6 +18,7 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
+from kivymd.uix.card import MDCard
 
 Builder.load_file('booking_details.kv')
 
@@ -44,7 +45,7 @@ class BookingDetailsScreen(Screen):
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Add other screens (VendorsScreen) to the content layout
-        self.booking_labels = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
+        self.booking_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp')
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -55,7 +56,7 @@ class BookingDetailsScreen(Screen):
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(spacer)
-        self.content_layout.add_widget(self.booking_labels)
+        self.content_layout.add_widget(self.booking_details_labels)
         self.content_layout.add_widget(bottom_spacer)
 
         # Create the ScrollView and add the content_layout inside it
@@ -101,8 +102,50 @@ class BookingDetailsScreen(Screen):
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
-    def load_booking_details(self):
-        pass
+    def load_booking_details(self, booking):
+        """Loads and displays the booking details inside a Card widget."""
+        print(f"📜 Booking Details Loaded: {booking}")
+
+        # Clear previous details before adding new ones
+        self.booking_details_labels.clear_widgets()
+
+        # Create a card layout to hold booking details
+        booking_details_card = MDCard(size_hint_y=None, height=200)  # Assuming CardView or a similar widget exists
+
+        # Create a box layout inside the card
+        card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        # Add booking details inside the card
+        booking_vendor = Button(text=f"[b]Vendor Being Booked:[/b] {booking['vendor']['institution_name']}", markup=True, color=(0, 0, 0, 1))
+        booking_vendor.bind(on_release=lambda instance: self.booking_vendor_details(booking["vendor"]["id"], booking["vendor"]["slug"]))
+        card_layout.add_widget(booking_vendor)
+        card_layout.add_widget(Label(text=f"[b]Booking Date:[/b] {booking['date']}", markup=True, color=(0, 0, 0, 1)))
+        card_layout.add_widget(Label(text=f"[b]Booking Comment:[/b] {booking['comment']}", markup=True, color=(0, 0, 0, 1)))
+        card_layout.add_widget(Label(text=f"[b]Booking Status:[/b] {booking['booking_status']}", markup=True, color=(0, 0, 0, 1)))
+
+        # Add the layout to the card
+        booking_details_card.add_widget(card_layout)
+
+        # Add the card to the GridLayout
+        self.booking_details_labels.add_widget(booking_details_card)
+
+    def booking_vendor_details(self, vendor_id, slug, *args):
+        print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")
+
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{slug}/"
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            vendor_details = response.json()
+
+            app = App.get_running_app()
+            vendor_details_screen = app.root.get_screen('vendor_details')
+            vendor_details_screen.load_details(vendor_details)
+
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'vendor_details'
+        else:
+            print("❌ Failed to fetch vendor details.")
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

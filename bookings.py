@@ -206,7 +206,7 @@ class BookingsScreen(Screen):
             )
 
             # Correctly bind button to pass the specific booking object
-            view_button.bind(on_release=partial(self.booking_details, booking))
+            view_button.bind(on_release=partial(self.fetch_booking_details, booking))
 
             card.add_widget(view_button)
 
@@ -216,12 +216,23 @@ class BookingsScreen(Screen):
         self.booking_labels.height = len(self.booking_labels.children) * 130  # Adjust height per card
         print(f"✅ Total widgets in booking_labels: {len(self.booking_labels.children)}")  # Debugging
 
-    def booking_details(self, booking, *args):
+    def fetch_booking_details(self, booking, *args):
         """Handles displaying details for a selected booking request sent by the user."""
-        print(f"🔍 Viewing booking details: {booking}")
+        # print(f"🔍 Viewing booking details: {booking}")
         app = App.get_running_app()
+        # Fetch the screen correctly
+        try:
+            bookings_loaded_screen = app.root.get_screen("booking_details")
+        except Exception as e:
+            print(f"❌ Error fetching booking_details screen: {e}")
+            return
+        # Check if the screen has load_booking_details method
+        if hasattr(bookings_loaded_screen, "load_booking_details"):
+            bookings_loaded_screen.load_booking_details(booking)
+        else:
+            print("❌ Error: booking_details screen does not have load_booking_details method.")
+        # ✅ Transition to the booking details screen
         app.root.current = "booking_details"
-
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

@@ -297,7 +297,7 @@ class MyApp(MDApp):
         screen_manager.add_widget(bookings_screen)
 
         # Create the BookingDetailsScreen instance and add it to the ScreenManager
-        booking_details_screen = BookingsScreen(name='booking_details')
+        booking_details_screen = BookingDetailsScreen(name='booking_details')
         screen_manager.add_widget(booking_details_screen)
 
         return screen_manager

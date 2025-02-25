@@ -119,9 +119,25 @@ class BookingDetailsScreen(Screen):
         booking_vendor = Button(text=f"[b]Vendor Being Booked:[/b] {booking['vendor']['institution_name']}", markup=True, color=(0, 0, 0, 1))
         booking_vendor.bind(on_release=lambda instance: self.booking_vendor_details(booking["vendor"]["id"], booking["vendor"]["slug"]))
         card_layout.add_widget(booking_vendor)
+
         card_layout.add_widget(Label(text=f"[b]Booking Date:[/b] {booking['date']}", markup=True, color=(0, 0, 0, 1)))
         card_layout.add_widget(Label(text=f"[b]Booking Comment:[/b] {booking['comment']}", markup=True, color=(0, 0, 0, 1)))
         card_layout.add_widget(Label(text=f"[b]Booking Status:[/b] {booking['booking_status']}", markup=True, color=(0, 0, 0, 1)))
+
+        # Add other screens (Booking Details buttons) to the content layout
+        booking_details_info = GridLayout(cols=3, size_hint_y=None, height=40, spacing='10dp')
+
+        update_booking = Button(text="Update Booking", markup=True, color=(0, 0, 0, 1))
+        app = App.get_running_app()
+        update_booking.bind(on_release=lambda instance: app.show_update_popup(booking))
+        delete_booking = Button(text=f"Delete Booking",markup=True, color=(0, 0, 0, 1))
+        send_message = Button(text=f"Send Message",markup=True, color=(0, 0, 0, 1))
+        booking_details_info.add_widget(update_booking)
+        booking_details_info.add_widget(delete_booking)
+        booking_details_info.add_widget(send_message)
+
+        card_layout.add_widget(booking_details_info)
+
 
         # Add the layout to the card
         booking_details_card.add_widget(card_layout)

@@ -4,7 +4,7 @@
 Things we will do in the Django application:
 
 Create django Bookings serializer and api.
-=Views
+=Views{Add put request to update booking details}
 =url pattern
 =Additional modification to handle profile, if any.
 
@@ -43,7 +43,13 @@ Book a vendor.
 **Print booking details of the booking object clicked.
 **Display the booking details in the booking screen.
 **Add button for vendor being booked and redirect to booking vendor button is clicked.
+
 If the user is the one who sent the booking request, they can edit the booking.
+**Add delete booking, update booking button and send message.
+Update Booking Button:
+**When booking button is called it calls the a pop up named BookVendorPopup
+**when the pop up is submitted it updates the booking instance.
+
 If the user is the vendor.user it shows the accept booking or reject booking.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

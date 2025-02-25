@@ -42,32 +42,39 @@ class MyPopup(ModalView):
 
 
 class BookVendorPopup(ModalView):
-    def __init__(self, vendor_id, user_id, **kwargs):
+    def __init__(self, vendor_id, user_id, booking_id=None, booking_date=None, booking_comment=None, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (0.9, 0.6)
         self.auto_dismiss = False
         self.vendor_id = vendor_id
         self.user_id = user_id
-        self.selected_date = None
+        self.booking_id = booking_id  # Store booking ID (None if new)
+        self.selected_date = booking_date  # Pre-fill date if updating
 
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
         # Title
-        layout.add_widget(Label(text="Book Vendor", bold=True, size_hint_y=None, height=30))
+        layout.add_widget(Label(text="Update Booking" if self.booking_id else "Book Vendor", bold=True, size_hint_y=None, height=30))
 
         # Date Picker
-        self.date_label = Label(text="Select Date", size_hint_y=None, height=30)
+        self.date_label = Label(text=f"Selected Date: {self.selected_date}" if self.selected_date else "Select Date", size_hint_y=None, height=30)
         layout.add_widget(self.date_label)
         self.date_button = Button(text="Pick a Date", on_release=self.open_date_picker)
         layout.add_widget(self.date_button)
 
-        # Comment Input
-        self.comment_input = TextInput(hint_text="Enter your comment", multiline=True, size_hint_y=None, height=80)
+        # Comment Input (Pre-filled if updating)
+        self.comment_input = TextInput(
+            hint_text="Enter your comment",
+            multiline=True,
+            size_hint_y=None,
+            height=80,
+            text=booking_comment if booking_comment else ""  # Pre-fill if updating
+        )
         layout.add_widget(self.comment_input)
 
         # Buttons
         button_layout = BoxLayout(size_hint_y=None, height=40, spacing=10)
-        submit_button = Button(text="Submit", on_release=self.submit_booking)
+        submit_button = Button(text="Update" if self.booking_id else "Submit", on_release=self.submit_booking)
         cancel_button = Button(text="Cancel", on_release=self.dismiss)
         button_layout.add_widget(submit_button)
         button_layout.add_widget(cancel_button)
@@ -86,30 +93,21 @@ class BookVendorPopup(ModalView):
 
     def submit_booking(self, instance):
         app = App.get_running_app()
-        # 🔍 Get the authentication token
         token = app.user_data.get("token", "")
-        # print(f"🔍 Token being used: {token}")
 
         if not token:
-            # print("❌ User not authenticated.")
             toast("❌ User not authenticated.")
-
             return
 
-        # ✅ Fetch user data to get user ID
-        print("📡 Calling get_authenticated_data() to fetch user ID...")
-        user_data = app.get_authenticated_data(f"api/user")
-
+        user_data = app.get_authenticated_data("api/user")
         if not user_data or "id" not in user_data:
-            # print("❌ Failed to fetch user data.")
             toast("❌ Failed to fetch user data.")
             return
 
-        user_id = user_data["id"]  # Extract the user ID
-        # print(f"✅ Authenticated user ID: {user_id}")
+        user_id = user_data["id"]
 
         if not self.selected_date:
-            self.date_label.text = "[color=ff0000]Please select a date![/color]"
+            self.date_label.text = "Please select a date!"
             return
 
         booking_data = {
@@ -118,20 +116,22 @@ class BookVendorPopup(ModalView):
             "date": self.selected_date,
             "comment": self.comment_input.text,
         }
-        print("Booking data:", booking_data)
 
-        # API Endpoint for Booking
-        api_url = "http://localhost:8000/api/bookings/"
+        if self.booking_id:
+            # If booking_id exists, send PUT request (Update)
+            api_url = f"http://localhost:8000/api/bookings/{self.booking_id}/"
+            response = requests.put(api_url, json=booking_data)
+        else:
+            # Otherwise, send POST request (Create)
+            api_url = "http://localhost:8000/api/bookings/"
+            response = requests.post(api_url, json=booking_data)
 
-        response = requests.post(api_url, json=booking_data)
-
-        if response.status_code == 201:
-            print("✅ Booking Successful!")
-            toast("✅ Booking Successful!")
+        if response.status_code in [200, 201]:
+            toast("✅ Booking Updated!" if self.booking_id else "✅ Booking Successful!")
             self.dismiss()
         else:
-            print("❌ Booking Failed:", response.text)
             toast(f"❌ Booking Failed: {response.status_code}")
+
 
 
 class MyApp(MDApp):
@@ -488,6 +488,22 @@ class MyApp(MDApp):
     def show_book_popup(self, vendor_id, user_id):
         popup = BookVendorPopup(vendor_id, user_id)
         popup.open()
+
+    def show_update_popup(self, booking):
+        vendor_id = booking["vendor"]["id"]
+        user_id = booking["user_id"]
+        booking_id = booking["id"]
+        booking_date = booking["date"]
+        booking_comment = booking["comment"]
+
+        update_popup = BookVendorPopup(
+            vendor_id=vendor_id,
+            user_id=user_id,
+            booking_id=booking_id,
+            booking_date=booking_date,
+            booking_comment=booking_comment
+        )
+        update_popup.open()
 
 if __name__ == '__main__':
     MyApp().run()

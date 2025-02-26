@@ -45,10 +45,18 @@ Book a vendor.
 **Add button for vendor being booked and redirect to booking vendor button is clicked.
 
 If the user is the one who sent the booking request, they can edit the booking.
+Add statement to check if the user is the one who sent the request.
 **Add delete booking, update booking button and send message.
-Update Booking Button:
+
+**Update Booking Button:
 **When booking button is called it calls the a pop up named BookVendorPopup
 **when the pop up is submitted it updates the booking instance.
+
+**Delete Button:
+**If the user clicks the delete button the booking object is deleted.
+**Create pop up to confirm delete before making request.
+**If delete is confirm it sends a delete request to django application.
+
 
 If the user is the vendor.user it shows the accept booking or reject booking.
 ------------------------------------------------------------------------------------------------------------------------

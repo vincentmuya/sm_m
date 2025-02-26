@@ -19,6 +19,7 @@ from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
 from kivymd.uix.card import MDCard
+from kivy.uix.popup import Popup
 
 Builder.load_file('booking_details.kv')
 
@@ -130,10 +131,13 @@ class BookingDetailsScreen(Screen):
         update_booking = Button(text="Update Booking", markup=True, color=(0, 0, 0, 1))
         app = App.get_running_app()
         update_booking.bind(on_release=lambda instance: app.show_update_popup(booking))
-        delete_booking = Button(text=f"Delete Booking",markup=True, color=(0, 0, 0, 1))
+
+        delete_booking_button = Button(text="Delete Booking", markup=True, color=(0, 0, 0, 1))
+        delete_booking_button.bind(on_release=lambda instance: self.show_delete_confirmation(booking.get("id")))
+
         send_message = Button(text=f"Send Message",markup=True, color=(0, 0, 0, 1))
         booking_details_info.add_widget(update_booking)
-        booking_details_info.add_widget(delete_booking)
+        booking_details_info.add_widget(delete_booking_button)
         booking_details_info.add_widget(send_message)
 
         card_layout.add_widget(booking_details_info)
@@ -162,6 +166,59 @@ class BookingDetailsScreen(Screen):
             app.root.current = 'vendor_details'
         else:
             print("❌ Failed to fetch vendor details.")
+
+    def show_delete_confirmation(self, booking_id):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        # Popup Layout
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Message
+        message = Label(text="Are you sure you want to delete this booking?", size_hint=(1, 0.5))
+
+        # Buttons
+        confirm_button = Button(text="Yes, Delete", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        # Create popup
+        popup = Popup(title="Confirm Deletion", content=layout, size_hint=(0.7, 0.4))
+
+        # Bind buttons
+        confirm_button.bind(on_release=lambda instance: self.confirm_delete(booking_id, popup))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message)
+        layout.add_widget(confirm_button)
+        layout.add_widget(cancel_button)
+
+        # Open popup
+        popup.open()
+
+    def confirm_delete(self, booking_id, popup):
+        popup.dismiss()  # Close the popup before deleting
+        self.delete_booking(booking_id)
+
+    def delete_booking(self, booking_id):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
+        print(f"📡 Sending DELETE request to: {api_url}")
+
+        try:
+            response = requests.delete(api_url)
+            if response.status_code == 204:
+                print("✅ Booking deleted successfully.")
+                # Optionally refresh UI or remove the booking from the list
+            else:
+                print(f"❌ Failed to delete booking. Status Code: {response.status_code}")
+                print("Response:", response.text)
+        except requests.exceptions.RequestException as e:
+            print("❌ Request failed:", e)
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

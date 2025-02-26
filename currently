@@ -74,7 +74,10 @@ Approve button:
 
 Reject Button:
 **Add reject button.
-Create a text area for rejection comment.
+**Create a text area for rejection comment.
+**show_reject_booking calls confirm_reject then reject_booking is called then rejection_booking_comment and changes the booking status to rejected.
+
+
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

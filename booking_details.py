@@ -21,6 +21,7 @@ from kivy.uix.image import AsyncImage
 from kivymd.uix.card import MDCard
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
+from kivy.uix.textinput import TextInput
 
 Builder.load_file('booking_details.kv')
 
@@ -161,11 +162,15 @@ class BookingDetailsScreen(Screen):
 
             approve_booking_button = Button(text="Approve Booking", markup=True, color=(0, 0, 0, 1))
             approve_booking_button.bind(on_release=lambda instance: self.show_approve_confirmation(booking.get("id")))
-            booking_details_info.add_widget(approve_booking_button)
 
             reject_booking_button = Button(text="Reject Booking", markup=True, color=(0, 0, 0, 1))
-            reject_booking_button.bind(on_release=lambda instance: self.booking_reject())
+            reject_booking_button.bind(on_release=lambda instance: self.show_reject_booking(booking.get("id")))
+
+            send_message = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+
+            booking_details_info.add_widget(approve_booking_button)
             booking_details_info.add_widget(reject_booking_button)
+            booking_details_info.add_widget(send_message)
 
             card_layout.add_widget(booking_details_info)
 
@@ -305,8 +310,70 @@ class BookingDetailsScreen(Screen):
         except requests.exceptions.RequestException as e:
             print("❌ Request failed:", e)
 
-    def booking_reject(self):
-        pass
+    def show_reject_booking(self, booking_id):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        # Popup Layout
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Message
+        message = Label(text="Enter Rejection Comment", size_hint=(1, 0.5))
+        textinput = TextInput(text='', multiline=True)  # Input field for comment
+
+        # Buttons
+        reject_button = Button(text="Yes, Reject", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        # Create popup
+        popup = Popup(title="Confirm Booking Rejection", content=layout, size_hint=(0.7, 0.4))
+
+        # Bind buttons (Pass rejection comment when rejecting)
+        reject_button.bind(on_release=lambda instance: self.confirm_reject(booking_id, textinput.text, popup))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message)
+        layout.add_widget(textinput)
+        layout.add_widget(reject_button)
+        layout.add_widget(cancel_button)
+
+        # Open popup
+        popup.open()
+
+    def confirm_reject(self, booking_id, rejection_comment, popup):
+        popup.dismiss()  # Close the popup before rejecting
+        self.booking_reject(booking_id, rejection_comment)
+
+    def booking_reject(self, booking_id, rejection_comment):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
+        print(f"📡 Sending PUT request to: {api_url}")
+
+        data = {
+            "booking_status": "rejected",
+            "rejection_booking_comment": rejection_comment  # Pass rejection comment
+        }
+
+        try:
+            response = requests.put(api_url, json=data)
+            if response.status_code == 200:
+                print("Booking rejected successfully.")
+                toast("Booking rejected successfully.")
+
+                app = App.get_running_app()
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = 'bookings_screen'
+
+            else:
+                print(f"❌ Failed to reject booking. Status Code: {response.status_code}")
+                print("Response:", response.text)
+        except requests.exceptions.RequestException as e:
+            print("❌ Request failed:", e)
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

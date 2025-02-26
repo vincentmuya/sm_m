@@ -68,8 +68,13 @@ Book a vendor.
 
 
 If the user is current user(id) is the booking.vendor.user(id) it shows the accept booking or reject booking.
+Approve button:
+**Add button and call show_approve_confirmation.
+**show_approve_confirmation calls confirm_approve then approve_booking is called then booking status changes to approved
 
-
+Reject Button:
+**Add reject button.
+Create a text area for rejection comment.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

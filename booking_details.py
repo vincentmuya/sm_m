@@ -20,6 +20,7 @@ from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
 from kivymd.uix.card import MDCard
 from kivy.uix.popup import Popup
+from kivymd.toast import toast
 
 Builder.load_file('booking_details.kv')
 
@@ -154,7 +155,19 @@ class BookingDetailsScreen(Screen):
             card_layout.add_widget(booking_details_info)
 
         if booking["vendor"]["user"] == current_user_id:
-            pass
+
+            # Add other screens (Booking Details buttons) to the content layout
+            booking_details_info = GridLayout(cols=3, size_hint_y=None, height=40, spacing='10dp')
+
+            approve_booking_button = Button(text="Approve Booking", markup=True, color=(0, 0, 0, 1))
+            approve_booking_button.bind(on_release=lambda instance: self.show_approve_confirmation(booking.get("id")))
+            booking_details_info.add_widget(approve_booking_button)
+
+            reject_booking_button = Button(text="Reject Booking", markup=True, color=(0, 0, 0, 1))
+            reject_booking_button.bind(on_release=lambda instance: self.booking_reject())
+            booking_details_info.add_widget(reject_booking_button)
+
+            card_layout.add_widget(booking_details_info)
 
 
         # Add the layout to the card
@@ -233,6 +246,67 @@ class BookingDetailsScreen(Screen):
                 print("Response:", response.text)
         except requests.exceptions.RequestException as e:
             print("❌ Request failed:", e)
+
+    def show_approve_confirmation(self, booking_id):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        # Popup Layout
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Message
+        message = Label(text="Are you sure you want to book this booking?", size_hint=(1, 0.5))
+
+        # Buttons
+        approve_button = Button(text="Yes, Approve", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        # Create popup
+        popup = Popup(title="Confirm Booking", content=layout, size_hint=(0.7, 0.4))
+
+        # Bind buttons
+        approve_button.bind(on_release=lambda instance: self.confirm_approve(booking_id, popup))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message)
+        layout.add_widget(approve_button)
+        layout.add_widget(cancel_button)
+
+        # Open popup
+        popup.open()
+
+    def confirm_approve(self, booking_id, popup):
+        popup.dismiss()  # Close the popup before deleting
+        self.approve_booking(booking_id)
+
+    def approve_booking(self, booking_id):
+        if not booking_id:
+            print("❌ Booking ID is missing!")
+            return
+
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
+        data = {"booking_status": "approved"}  # ✅ Update the status
+
+        print(f"📡 Sending PUT request to: {api_url} with data: {data}")
+
+        try:
+            response = requests.put(api_url, json=data)  # Send PUT request
+            if response.status_code == 200:
+                print("Booking approved successfully.")
+                toast("Booking approved successfully.")
+                app = App.get_running_app()
+                app.root.transition = SlideTransition(direction='left')
+                app.root.current = 'bookings_screen'
+            else:
+                print(f"❌ Failed to approve booking. Status Code: {response.status_code}")
+                print("Response:", response.text)
+        except requests.exceptions.RequestException as e:
+            print("❌ Request failed:", e)
+
+    def booking_reject(self):
+        pass
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

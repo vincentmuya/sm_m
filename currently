@@ -44,8 +44,17 @@ Book a vendor.
 **Display the booking details in the booking screen.
 **Add button for vendor being booked and redirect to booking vendor button is clicked.
 
-If the user is the one who sent the booking request, they can edit the booking.
-Add statement to check if the user is the one who sent the request.
+**Add statement to check if the user is the one who sent the request.
+**If the user is the one who sent the booking request, they can edit the booking.
+
+**I would like if the current user is the user who sent the request to show the buttons
+    if current user(id) is the booking user(id) show buttons booking_details_info
+
+    else:
+        current user(id) is the booking.vendor.user(id)
+            pass
+
+
 **Add delete booking, update booking button and send message.
 
 **Update Booking Button:
@@ -58,7 +67,9 @@ Add statement to check if the user is the one who sent the request.
 **If delete is confirm it sends a delete request to django application.
 
 
-If the user is the vendor.user it shows the accept booking or reject booking.
+If the user is current user(id) is the booking.vendor.user(id) it shows the accept booking or reject booking.
+
+
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

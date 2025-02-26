@@ -107,6 +107,16 @@ class BookingDetailsScreen(Screen):
         """Loads and displays the booking details inside a Card widget."""
         print(f"📜 Booking Details Loaded: {booking}")
 
+        app = App.get_running_app()
+        user_data = app.get_authenticated_data("api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot display bookings.")
+            return
+
+        current_user_id = user_data["id"]
+        print(f"🔍 Current User ID: {current_user_id}")
+
         # Clear previous details before adding new ones
         self.booking_details_labels.clear_widgets()
 
@@ -125,22 +135,26 @@ class BookingDetailsScreen(Screen):
         card_layout.add_widget(Label(text=f"[b]Booking Comment:[/b] {booking['comment']}", markup=True, color=(0, 0, 0, 1)))
         card_layout.add_widget(Label(text=f"[b]Booking Status:[/b] {booking['booking_status']}", markup=True, color=(0, 0, 0, 1)))
 
-        # Add other screens (Booking Details buttons) to the content layout
-        booking_details_info = GridLayout(cols=3, size_hint_y=None, height=40, spacing='10dp')
+        if booking["user_id"] == current_user_id:
+            # Add other screens (Booking Details buttons) to the content layout
+            booking_details_info = GridLayout(cols=3, size_hint_y=None, height=40, spacing='10dp')
 
-        update_booking = Button(text="Update Booking", markup=True, color=(0, 0, 0, 1))
-        app = App.get_running_app()
-        update_booking.bind(on_release=lambda instance: app.show_update_popup(booking))
+            update_booking = Button(text="Update Booking", markup=True, color=(0, 0, 0, 1))
+            app = App.get_running_app()
+            update_booking.bind(on_release=lambda instance: app.show_update_popup(booking))
 
-        delete_booking_button = Button(text="Delete Booking", markup=True, color=(0, 0, 0, 1))
-        delete_booking_button.bind(on_release=lambda instance: self.show_delete_confirmation(booking.get("id")))
+            delete_booking_button = Button(text="Delete Booking", markup=True, color=(0, 0, 0, 1))
+            delete_booking_button.bind(on_release=lambda instance: self.show_delete_confirmation(booking.get("id")))
 
-        send_message = Button(text=f"Send Message",markup=True, color=(0, 0, 0, 1))
-        booking_details_info.add_widget(update_booking)
-        booking_details_info.add_widget(delete_booking_button)
-        booking_details_info.add_widget(send_message)
+            send_message = Button(text=f"Send Message",markup=True, color=(0, 0, 0, 1))
+            booking_details_info.add_widget(update_booking)
+            booking_details_info.add_widget(delete_booking_button)
+            booking_details_info.add_widget(send_message)
 
-        card_layout.add_widget(booking_details_info)
+            card_layout.add_widget(booking_details_info)
+
+        if booking["vendor"]["user"] == current_user_id:
+            pass
 
 
         # Add the layout to the card

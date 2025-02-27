@@ -20,6 +20,8 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.properties import NumericProperty
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.spinner import Spinner
 
 Builder.load_file('vendor_details.kv')
 
@@ -45,6 +47,15 @@ class VendorDetailsScreen(Screen):
     def load_details(self, vendor_details):
         # print("Loading vendor_details...")
         # print("Vendor Details:", vendor_details)
+
+        app = App.get_running_app()
+        user_data = app.get_authenticated_data("api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot display Vendor Details buttons.")
+            return
+
+        current_user_id = user_data["id"]
 
         self.institution_name = vendor_details['institution_name']
         self.price = str(vendor_details['price'])
@@ -151,7 +162,51 @@ class VendorDetailsScreen(Screen):
         self.property('gallery_images').dispatch(self)
         self.property('menu_images').dispatch(self)
 
-        self.add_widget(Navbar())
+        # Create a box layout inside the card
+        card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        # Add other screens (Vendor Details buttons) to the content layout
+        vendor_details_buttons = GridLayout(cols=6, size_hint_y=None, height=40, spacing='10dp')
+
+        # Label for rating
+        self.rate_vendor_label = Label(text="Rate Vendor:", color=(0, 0, 0, 1))
+
+        # Spinner for selecting rating
+        self.rating_spinner = Spinner(text="Select Rating", values=['1', '2', '3', '4', '5'])
+
+        # Button to submit rating
+        self.rate_vendor_button = Button(text="Rate Vendor", markup=True, color=(0, 0, 0, 1))
+        # Corrected binding (use lambda to avoid immediate execution)
+        self.rate_vendor_button.bind(
+            on_release=lambda instance: self.submit_rating(
+                self.vendor_id,
+                int(self.rating_spinner.text) if self.rating_spinner.text.isdigit() else 0
+            )
+        )
+
+        favorite_vendor_button = Button(text="Favorite Vendor", markup=True, color=(0, 0, 0, 1))
+        favorite_vendor_button.bind(on_release=self.favorite_vendor)
+
+        send_message = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+
+        book_vendor_button = Button(text="Book Vendor", markup=True, color=(0, 0, 0, 1))
+        book_vendor_button.bind(
+            on_release=lambda instance: app.show_book_popup(self.vendor_id, self.user_id)
+        )
+
+        vendor_details_buttons.add_widget(self.rate_vendor_label)
+        vendor_details_buttons.add_widget(self.rating_spinner)
+        vendor_details_buttons.add_widget(self.rate_vendor_button)
+        vendor_details_buttons.add_widget(favorite_vendor_button)
+        vendor_details_buttons.add_widget(send_message)
+        vendor_details_buttons.add_widget(book_vendor_button)
+
+        card_layout.add_widget(vendor_details_buttons)
+
+        # ✅ FIX: Remove parentheses when adding the layout
+        self.add_widget(card_layout)  # ✅ Correct way to add the widget
+
+        # self.add_widget(Navbar())
 
         # Create and add the Search, at the top of the screen
         search = SearchWidget(search_callback=self.display_search_results, size_hint=(1, None))

@@ -3,18 +3,21 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 ------------------------------------------------------------------------------------------------------------------------
 
 1. Pending APIs:
-**-Rating.
--Review.
--ReviewComment.
--Bookings.
+
 -Conversation.
 -Message.
-**-ImageMenu.
-**-VendorMenu.
-**-Favorite.
+-Review.
+-ReviewComment.
 -Invitation
 -Advertisement.
 -ChildrenHomes
+
+**-Rating.
+**-Bookings.
+**-ImageMenu.
+**-VendorMenu.
+**-Favorite.
+
 
 
 ------------------------------------------------------------------------------------------------------------------------

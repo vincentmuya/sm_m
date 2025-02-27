@@ -161,33 +161,3 @@
                         size_hint_y: None
                         height: dp(30)
                         color: (0, 0, 0, 1)
-
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: '48dp'
-
-                    Label:
-                        text: "Rate Vendor:"
-                        color: (0, 0, 0, 1)
-                    Spinner:
-                        id: rating_spinner
-                        values: ['1', '2', '3', '4', '5']
-                    Button:
-                        text: "Submit"
-                        on_release: root.submit_rating(root.vendor_id, int(rating_spinner.text))
-
-                    Button:
-                        id: favorite_button
-                        text: 'Favorite Vendor'
-                        on_release: root.favorite_vendor()
-
-                    Button:
-                        text: 'Send Message'
-
-                    Button:
-                        text: 'Book Vendor'
-                        on_release: app.show_book_popup(root.vendor_id, root.user_id)
-
-                    Button:
-                        text: 'Review Vendor'

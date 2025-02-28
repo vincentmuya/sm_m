@@ -1,15 +1,13 @@
 ------------------------------------------------------------------------------------------------------------------------
-                            **Done**
 
 Things we will do in the Django application:
 
-Create django Bookings serializer and api.
-=Views{Add put request to update booking details}
+Create django Conversation and Message serializer and api.
+=Views(Check )
 =url pattern
 =Additional modification to handle profile, if any.
 
 Test the bookings api url.
-                            **Done**
 
 ------------------------------------------------------------------------------------------------------------------------
 

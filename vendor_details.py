@@ -22,6 +22,8 @@ from kivy.uix.button import Button
 from kivy.properties import NumericProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 
 Builder.load_file('vendor_details.kv')
 
@@ -190,7 +192,7 @@ class VendorDetailsScreen(Screen):
             favorite_vendor_button.bind(on_release=self.favorite_vendor)
 
             send_message_button = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
-            send_message_button.bind(on_release=self.message_vendor)
+            send_message_button.bind(on_release=self.show_message_vendor)
 
             book_vendor_button = Button(text="Book Vendor", markup=True, color=(0, 0, 0, 1))
             book_vendor_button.bind(
@@ -345,7 +347,44 @@ class VendorDetailsScreen(Screen):
         except Exception as e:
             print("❌ Error favoriting vendor:", str(e))
 
+    def show_message_vendor(self, *args):
+        """Display popup for messaging the vendor."""
+
+        # Popup Layout
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Message Label
+        message = Label(text="Message Vendor", size_hint=(1, 0.5))
+        textinput = TextInput(text='', multiline=True)
+
+        # Buttons
+        send_message_button = Button(text="Send Message", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        # Create popup
+        popup = Popup(title="Message Vendor", content=layout, size_hint=(0.7, 0.4))
+
+        # Bind buttons with lambda to pass popup instance
+        send_message_button.bind(on_release=lambda instance: self.send_message(popup))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message)
+        layout.add_widget(textinput)
+        layout.add_widget(send_message_button)
+        layout.add_widget(cancel_button)
+
+        # Open popup
+        popup.open()
+
+    def send_message(self, popup):
+        """Handle message sending."""
+        print("Message Vendor Called")
+        popup.dismiss()  # Close the popup before sending
+        self.message_vendor()  # Proceed to message the vendor
+
     def message_vendor(self, *args):
+        """Message Vendor Logic."""
         print("Message Vendor Called")
 
     def open_account_dropdown(self, instance):

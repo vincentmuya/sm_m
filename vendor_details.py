@@ -41,7 +41,7 @@ class VendorDetailsScreen(Screen):
     slug = StringProperty()
     vendor_id = StringProperty()
     gallery_images = ListProperty()
-    vendor_id = StringProperty()
+    vendor_user_id = StringProperty()
     average_rating = NumericProperty(0)
     menu_images = ListProperty([])
     user_id = NumericProperty()
@@ -64,6 +64,7 @@ class VendorDetailsScreen(Screen):
         self.image_source = f"http://localhost:8000{vendor_details['profile_image']}"
         self.slug = vendor_details['slug']
         self.vendor_id = str(vendor_details['id'])
+        self.vendor_user_id = str(vendor_details['user'])
         self.fetch_ratings()
 
         # Fetch service details from the API using service ID
@@ -166,13 +167,60 @@ class VendorDetailsScreen(Screen):
             current_user_id = user_data["id"]
             print(f"🔍 Current User ID: {current_user_id}")
 
-        # ✅ Create a box layout inside the card
-        card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        if not authenticated:
+            # ✅ Create a box layout inside the card
+            card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        # ✅ GridLayout to hold buttons
-        vendor_details_buttons = GridLayout(cols=7, size_hint_y=None, height=40, spacing='10dp')
+            # ✅ GridLayout to hold buttons
+            vendor_details_buttons = GridLayout(cols=5, size_hint_y=None, height=40, spacing='10dp')
 
-        if authenticated:
+            # ✅ Show "Not Logged In" buttons if user is not authenticated
+            login_rate_vendor_button = Button(text="Login To:Rate Vendor", markup=True, color=(1, 0, 0, 1))
+            login_favorite_vendor_button = Button(text=":Favorite Vendor", markup=True, color=(1, 0, 0, 1))
+            login_send_message_button = Button(text=":Message Vendor", markup=True, color=(1, 0, 0, 1))
+            login_book_vendor_button = Button(text=":Book Vendor", markup=True, color=(1, 0, 0, 1))
+            login_review_vendor_button = Button(text=":Review Vendor", markup=True, color=(1, 0, 0, 1))
+
+            vendor_details_buttons.add_widget(login_rate_vendor_button)
+            vendor_details_buttons.add_widget(login_favorite_vendor_button)
+            vendor_details_buttons.add_widget(login_send_message_button)
+            vendor_details_buttons.add_widget(login_book_vendor_button)
+            vendor_details_buttons.add_widget(login_review_vendor_button)
+
+            # ✅ Add buttons inside `card_layout`
+            card_layout.add_widget(vendor_details_buttons)
+
+        elif int(self.vendor_user_id) == current_user_id:
+
+            # ✅ Create a box layout inside the card
+            card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+            # ✅ GridLayout to hold buttons
+            vendor_details_buttons = GridLayout(cols=5, size_hint_y=None, height=40, spacing='10dp')
+
+            # ✅ Show " Logged In user == vendor.user" buttons if user is not authenticated
+            own_rate_vendor_button = Button(text="Can't:Rate Vendor", markup=True, color=(1, 0, 0, 1))
+            own_favorite_vendor_button = Button(text=":Favorite Vendor", markup=True, color=(1, 0, 0, 1))
+            own_send_message_button = Button(text=":Message Vendor", markup=True, color=(1, 0, 0, 1))
+            own_book_vendor_button = Button(text=":Book Vendor", markup=True, color=(1, 0, 0, 1))
+            own_review_vendor_button = Button(text=":Review Vendor", markup=True, color=(1, 0, 0, 1))
+
+            vendor_details_buttons.add_widget(own_rate_vendor_button)
+            vendor_details_buttons.add_widget(own_favorite_vendor_button)
+            vendor_details_buttons.add_widget(own_send_message_button)
+            vendor_details_buttons.add_widget(own_book_vendor_button)
+            vendor_details_buttons.add_widget(own_review_vendor_button)
+
+            # ✅ Add buttons inside `card_layout`
+            card_layout.add_widget(vendor_details_buttons)
+
+        else:
+            # ✅ Create a box layout inside the card
+            card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+            # ✅ GridLayout to hold buttons
+            vendor_details_buttons = GridLayout(cols=7, size_hint_y=None, height=40, spacing='10dp')
+
             # ✅ Label for rating
             self.rate_vendor_label = Label(text="Rate Vendor:", color=(0, 0, 0, 1))
 
@@ -209,29 +257,6 @@ class VendorDetailsScreen(Screen):
             vendor_details_buttons.add_widget(send_message_button)
             vendor_details_buttons.add_widget(book_vendor_button)
             vendor_details_buttons.add_widget(review_vendor_button)
-            card_layout.add_widget(vendor_details_buttons)
-
-        else:
-            # ✅ Create a box layout inside the card
-            card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-
-            # ✅ GridLayout to hold buttons
-            vendor_details_buttons = GridLayout(cols=5, size_hint_y=None, height=40, spacing='10dp')
-
-            # ✅ Show "Not Logged In" buttons if user is not authenticated
-            login_rate_vendor_button = Button(text="Login To:Rate Vendor", markup=True, color=(1, 0, 0, 1))
-            login_favorite_vendor_button = Button(text=":Favorite Vendor", markup=True, color=(1, 0, 0, 1))
-            login_send_message_button = Button(text=":Message Vendor", markup=True, color=(1, 0, 0, 1))
-            login_book_vendor_button = Button(text=":Book Vendor", markup=True, color=(1, 0, 0, 1))
-            login_review_vendor_button = Button(text=":Review Vendor", markup=True, color=(1, 0, 0, 1))
-
-            vendor_details_buttons.add_widget(login_rate_vendor_button)
-            vendor_details_buttons.add_widget(login_favorite_vendor_button)
-            vendor_details_buttons.add_widget(login_send_message_button)
-            vendor_details_buttons.add_widget(login_book_vendor_button)
-            vendor_details_buttons.add_widget(login_review_vendor_button)
-
-            # ✅ Add buttons inside `card_layout`
             card_layout.add_widget(vendor_details_buttons)
 
         # ✅ Add final content to the card
@@ -350,42 +375,106 @@ class VendorDetailsScreen(Screen):
     def show_message_vendor(self, *args):
         """Display popup for messaging the vendor."""
 
-        # Popup Layout
         layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
-
-        # Message Label
         message = Label(text="Message Vendor", size_hint=(1, 0.5))
         textinput = TextInput(text='', multiline=True)
 
-        # Buttons
         send_message_button = Button(text="Send Message", size_hint=(1, 0.3))
         cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
 
-        # Create popup
         popup = Popup(title="Message Vendor", content=layout, size_hint=(0.7, 0.4))
 
-        # Bind buttons with lambda to pass popup instance
-        send_message_button.bind(on_release=lambda instance: self.send_message(popup))
+        send_message_button.bind(on_release=lambda instance: self.send_message(popup, textinput))
         cancel_button.bind(on_release=popup.dismiss)
 
-        # Add widgets to layout
         layout.add_widget(message)
         layout.add_widget(textinput)
         layout.add_widget(send_message_button)
         layout.add_widget(cancel_button)
 
-        # Open popup
         popup.open()
 
-    def send_message(self, popup):
+    def send_message(self, popup, textinput):
         """Handle message sending."""
-        print("Message Vendor Called")
-        popup.dismiss()  # Close the popup before sending
-        self.message_vendor()  # Proceed to message the vendor
+        message_text = textinput.text.strip()
+        if message_text:
+            popup.dismiss()
+            self.message_vendor(message_text)
+        else:
+            print("Message cannot be empty")
 
-    def message_vendor(self, *args):
-        """Message Vendor Logic."""
+    def message_vendor(self, message_text):
+        """Send a message to the vendor."""
         print("Message Vendor Called")
+
+        user_id = self.current_user_id  # Assuming you have this stored
+        vendor_id = self.vendor_id  # Assuming you have this stored
+
+        if not user_id or not vendor_id:
+            print("User ID or Vendor ID is missing")
+            return
+
+        # Step 1: Check if a conversation already exists
+        conversation_id = self.get_conversation(user_id, vendor_id)
+
+        if not conversation_id:
+            # Step 2: Create a new conversation
+            conversation_id = self.create_conversation(user_id, vendor_id)
+            if not conversation_id:
+                print("Failed to create conversation")
+                return
+
+        # Step 3: Send the message
+        message_sent = self.send_message_to_api(conversation_id, user_id, vendor_id, message_text)
+        if message_sent:
+            print("Message sent successfully")
+        else:
+            print("Failed to send message")
+
+    def get_conversation(self, user_id, vendor_id):
+        """Check if a conversation already exists between the user and vendor."""
+        url = f"http://localhost:8000/conversations/"
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            conversations = response.json()
+            for conv in conversations:
+                if (conv["sender_id"] == user_id and conv["vendor_id"] == vendor_id) or \
+                   (conv["recipient_id"] == user_id and conv["vendor_id"] == vendor_id):
+                    return conv["id"]  # Return existing conversation ID
+        return None
+
+    def create_conversation(self, user_id, vendor_id):
+        """Create a new conversation."""
+        url = f"http://localhost:8000/conversations/"
+        payload = {
+            "sender_id": user_id,
+            "recipient_id": vendor_id,  # Assuming vendor is the recipient
+            "vendor_id": vendor_id
+        }
+        headers = {"Content-Type": "application/json"}
+
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        if response.status_code == 201:
+            return response.json().get("id")  # Return new conversation ID
+        return None
+
+    def send_message_to_api(self, conversation_id, sender_id, vendor_id, message_text):
+        """Send the message to the API."""
+        url = f"http://localhost:8000/messages/"
+        payload = {
+            "conversation_id": conversation_id,
+            "sender_id": sender_id,
+            "recipient_id": vendor_id,  # Assuming vendor is the recipient
+            "vendor_id": vendor_id,
+            "content": message_text
+        }
+        headers = {"Content-Type": "application/json"}
+
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        return response.status_code == 201  # Return True if message was sent successfully
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

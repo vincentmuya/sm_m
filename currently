@@ -3,79 +3,26 @@
 Things we will do in the Django application:
 
 Create django Conversation and Message serializer and api.
-=Views(Check )
+=Views
 =url pattern
 =Additional modification to handle profile, if any.
 
-Test the bookings api url.
+Test the Conversation and Message api url.
 
 ------------------------------------------------------------------------------------------------------------------------
 
 Next step is to create API calls in kivy.
 
 Next Steps:
-1. Make API Calls in Kivy for Bookings in bookings.
-Vendor Details:
+Vendor Details Message Button:
+1. Make API Calls in Kivy for Conversation.
+When the user clicks the send message button, the message_vendor button:
+Creates a Conversation object[id, recipient_id, sender_id and vendor_id]
 
--Enables a user to make a booking.
+2. Make API Calls in Kivy for Message.
+Message object is created[id, content, timestamp, is_read, conversation_id, recipient_id, sender_id and vendor_id]
 
-2. Call user Bookings in bookings screen.
-Bookings Screen
--Add bookings link in account drop down if user is authenticated.
-**-Create Bookings screen.
-**-add it to screen manager.
--If a user has any bookings they be called in the Bookings screen.
-
-Book a vendor.
-**Create a pop up.
-**Add the fields i.e date(calendar) and booking comment for booking a vendor in the pop up
-**Submit booking request.
-
-3. Call bookings in bookings screen associated with the current vendor.
-**Print user bookings if any when account dropdown booking is clicked.
-**Call the bookings the current user has sent in the bookings screen.
-**Call any booking request for a vendor who is the vendor.user in bookings.
-
-4. Booking details screen.
-**Switch to booking details when the booking view_more button is clicked on a booking object.
-**Print booking details of the booking object clicked.
-**Display the booking details in the booking screen.
-**Add button for vendor being booked and redirect to booking vendor button is clicked.
-
-**Add statement to check if the user is the one who sent the request.
-**If the user is the one who sent the booking request, they can edit the booking.
-
-**I would like if the current user is the user who sent the request to show the buttons
-    if current user(id) is the booking user(id) show buttons booking_details_info
-
-    else:
-        current user(id) is the booking.vendor.user(id)
-            pass
-
-
-**Add delete booking, update booking button and send message.
-
-**Update Booking Button:
-**When booking button is called it calls the a pop up named BookVendorPopup
-**when the pop up is submitted it updates the booking instance.
-
-**Delete Button:
-**If the user clicks the delete button the booking object is deleted.
-**Create pop up to confirm delete before making request.
-**If delete is confirm it sends a delete request to django application.
-
-
-If the user is current user(id) is the booking.vendor.user(id) it shows the accept booking or reject booking.
-Approve button:
-**Add button and call show_approve_confirmation.
-**show_approve_confirmation calls confirm_approve then approve_booking is called then booking status changes to approved
-
-Reject Button:
-**Add reject button.
-**Create a text area for rejection comment.
-**show_reject_booking calls confirm_reject then reject_booking is called then rejection_booking_comment and changes the booking status to rejected.
-
-
+Booking Details Message Button
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

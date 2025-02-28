@@ -51,12 +51,6 @@ class VendorDetailsScreen(Screen):
         app = App.get_running_app()
         user_data = app.get_authenticated_data("api/user")
 
-        if not user_data or "id" not in user_data:
-            print("❌ User not authenticated. Cannot display Vendor Details buttons.")
-            return
-
-        current_user_id = user_data["id"]
-
         self.institution_name = vendor_details['institution_name']
         self.price = str(vendor_details['price'])
         self.description = vendor_details['description']
@@ -162,49 +156,84 @@ class VendorDetailsScreen(Screen):
         self.property('gallery_images').dispatch(self)
         self.property('menu_images').dispatch(self)
 
-        # Create a box layout inside the card
+        if not user_data or "id" not in user_data:
+            print("❌ User not authenticated. Cannot display bookings.")
+            authenticated = False
+        else:
+            authenticated = True
+            current_user_id = user_data["id"]
+            print(f"🔍 Current User ID: {current_user_id}")
+
+        # ✅ Create a box layout inside the card
         card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-        # Add other screens (Vendor Details buttons) to the content layout
-        vendor_details_buttons = GridLayout(cols=6, size_hint_y=None, height=40, spacing='10dp')
+        # ✅ GridLayout to hold buttons
+        vendor_details_buttons = GridLayout(cols=7, size_hint_y=None, height=40, spacing='10dp')
 
-        # Label for rating
-        self.rate_vendor_label = Label(text="Rate Vendor:", color=(0, 0, 0, 1))
+        if authenticated:
+            # ✅ Label for rating
+            self.rate_vendor_label = Label(text="Rate Vendor:", color=(0, 0, 0, 1))
 
-        # Spinner for selecting rating
-        self.rating_spinner = Spinner(text="Select Rating", values=['1', '2', '3', '4', '5'])
+            # ✅ Spinner for selecting rating
+            self.rating_spinner = Spinner(text="Select Rating", values=['1', '2', '3', '4', '5'])
 
-        # Button to submit rating
-        self.rate_vendor_button = Button(text="Rate Vendor", markup=True, color=(0, 0, 0, 1))
-        # Corrected binding (use lambda to avoid immediate execution)
-        self.rate_vendor_button.bind(
-            on_release=lambda instance: self.submit_rating(
-                self.vendor_id,
-                int(self.rating_spinner.text) if self.rating_spinner.text.isdigit() else 0
+            # ✅ Button to submit rating
+            self.rate_vendor_button = Button(text="Rate Vendor", markup=True, color=(0, 0, 0, 1))
+            self.rate_vendor_button.bind(
+                on_release=lambda instance: self.submit_rating(
+                    self.vendor_id,
+                    int(self.rating_spinner.text) if self.rating_spinner.text.isdigit() else 0
+                )
             )
-        )
 
-        favorite_vendor_button = Button(text="Favorite Vendor", markup=True, color=(0, 0, 0, 1))
-        favorite_vendor_button.bind(on_release=self.favorite_vendor)
+            favorite_vendor_button = Button(text="Favorite Vendor", markup=True, color=(0, 0, 0, 1))
+            favorite_vendor_button.bind(on_release=self.favorite_vendor)
 
-        send_message = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+            send_message_button = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+            send_message_button.bind(on_release=self.message_vendor)
 
-        book_vendor_button = Button(text="Book Vendor", markup=True, color=(0, 0, 0, 1))
-        book_vendor_button.bind(
-            on_release=lambda instance: app.show_book_popup(self.vendor_id, self.user_id)
-        )
+            book_vendor_button = Button(text="Book Vendor", markup=True, color=(0, 0, 0, 1))
+            book_vendor_button.bind(
+                on_release=lambda instance: app.show_book_popup(self.vendor_id, current_user_id)
+            )
 
-        vendor_details_buttons.add_widget(self.rate_vendor_label)
-        vendor_details_buttons.add_widget(self.rating_spinner)
-        vendor_details_buttons.add_widget(self.rate_vendor_button)
-        vendor_details_buttons.add_widget(favorite_vendor_button)
-        vendor_details_buttons.add_widget(send_message)
-        vendor_details_buttons.add_widget(book_vendor_button)
+            review_vendor_button = Button(text="Review Vendor", markup=True, color=(0, 0, 0, 1))
 
-        card_layout.add_widget(vendor_details_buttons)
+            # ✅ Add buttons if user is authenticated
+            vendor_details_buttons.add_widget(self.rate_vendor_label)
+            vendor_details_buttons.add_widget(self.rating_spinner)
+            vendor_details_buttons.add_widget(self.rate_vendor_button)
+            vendor_details_buttons.add_widget(favorite_vendor_button)
+            vendor_details_buttons.add_widget(send_message_button)
+            vendor_details_buttons.add_widget(book_vendor_button)
+            vendor_details_buttons.add_widget(review_vendor_button)
+            card_layout.add_widget(vendor_details_buttons)
 
-        # ✅ FIX: Remove parentheses when adding the layout
-        self.add_widget(card_layout)  # ✅ Correct way to add the widget
+        else:
+            # ✅ Create a box layout inside the card
+            card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+            # ✅ GridLayout to hold buttons
+            vendor_details_buttons = GridLayout(cols=5, size_hint_y=None, height=40, spacing='10dp')
+
+            # ✅ Show "Not Logged In" buttons if user is not authenticated
+            login_rate_vendor_button = Button(text="Login To:Rate Vendor", markup=True, color=(1, 0, 0, 1))
+            login_favorite_vendor_button = Button(text=":Favorite Vendor", markup=True, color=(1, 0, 0, 1))
+            login_send_message_button = Button(text=":Message Vendor", markup=True, color=(1, 0, 0, 1))
+            login_book_vendor_button = Button(text=":Book Vendor", markup=True, color=(1, 0, 0, 1))
+            login_review_vendor_button = Button(text=":Review Vendor", markup=True, color=(1, 0, 0, 1))
+
+            vendor_details_buttons.add_widget(login_rate_vendor_button)
+            vendor_details_buttons.add_widget(login_favorite_vendor_button)
+            vendor_details_buttons.add_widget(login_send_message_button)
+            vendor_details_buttons.add_widget(login_book_vendor_button)
+            vendor_details_buttons.add_widget(login_review_vendor_button)
+
+            # ✅ Add buttons inside `card_layout`
+            card_layout.add_widget(vendor_details_buttons)
+
+        # ✅ Add final content to the card
+        self.add_widget(card_layout)
 
         # self.add_widget(Navbar())
 
@@ -315,6 +344,9 @@ class VendorDetailsScreen(Screen):
                 print("❌ Failed to favorite vendor:", response.json())
         except Exception as e:
             print("❌ Error favoriting vendor:", str(e))
+
+    def message_vendor(self, *args):
+        print("Message Vendor Called")
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

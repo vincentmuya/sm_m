@@ -24,6 +24,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
+import json
 
 Builder.load_file('vendor_details.kv')
 
@@ -160,7 +161,7 @@ class VendorDetailsScreen(Screen):
         self.property('menu_images').dispatch(self)
 
         if not user_data or "id" not in user_data:
-            print("❌ User not authenticated. Cannot display bookings.")
+            print("❌ User not authenticated. Cannot display Vendor Buttons.")
             authenticated = False
         else:
             authenticated = True
@@ -406,8 +407,13 @@ class VendorDetailsScreen(Screen):
     def message_vendor(self, message_text):
         """Send a message to the vendor."""
         print("Message Vendor Called")
+        app = App.get_running_app()
 
-        user_id = self.current_user_id  # Assuming you have this stored
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+        current_user_id = user_data["id"]
+
+        user_id = current_user_id  # Assuming you have this stored
         vendor_id = self.vendor_id  # Assuming you have this stored
 
         if not user_id or not vendor_id:

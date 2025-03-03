@@ -413,25 +413,24 @@ class VendorDetailsScreen(Screen):
         user_data = app.get_authenticated_data("api/user")
         current_user_id = user_data["id"]
 
-        user_id = current_user_id  # Assuming you have this stored
-        vendor_id = self.vendor_id  # Assuming you have this stored
+        vendor = self.vendor_id  # Assuming you have this stored
 
-        if not user_id or not vendor_id:
-            print("User ID or Vendor ID is missing")
+        if not current_user_id or not vendor:
+            print("User ID or Vendor is missing")
             return
 
         # Step 1: Check if a conversation already exists
-        conversation_id = self.get_conversation(user_id, vendor_id)
+        conversation_id = self.get_conversation(current_user_id, vendor)
 
         if not conversation_id:
             # Step 2: Create a new conversation
-            conversation_id = self.create_conversation(user_id, vendor_id)
+            conversation_id = self.create_conversation(current_user_id, vendor)
             if not conversation_id:
                 print("Failed to create conversation")
                 return
 
         # Step 3: Send the message
-        message_sent = self.send_message_to_api(conversation_id, user_id, vendor_id, message_text)
+        message_sent = self.send_message_to_api(conversation_id, current_user_id, vendor, message_text)
         if message_sent:
             print("Message sent successfully")
         else:
@@ -439,41 +438,45 @@ class VendorDetailsScreen(Screen):
 
     def get_conversation(self, user_id, vendor_id):
         """Check if a conversation already exists between the user and vendor."""
-        url = f"http://localhost:8000/conversations/"
+        url = f"http://localhost:8000/api/conversations/"
         response = requests.get(url)
 
         if response.status_code == 200:
             conversations = response.json()
             for conv in conversations:
                 if (conv["sender_id"] == user_id and conv["vendor_id"] == vendor_id) or \
-                   (conv["recipient_id"] == user_id and conv["vendor_id"] == vendor_id):
+                   (conv["recipient_id_display"] == user_id and conv["vendor_id_display"] == vendor_id):
                     return conv["id"]  # Return existing conversation ID
         return None
 
-    def create_conversation(self, user_id, vendor_id):
-        """Create a new conversation."""
-        url = f"http://localhost:8000/conversations/"
+    def create_conversation(self, user_id, vendor):
+        """Create a new conversation with the vendor owner."""
+        url = "http://localhost:8000/api/conversations/"
         payload = {
-            "sender_id": user_id,
-            "recipient_id": vendor_id,  # Assuming vendor is the recipient
-            "vendor_id": vendor_id
+            "user_id": user_id,  # ✅ Correct field name
+            "recipient_id": self.vendor_user_id,  # Vendor owner
+            "vendor_id": self.vendor_id  # Vendor item
         }
         headers = {"Content-Type": "application/json"}
 
         response = requests.post(url, data=json.dumps(payload), headers=headers)
 
+        print("📡 Response Status:", response.status_code)
+        print("🔍 Response JSON:", response.json())  # Show server error message
+
         if response.status_code == 201:
-            return response.json().get("id")  # Return new conversation ID
+            return response.json().get("id")  # ✅ Return new conversation ID
+
         return None
 
-    def send_message_to_api(self, conversation_id, sender_id, vendor_id, message_text):
+    def send_message_to_api(self, conversation_id, sender_id, vendor, message_text):
         """Send the message to the API."""
-        url = f"http://localhost:8000/messages/"
+        url = f"http://localhost:8000/api/messages/"
         payload = {
             "conversation_id": conversation_id,
             "sender_id": sender_id,
-            "recipient_id": vendor_id,  # Assuming vendor is the recipient
-            "vendor_id": vendor_id,
+            "recipient_id": self.vendor_user_id,  # Vendor owner is the recipient
+            "vendor_id": self.vendor_id,  # Vendor item being discussed
             "content": message_text
         }
         headers = {"Content-Type": "application/json"}

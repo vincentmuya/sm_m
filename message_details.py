@@ -18,13 +18,15 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
-from functools import partial
+from kivymd.uix.card import MDCard
+from kivy.uix.popup import Popup
+from kivymd.toast import toast
+from kivy.uix.textinput import TextInput
 
-Builder.load_file('messages.kv')
+Builder.load_file('message_details.kv')
 
-
-class MessagesScreen(Screen):
-    """A screen to display Messages."""
+class MessageDetailsScreen(Screen):
+    """A screen to display MessageDetails."""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -45,8 +47,8 @@ class MessagesScreen(Screen):
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
-        # Add other screens (MessagesScreen) to the content layout
-        self.message_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp')
+        # Add other screens (MessageScreen) to the content layout
+        self.message_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp')
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -57,7 +59,7 @@ class MessagesScreen(Screen):
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(spacer)
-        self.content_layout.add_widget(self.message_labels)
+        self.content_layout.add_widget(self.message_details_labels)
         self.content_layout.add_widget(bottom_spacer)
 
         # Create the ScrollView and add the content_layout inside it
@@ -79,8 +81,7 @@ class MessagesScreen(Screen):
 
         # ✅ Use a proxy button instead of moving the original button
         app = App.get_running_app()
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),
-                                          pos=(650, 560))
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),pos=(650, 560))
         # ✅ Create a proxy button
         self.account_proxy_button = Button(text=app.account_button.text)
         # ✅ Open dropdown manually when proxy button is clicked
@@ -89,9 +90,24 @@ class MessagesScreen(Screen):
         self.user_info_layout.add_widget(self.account_proxy_button)
         self.add_widget(self.user_info_layout)
 
+    def open_account_dropdown(self, instance):
+        """Manually opens the account dropdown."""
+        app = App.get_running_app()
+        #Ensure dropdown is updated before opening
+        app.update_account_dropdown()
+        #Open dropdown manually
+        app.account_dropdown.open(instance)
 
-    def load_user_messages(self, user_messages):
-        """Load user Conversations into the screen with card-style layouts."""
+    def on_pre_enter(self):
+        """Update dropdown dynamically when entering the screen."""
+        app = App.get_running_app()
+        app.update_account_dropdown()
+        #Ensure the proxy button always has updated text
+        self.account_proxy_button.text = app.account_button.text
+
+    def load_message_details(self, message):
+        """Loads and displays the message details inside a Card widget."""
+        print(f"📜 Message Details Loaded: {message}")
 
         app = App.get_running_app()
         user_data = app.get_authenticated_data("api/user")
@@ -102,139 +118,47 @@ class MessagesScreen(Screen):
 
         current_user_id = user_data["id"]
         print(f"🔍 Current User ID: {current_user_id}")
-        print(f"📜 User Conversations Count: {len(user_messages)}")
 
-        # Clear previous messages
-        self.message_labels.clear_widgets()
+        # Clear previous details before adding new ones
+        self.message_details_labels.clear_widgets()
 
-        if not user_messages:
-            no_messages_label = Label(
-                text="No messages found.",
-                size_hint_y=None,
-                height=40,
-                color=(0, 0, 0, 1)  # Black text
-            )
-            self.message_labels.add_widget(no_messages_label)
-            return
+        # Create a card layout to hold message details
+        message_details_card = MDCard(size_hint_y=None, height=200)  # Assuming CardView or a similar widget exists
 
-        for message in user_messages:
-            institution_name = message["vendor"]["institution_name"]
+        # Create a box layout inside the card
+        card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
-            # Create a card layout
-            card = BoxLayout(
-                orientation="vertical",
-                size_hint_y=None,
-                height=170,
-                padding=10,
-                spacing=5
-            )
+        # Add message details inside the card
+        messaging_vendor = Button(text=f"[b]Vendor Being Messages:[/b] {message['vendor']['institution_name']}", markup=True, color=(0, 0, 0, 1))
+        messaging_vendor.bind(on_release=lambda instance: self.message_vendor_details(message["vendor"]["id"], message["vendor"]["slug"]))
+        card_layout.add_widget(messaging_vendor)
 
-            # Apply background color & rounded corners
-            with card.canvas.before:
-                Color(1, 1, 1, 1)  # White background
-                card.bg_rect = RoundedRectangle(radius=[10], pos=card.pos, size=card.size)
+        pass
 
-            def update_bg(instance, value):
-                card.bg_rect.pos = card.pos
-                card.bg_rect.size = card.size
+        # Add the layout to the card
+        message_details_card.add_widget(card_layout)
 
-            card.bind(pos=update_bg, size=update_bg)
+        # Add the card to the GridLayout
+        self.message_details_labels.add_widget(message_details_card)
 
-            # Vendor image (if available)
-            if "profile_image" in message["vendor"]:
-                profile_img = AsyncImage(
-                    source=f"http://localhost:8000{message["vendor"]["profile_image"]}",
-                    size_hint=(None, None),
-                    size=(80, 80),
-                    allow_stretch=True
-                )
-                card.add_widget(profile_img)
+    def message_vendor_details(self, vendor_id, slug, *args):
+        print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")
 
-            # Message information
-            message_label = Label(
-                text=f"Message for {institution_name}",
-                size_hint_y=None,
-                height=30,
-                color=(0, 0, 0, 1),  # Black text
-                font_size='16sp',
-                bold=True
-            )
-            card.add_widget(message_label)
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{slug}/"
+        response = requests.get(api_url)
 
-            # ✅ Message the user made
-            if message["sender_id"] == current_user_id:
-                request_label = Label(
-                    text=f"You sent a message to {institution_name}",
-                    size_hint_y=None,
-                    height=30,
-                    color=(0, 0, 0, 1),
-                    font_size='14sp'
-                )
-                card.add_widget(request_label)
+        if response.status_code == 200:
+            vendor_details = response.json()
 
-            # ✅ Messages received for the user's vendor
-            if message["recipient_id_display"] == current_user_id:
-                request_label = Label(
-                    text=f"You have a message for {institution_name}",
-                    size_hint_y=None,
-                    height=30,
-                    color=(0, 0, 0, 1),
-                    font_size='14sp'
-                )
-                card.add_widget(request_label)
+            app = App.get_running_app()
+            vendor_details_screen = app.root.get_screen('vendor_details')
+            vendor_details_screen.load_details(vendor_details)
 
-            # if message["user_id"] == current_user_id:  # Check if the user sent the request
-            view_button = Button(
-                text="View Details",
-                size_hint_y=None,
-                height=30,
-                background_color=(0.2, 0.6, 1, 1)  # Blue button
-            )
-
-            # Correctly bind button to pass the specific message object
-            view_button.bind(on_release=partial(self.fetch_message_details, message))
-
-            card.add_widget(view_button)
-
-            self.message_labels.add_widget(card)
-
-        # ✅ Update layout height dynamically
-        self.message_labels.height = len(self.message_labels.children) * 130  # Adjust height per card
-        print(f"✅ Total widgets in message_labels: {len(self.message_labels.children)}")  # Debugging
-
-    def fetch_message_details(self,message, *args):
-        """Handles displaying details for a selected message request sent by the user."""
-        print(f"🔍 Viewing message details: {message}")
-        app = App.get_running_app()
-        # Fetch the screen correctly
-        try:
-            messages_loaded_screen = app.root.get_screen("message_details")
-        except Exception as e:
-            print(f"❌ Error fetching message_details screen: {e}")
-            return
-        # Check if the screen has load_message_details method
-        if hasattr(messages_loaded_screen, "load_message_details"):
-            messages_loaded_screen.load_message_details(message)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'vendor_details'
         else:
-            print("❌ Error: message_details screen does not have load_message_details method.")
-        # ✅ Transition to the message details screen
-        app.root.current = "message_details"
+            print("❌ Failed to fetch vendor details.")
 
-
-    def open_account_dropdown(self, instance):
-        """Manually opens the account dropdown."""
-        app = App.get_running_app()
-        # Ensure dropdown is updated before opening
-        app.update_account_dropdown()
-        # Open dropdown manually
-        app.account_dropdown.open(instance)
-
-    def on_pre_enter(self):
-        """Update dropdown dynamically when entering the screen."""
-        app = App.get_running_app()
-        app.update_account_dropdown()
-        # Ensure the proxy button always has updated text
-        self.account_proxy_button.text = app.account_button.text
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

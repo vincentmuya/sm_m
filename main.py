@@ -13,6 +13,7 @@ from favorites import FavoritesScreen
 from bookings import BookingsScreen
 from booking_details import BookingDetailsScreen
 from messages import MessagesScreen
+from message_details import MessageDetailsScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -308,6 +309,10 @@ class MyApp(MDApp):
         # Create the MessagesScreen instance and add it to the ScreenManager
         messages_screen = MessagesScreen(name='messages_screen')
         screen_manager.add_widget(messages_screen)
+
+        # Create the MessageDetailsScreen instance and add it to the ScreenManager
+        message_details_screen = MessageDetailsScreen(name='message_details')
+        screen_manager.add_widget(message_details_screen)
 
         return screen_manager
 

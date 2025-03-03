@@ -430,7 +430,7 @@ class VendorDetailsScreen(Screen):
                 return
 
         # Step 3: Send the message
-        message_sent = self.send_message_to_api(conversation_id, current_user_id, vendor, message_text)
+        message_sent = self.send_message_to_api(conversation_id, current_user_id, message_text)
         if message_sent:
             print("Message sent successfully")
         else:
@@ -469,16 +469,17 @@ class VendorDetailsScreen(Screen):
 
         return None
 
-    def send_message_to_api(self, conversation_id, sender_id, vendor, message_text):
+    def send_message_to_api(self, conversation_id, current_user_id, message_text):
         """Send the message to the API."""
         url = f"http://localhost:8000/api/messages/"
         payload = {
             "conversation_id": conversation_id,
-            "sender_id": sender_id,
+            "sender_id": current_user_id,
             "recipient_id": self.vendor_user_id,  # Vendor owner is the recipient
             "vendor_id": self.vendor_id,  # Vendor item being discussed
             "content": message_text
         }
+        print("📦 Message Payload:", payload)
         headers = {"Content-Type": "application/json"}
 
         response = requests.post(url, data=json.dumps(payload), headers=headers)

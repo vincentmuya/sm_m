@@ -24,6 +24,7 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 2. Pending Features
 
 -Post service.
+-Update Vendor.
 -Message.
 -Review.
 -Review Comment.
@@ -35,3 +36,8 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 ------------------------------------------------------------------------------------------------------------------------
 
 3. Test the APis and Features.
+
+------------------------------------------------------------------------------------------------------------------------
+
+Kivy is a popular Python framework for creating multi-touch applications, while Django Rest Framework (DRF) is commonly used to build RESTful APIs in Django.
+Combining these two technologies can allow you to create a mobile or desktop application that communicates with a Django-powered backend through RESTful API endpoints.

@@ -16,13 +16,23 @@ Next step is to create API calls in kivy.
 Next Steps:
 Vendor Details Message Button:
 1. Make API Calls in Kivy for Conversation.
-When the user clicks the send message button, the message_vendor button:
-Creates a Conversation object[id, recipient_id, sender_id and vendor_id]
+**When the user clicks the send message button, the message_vendor button:
+**Creates a Conversation object[id, recipient_id, sender_id and vendor_id]
+if conversation exists, when the send message button is clicked it goes to the conversation.
 
 2. Make API Calls in Kivy for Message.
-Message object is created[id, content, timestamp, is_read, conversation_id, recipient_id, sender_id and vendor_id]
+**Message object is created[id, content, timestamp, is_read, conversation_id, recipient_id, sender_id and vendor_id]
 
-Booking Details Message Button
+3. Messages screen.
+Screen where the user can view their messages, incoming and out going.
+Call vendor details screen
+Call message details screen.
+
+4.Message Details screen.
+Show conversation between the users.
+Add Text input and reply button which sends the message.
+
+Update message button in booking details screen.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

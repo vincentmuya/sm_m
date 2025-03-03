@@ -12,6 +12,7 @@ from profile import ProfileScreen
 from favorites import FavoritesScreen
 from bookings import BookingsScreen
 from booking_details import BookingDetailsScreen
+from messages import MessagesScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -133,7 +134,6 @@ class BookVendorPopup(ModalView):
             toast(f"❌ Booking Failed: {response.status_code}")
 
 
-
 class MyApp(MDApp):
 
     def get_authenticated_data(self, endpoint):
@@ -201,6 +201,11 @@ class MyApp(MDApp):
             favorite_btn = Button(text="Favorites", size_hint_y=None, height=40)
             favorite_btn.bind(on_release=self.user_favorites)
             self.account_dropdown.add_widget(favorite_btn)
+
+            # Messages button
+            messages_btn = Button(text="Messages", size_hint_y=None, height=40)
+            messages_btn.bind(on_release=lambda instance: self.user_messages(instance))
+            self.account_dropdown.add_widget(messages_btn)
 
             # Bookings button
             bookings_btn = Button(text="Bookings", size_hint_y=None, height=40)
@@ -299,6 +304,10 @@ class MyApp(MDApp):
         # Create the BookingDetailsScreen instance and add it to the ScreenManager
         booking_details_screen = BookingDetailsScreen(name='booking_details')
         screen_manager.add_widget(booking_details_screen)
+
+        # Create the MessagesScreen instance and add it to the ScreenManager
+        messages_screen = MessagesScreen(name='messages_screen')
+        screen_manager.add_widget(messages_screen)
 
         return screen_manager
 
@@ -504,6 +513,63 @@ class MyApp(MDApp):
             booking_comment=booking_comment
         )
         update_popup.open()
+
+    def user_messages(self, *args):
+        """Fetch user Messages and pass them to the messages screen."""
+        app = App.get_running_app()
+
+        # 🔍 Get the authentication token
+        token = app.user_data.get("token", "")
+        print(f"🔍 Token being used: {token}")
+
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # ✅ Fetch user data to get user ID
+        user_data = app.get_authenticated_data(f"api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]  # Extract the user ID
+        print(f"✅ Authenticated user ID: {user_id}")
+
+        # API endpoint to fetch conversations
+        api_url = f"http://localhost:8000/api/conversations/?user_id={user_id}"
+        headers = {
+            "Authorization": f"Token {token}",
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()  # Raise an error for non-2xx responses
+
+            # Store response in self.user_conversations
+            self.user_conversations = response.json()
+
+            # Print the stored messages
+            if self.user_conversations:
+                print("📜 Stored User Conversations:")
+                for convo in self.user_conversations:
+                    print(
+                        f"- Conversation ID: {convo['id']}, Vendor: {convo['vendor_id_display']}")
+            else:
+                print("🛑 No Conversations found.")
+                self.user_conversations = []  # Ensure it's an empty list if no conversations are found
+
+            # ✅ Pass the conversation data to the conversation screen
+            user_messages_screen = app.root.get_screen('messages_screen')
+            user_messages_screen.load_user_messages(self.user_conversations)
+
+            # 🚀 Switch to the bookings screen
+            app.root.current = "messages_screen"
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Failed to fetch bookings: {e}")
+            self.user_conversations = []  # Reset to empty list in case of error
 
 if __name__ == '__main__':
     MyApp().run()

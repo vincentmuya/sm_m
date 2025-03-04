@@ -24,9 +24,8 @@ if conversation exists, when the send message button is clicked it goes to the c
 **Message object is created[id, content, timestamp, is_read, conversation_id, recipient_id, sender_id and vendor_id]
 
 3. Messages screen.
-Screen where the user can view their messages, incoming and out going.
-Call vendor details screen
-Call message details screen.
+**Screen where the user can view their messages, incoming and out going.
+**Call vendor details screen
 
 4.Message Details screen.
 Show conversation between the users.

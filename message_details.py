@@ -105,9 +105,9 @@ class MessageDetailsScreen(Screen):
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
-    def load_message_details(self, message):
+    def load_message_details(self, messages_data):
         """Loads and displays the message details inside a Card widget."""
-        print(f"📜 Message Details Loaded: {message}")
+        print(f"📜 Message Details Loaded: {messages_data}")
 
         app = App.get_running_app()
         user_data = app.get_authenticated_data("api/user")
@@ -127,11 +127,6 @@ class MessageDetailsScreen(Screen):
 
         # Create a box layout inside the card
         card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-
-        # Add message details inside the card
-        messaging_vendor = Button(text=f"[b]Vendor Being Messages:[/b] {message['vendor']['institution_name']}", markup=True, color=(0, 0, 0, 1))
-        messaging_vendor.bind(on_release=lambda instance: self.message_vendor_details(message["vendor"]["id"], message["vendor"]["slug"]))
-        card_layout.add_widget(messaging_vendor)
 
         pass
 

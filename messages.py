@@ -202,21 +202,46 @@ class MessagesScreen(Screen):
         self.message_labels.height = len(self.message_labels.children) * 130  # Adjust height per card
         print(f"✅ Total widgets in message_labels: {len(self.message_labels.children)}")  # Debugging
 
-    def fetch_message_details(self,message, *args):
+    def fetch_message_details(self, message, *args):
         """Handles displaying details for a selected message request sent by the user."""
         print(f"🔍 Viewing message details: {message}")
+
         app = App.get_running_app()
+
+        # Extract conversation_id from the clicked message
+        conversation_id = message.get("id")
+        if not conversation_id:
+            print("❌ Error: Conversation ID not found.")
+            return
+
+        # API Endpoint to fetch messages for this conversation
+        url = f"http://localhost:8000/api/messages/?conversation_id={conversation_id}"
+
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                messages_data = response.json()
+                # print(f"📩 Messages in Conversation {conversation_id}: {messages_data}")
+            else:
+                print(f"❌ Failed to fetch messages: {response.status_code} {response.text}")
+                messages_data = []
+        except Exception as e:
+            print(f"❌ Error fetching messages: {e}")
+            messages_data = []
+
         # Fetch the screen correctly
         try:
             messages_loaded_screen = app.root.get_screen("message_details")
         except Exception as e:
             print(f"❌ Error fetching message_details screen: {e}")
             return
+
         # Check if the screen has load_message_details method
         if hasattr(messages_loaded_screen, "load_message_details"):
-            messages_loaded_screen.load_message_details(message)
+            messages_loaded_screen.load_message_details(messages_data)
         else:
             print("❌ Error: message_details screen does not have load_message_details method.")
+
         # ✅ Transition to the message details screen
         app.root.current = "message_details"
 

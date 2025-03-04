@@ -122,19 +122,44 @@ class MessageDetailsScreen(Screen):
         # Clear previous details before adding new ones
         self.message_details_labels.clear_widgets()
 
-        # Create a card layout to hold message details
-        message_details_card = MDCard(size_hint_y=None, height=200)  # Assuming CardView or a similar widget exists
+        # Loop through each message and create a card
+        for message in messages_data:
+            sender_id = message.get("conversation", {}).get("sender_id", "Unknown")
+            recipient_id = message.get("conversation", {}).get("recipient_id_display", "Unknown")
+            content = message.get("content", "No content")
+            timestamp = message.get("timestamp", "Unknown time")
 
-        # Create a box layout inside the card
-        card_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+            # Determine if the current user is the sender
+            is_sender = sender_id == current_user_id
 
-        pass
+            # Message styling
+            sender_text = "You" if is_sender else f"User {sender_id}"
+            align = "right" if is_sender else "left"
 
-        # Add the layout to the card
-        message_details_card.add_widget(card_layout)
+            # Create a card layout to hold message details
+            message_details_card = MDCard(size_hint_y=None, height=120, padding=10, elevation=4)
 
-        # Add the card to the GridLayout
-        self.message_details_labels.add_widget(message_details_card)
+            # Create a box layout inside the card
+            card_layout = BoxLayout(orientation="vertical", padding=10, spacing=5)
+
+            # Create message labels
+            sender_label = Label(text=f"[b]Sender ID{sender_text}[/b]", markup=True, halign=align, size_hint_y=None, height=20, color=(0, 0, 0, 1))
+            recipient_label = Label(text=f"[b]Recipient ID{recipient_id}[/b]", markup=True, halign=align, size_hint_y=None, height=20, color=(0, 0, 0, 1))
+            content_label = Label(text=content, halign=align, size_hint_y=None, height=40, color=(0, 0, 0, 1))
+            timestamp_label = Label(text=timestamp, font_size=12, color=(0.5, 0.5, 0.5, 1), halign=align,
+                                    size_hint_y=None, height=20)
+
+            # Add labels to the card layout
+            card_layout.add_widget(sender_label)
+            card_layout.add_widget(recipient_label)
+            card_layout.add_widget(content_label)
+            card_layout.add_widget(timestamp_label)
+
+            # Add the layout to the card
+            message_details_card.add_widget(card_layout)
+
+            # Add the card to the message list
+            self.message_details_labels.add_widget(message_details_card)
 
     def message_vendor_details(self, vendor_id, slug, *args):
         print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")

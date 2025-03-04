@@ -60,7 +60,9 @@ class MessageDetailsScreen(Screen):
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.message_details_labels)
-        self.content_layout.add_widget(bottom_spacer)
+
+        # Add the reply section (TextInput + Button)
+        self.add_reply_section()
 
         # Create the ScrollView and add the content_layout inside it
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
@@ -77,7 +79,7 @@ class MessageDetailsScreen(Screen):
         nav_bar = Navbar(size_hint=(1, None), height=50)
         nav_bar.pos_hint = {'x': 0, 'y': 0}
         # Add ScrollView and navbar to the FloatLayout
-        self.add_widget(nav_bar)
+        # self.add_widget(nav_bar)
 
         # ✅ Use a proxy button instead of moving the original button
         app = App.get_running_app()
@@ -122,6 +124,23 @@ class MessageDetailsScreen(Screen):
         # Clear previous details before adding new ones
         self.message_details_labels.clear_widgets()
 
+        # Display vendor information at the top (only once)
+        if messages_data:
+            vendor_info = messages_data[0].get("vendor", {})  # Get vendor details from the first message
+            if vendor_info:
+                messaging_vendor = Button(
+                    text=f"[b]Vendor Being Messaged:[/b] {vendor_info['institution_name']}",
+                    markup=True,
+                    color=(0, 0, 0, 1),
+                    height=40
+                )
+                messaging_vendor.bind(
+                    on_release=lambda instance: self.message_vendor_details(vendor_info["id"], vendor_info["slug"])
+                )
+                spacer = Widget(size_hint=(1, None), height=30)
+                self.message_details_labels.add_widget(messaging_vendor)  # Add button only once
+                self.message_details_labels.add_widget(spacer)
+
         # Loop through each message and create a card
         for message in messages_data:
             sender_id = message.get("conversation", {}).get("sender_id", "Unknown")
@@ -137,17 +156,26 @@ class MessageDetailsScreen(Screen):
             align = "right" if is_sender else "left"
 
             # Create a card layout to hold message details
-            message_details_card = MDCard(size_hint_y=None, height=120, padding=10, elevation=4)
+            message_details_card = MDCard(size_hint_y=None, height=150, padding=10, elevation=4)
 
             # Create a box layout inside the card
             card_layout = BoxLayout(orientation="vertical", padding=10, spacing=5)
 
             # Create message labels
-            sender_label = Label(text=f"[b]Sender ID{sender_text}[/b]", markup=True, halign=align, size_hint_y=None, height=20, color=(0, 0, 0, 1))
-            recipient_label = Label(text=f"[b]Recipient ID{recipient_id}[/b]", markup=True, halign=align, size_hint_y=None, height=20, color=(0, 0, 0, 1))
-            content_label = Label(text=content, halign=align, size_hint_y=None, height=40, color=(0, 0, 0, 1))
-            timestamp_label = Label(text=timestamp, font_size=12, color=(0.5, 0.5, 0.5, 1), halign=align,
-                                    size_hint_y=None, height=20)
+            sender_label = Label(
+                text=f"[b]Sender ID: {sender_text}[/b]", markup=True, halign=align, size_hint_y=None, height=20,
+                color=(0, 0, 0, 1)
+            )
+            recipient_label = Label(
+                text=f"[b]Recipient ID: {recipient_id}[/b]", markup=True, halign=align, size_hint_y=None, height=20,
+                color=(0, 0, 0, 1)
+            )
+            content_label = Label(
+                text=content, halign=align, size_hint_y=None, height=40, color=(0, 0, 0, 1)
+            )
+            timestamp_label = Label(
+                text=timestamp, font_size=12, color=(0.5, 0.5, 0.5, 1), halign=align, size_hint_y=None, height=20
+            )
 
             # Add labels to the card layout
             card_layout.add_widget(sender_label)
@@ -160,6 +188,48 @@ class MessageDetailsScreen(Screen):
 
             # Add the card to the message list
             self.message_details_labels.add_widget(message_details_card)
+
+    def add_reply_section(self):
+        """Adds a reply input area and send button."""
+        reply_layout = BoxLayout(orientation="horizontal", size_hint_y=None, height=50, spacing=10, padding=10)
+
+        # Create TextInput for reply
+        self.reply_input = TextInput(
+            hint_text="Type your message...",
+            size_hint_x=0.8,
+            multiline=True,
+        )
+
+        # Create "Send" button
+        send_button = Button(
+            text="Send",
+            size_hint_x=0.2,
+            color=(0, 0, 0, 1),
+            on_release=self.send_reply
+        )
+
+        # Add input and button to layout
+        reply_layout.add_widget(self.reply_input)
+        reply_layout.add_widget(send_button)
+
+        reply_layout.pos_hint = {'x': 0, 'y': 0}
+        # Add reply section to the content layout
+        self.content_layout.add_widget(reply_layout)
+
+    def send_reply(self, instance):
+        """Handles sending a reply message."""
+        reply_text = self.reply_input.text.strip()
+
+        if not reply_text:
+            print("⚠️ Cannot send an empty message.")
+            return
+
+        print(f"📩 Sending Message: {reply_text}")
+
+        # TODO: Implement backend API call to send the message
+
+        # Clear the input field after sending
+        self.reply_input.text = ""
 
     def message_vendor_details(self, vendor_id, slug, *args):
         print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")

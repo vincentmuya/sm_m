@@ -22,6 +22,7 @@ from kivymd.uix.card import MDCard
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
 from kivy.uix.textinput import TextInput
+import json
 
 Builder.load_file('message_details.kv')
 
@@ -48,7 +49,7 @@ class MessageDetailsScreen(Screen):
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Add other screens (MessageScreen) to the content layout
-        self.message_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp')
+        self.message_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp', height=600)
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -118,11 +119,21 @@ class MessageDetailsScreen(Screen):
             print("❌ User not authenticated. Cannot display messages.")
             return
 
-        current_user_id = user_data["id"]
-        print(f"🔍 Current User ID: {current_user_id}")
+        self.current_user_id = user_data["id"]  # Save sender ID
+        print(f"🔍 Current User ID: {self.current_user_id}")
 
-        # Clear previous details before adding new ones
+        # Clear previous message details
         self.message_details_labels.clear_widgets()
+
+        if messages_data:
+            first_message = messages_data[0]
+            self.conversation_id = first_message.get("conversation", {}).get("id", None)
+            self.recipient_id = first_message.get("conversation", {}).get("recipient_id_display", None)
+            self.sender_id = first_message.get("conversation", {}).get("sender_id", None)
+            self.vendor_id = first_message.get("vendor", {}).get("id", None)
+
+            print(
+                f"💾 Saved Data: Conversation ID={self.conversation_id}, Recipient ID={self.recipient_id}, Sender ID={self.sender_id}, Vendor ID={self.vendor_id}")
 
         # Display vendor information at the top (only once)
         if messages_data:
@@ -149,7 +160,7 @@ class MessageDetailsScreen(Screen):
             timestamp = message.get("timestamp", "Unknown time")
 
             # Determine if the current user is the sender
-            is_sender = sender_id == current_user_id
+            is_sender = sender_id == self.current_user_id
 
             # Message styling
             sender_text = "You" if is_sender else f"User {sender_id}"
@@ -212,12 +223,11 @@ class MessageDetailsScreen(Screen):
         reply_layout.add_widget(self.reply_input)
         reply_layout.add_widget(send_button)
 
-        reply_layout.pos_hint = {'x': 0, 'y': 0}
         # Add reply section to the content layout
         self.content_layout.add_widget(reply_layout)
 
     def send_reply(self, instance):
-        """Handles sending a reply message."""
+        """Handles sending a reply message to the Django API."""
         reply_text = self.reply_input.text.strip()
 
         if not reply_text:
@@ -226,10 +236,69 @@ class MessageDetailsScreen(Screen):
 
         print(f"📩 Sending Message: {reply_text}")
 
-        # TODO: Implement backend API call to send the message
+        if not hasattr(self, "current_user_id") or not hasattr(self, "recipient_id") or not hasattr(self, "sender_id"):
+            print("❌ Missing required IDs. Cannot send message.")
+            return
 
-        # Clear the input field after sending
-        self.reply_input.text = ""
+        # Use stored data
+        sender_id = self.current_user_id
+        recipient_id = self.recipient_id
+        conversation_id = self.conversation_id
+        vendor_id = self.vendor_id
+
+        # Ensure the recipient is the actual other user in the conversation
+        if sender_id == recipient_id:
+            recipient_id = self.sender_id  # Swap recipient with stored sender_id
+
+        print(f"💬 Sending message from {sender_id} to {recipient_id} in conversation {conversation_id} for {vendor_id}")
+
+        # Django API endpoint
+        api_url = f"http://localhost:8000/api/messages/"
+
+        # Data payload
+        payload = {
+            "sender_id": sender_id,
+            "recipient_id": recipient_id,
+            "conversation": conversation_id,  # Include conversation ID
+            "vendor_id": vendor_id,  # Include vendor ID if needed
+            "content": reply_text
+        }
+        print("📦 Message Payload:", payload)
+        headers = {"Content-Type": "application/json"}
+
+        try:
+            response = requests.post(api_url, data=json.dumps(payload), headers=headers)
+
+            if response.status_code == 201:
+                print("✅ Message sent successfully!")
+                self.reply_input.text = ""  # Clear input after sending
+
+                # Refresh messages
+                self.load_message_details(self.fetch_messages())
+
+            else:
+                print(f"❌ Failed to send message: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"🚨 Network Error: {e}")
+
+
+    def fetch_messages(self):
+        """Fetch the latest messages from the API after sending a reply."""
+        api_url = "http://localhost:8000/api/messages/"
+        app = App.get_running_app()
+        headers = {
+            "Authorization": f"Bearer {app.auth_token}"
+        }
+
+        try:
+            response = requests.get(api_url, headers=headers)
+            if response.status_code == 200:
+                return response.json()
+        except requests.RequestException as e:
+            print(f"🚨 Error fetching messages: {e}")
+
+        return []
 
     def message_vendor_details(self, vendor_id, slug, *args):
         print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")

@@ -30,7 +30,7 @@ if conversation exists, when the send message button is clicked it goes to the c
 4.Message Details screen.
 **Show conversation between the users.
 **Add Text input and reply button which sends the message.
-Implement reply logic
+**Implement reply logic
 
 Update message button in booking details screen.
 ------------------------------------------------------------------------------------------------------------------------

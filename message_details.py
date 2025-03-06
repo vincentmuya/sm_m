@@ -49,7 +49,7 @@ class MessageDetailsScreen(Screen):
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
         # Add other screens (MessageScreen) to the content layout
-        self.message_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp', height=600)
+        self.message_details_labels = GridLayout(cols=1, size_hint_y=None, spacing='10dp', height=1000)
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -259,7 +259,7 @@ class MessageDetailsScreen(Screen):
         payload = {
             "sender_id": sender_id,
             "recipient_id": recipient_id,
-            "conversation": conversation_id,  # Include conversation ID
+            "conversation_id": conversation_id,  # Include conversation ID
             "vendor_id": vendor_id,  # Include vendor ID if needed
             "content": reply_text
         }
@@ -282,19 +282,26 @@ class MessageDetailsScreen(Screen):
         except requests.RequestException as e:
             print(f"🚨 Network Error: {e}")
 
-
     def fetch_messages(self):
         """Fetch the latest messages from the API after sending a reply."""
-        api_url = "http://localhost:8000/api/messages/"
         app = App.get_running_app()
-        headers = {
-            "Authorization": f"Bearer {app.auth_token}"
-        }
+
+        # Get the authentication token from user_data
+        token = app.user_data.get("token", None)
+
+        if not token:
+            print("❌ No auth token found. Cannot fetch messages.")
+            return []
+
+        api_url = "http://localhost:8000/api/messages/"
+        headers = {"Authorization": f"Token {token}"}  # Ensure correct token format
 
         try:
             response = requests.get(api_url, headers=headers)
             if response.status_code == 200:
                 return response.json()
+            else:
+                print(f"❌ Failed to fetch messages. Response: {response.text}")
         except requests.RequestException as e:
             print(f"🚨 Error fetching messages: {e}")
 

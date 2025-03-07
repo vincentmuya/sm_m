@@ -474,7 +474,7 @@ class VendorDetailsScreen(Screen):
 
         return None  # No conversation found
 
-    def create_conversation(self, current_user_id, vendor_id, vendor_user_id):
+    def create_conversation(self, user_id, vendor_id, vendor_user_id):
         """Create a new conversation with the vendor owner."""
         app = App.get_running_app()
         token = app.user_data.get("token", None)  # Get auth token
@@ -485,7 +485,7 @@ class VendorDetailsScreen(Screen):
 
         url = "http://localhost:8000/api/conversations/"
         payload = {
-            "sender_id": current_user_id,  # Ensure this matches the API field
+            "user_id": user_id,  # Ensure this matches your API field
             "recipient_id": vendor_user_id,  # Vendor owner
             "vendor_id": vendor_id  # Vendor being messaged
         }
@@ -495,7 +495,7 @@ class VendorDetailsScreen(Screen):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.post(url, data=json.dumps(payload), headers=headers)
             response_json = response.json()  # Store response JSON
 
             print("📡 Response Status:", response.status_code)

@@ -22,6 +22,7 @@ from kivymd.uix.card import MDCard
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
 from kivy.uix.textinput import TextInput
+import json
 
 Builder.load_file('booking_details.kv')
 
@@ -148,7 +149,12 @@ class BookingDetailsScreen(Screen):
             delete_booking_button = Button(text="Delete Booking", markup=True, color=(0, 0, 0, 1))
             delete_booking_button.bind(on_release=lambda instance: self.show_delete_confirmation(booking.get("id")))
 
-            send_message = Button(text=f"Send Message",markup=True, color=(0, 0, 0, 1))
+            send_message = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+            send_message.bind(
+                on_release=lambda instance: self.show_message_vendor(booking.get("id"), booking.get("user_id"),
+                                                                     booking.get("vendor_id"),
+                                                                     booking.get("vendor", {}).get("user")))
+
             booking_details_info.add_widget(update_booking)
             booking_details_info.add_widget(delete_booking_button)
             booking_details_info.add_widget(send_message)
@@ -167,6 +173,10 @@ class BookingDetailsScreen(Screen):
             reject_booking_button.bind(on_release=lambda instance: self.show_reject_booking(booking.get("id")))
 
             send_message = Button(text="Send Message", markup=True, color=(0, 0, 0, 1))
+            send_message.bind(
+                on_release=lambda instance: self.show_message_vendor(booking.get("id"), booking.get("user_id"),
+                                                                     booking.get("vendor_id"),
+                                                                     booking.get("vendor", {}).get("user")))
 
             booking_details_info.add_widget(approve_booking_button)
             booking_details_info.add_widget(reject_booking_button)
@@ -374,6 +384,161 @@ class BookingDetailsScreen(Screen):
                 print("Response:", response.text)
         except requests.exceptions.RequestException as e:
             print("❌ Request failed:", e)
+
+    def show_message_vendor(self, booking_id, user_id, vendor_id, vendor_user_id):
+        """Display popup for messaging the vendor."""
+
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        message = Label(text="Message Vendor", size_hint=(1, 0.5))
+        textinput = TextInput(text='', multiline=True)
+
+        send_message_button = Button(text="Send Message", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        popup = Popup(title="Message Vendor", content=layout, size_hint=(0.7, 0.4))
+
+        # Pass the booking details when binding the send message button
+        send_message_button.bind(
+            on_release=lambda instance: self.send_message(
+                popup, textinput, booking_id, user_id, vendor_id, vendor_user_id
+            )
+        )
+        cancel_button.bind(on_release=popup.dismiss)
+
+        layout.add_widget(message)
+        layout.add_widget(textinput)
+        layout.add_widget(send_message_button)
+        layout.add_widget(cancel_button)
+
+        popup.open()
+
+    def send_message(self, popup, textinput, booking_id, user_id, vendor_id, vendor_user_id):
+        """Handle message sending."""
+        message_text = textinput.text.strip()
+
+        if message_text:
+            popup.dismiss()
+            self.message_vendor(message_text, booking_id, user_id, vendor_id, vendor_user_id)
+        else:
+            print("Message cannot be empty")
+
+    def message_vendor(self, message_text, booking_id, user_id, vendor_id, vendor_user_id):
+        """Send a message to the vendor."""
+        print("Message Vendor Called")
+        app = App.get_running_app()
+
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+        current_user_id = user_data.get("id")  # Use `.get()` to avoid KeyError
+
+        if not current_user_id:
+            print("❌ Error: User ID is missing")
+            return
+
+        # Step 1: Check if a conversation already exists
+        conversation_id = self.get_conversation(current_user_id, vendor_id, vendor_user_id)
+
+        if not conversation_id:
+            # Step 2: Create a new conversation
+            conversation_id = self.create_conversation(current_user_id, vendor_id, vendor_user_id)
+            if not conversation_id:
+                print("❌ Failed to create conversation")
+                return
+
+        # Step 3: Send the message
+        message_sent = self.send_message_to_api(conversation_id, current_user_id, message_text, vendor_id, vendor_user_id)
+        if message_sent:
+            print("✅ Message sent successfully")
+        else:
+            print("❌ Failed to send message")
+
+    def get_conversation(self, current_user_id, vendor_id, vendor_user_id):
+        """Check if a conversation already exists between the user and vendor."""
+        app = App.get_running_app()
+        token = app.user_data.get("token", None)  # Get auth token
+
+        if not token:
+            print("❌ No auth token found. Cannot fetch conversations.")
+            return None
+
+        url = "http://localhost:8000/api/conversations/"
+        headers = {"Authorization": f"Token {token}"}  # Use auth token
+
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                conversations = response.json()
+                for convo in conversations:
+                    if (
+                            (convo["sender_id"] == current_user_id and convo["recipient_id_display"] == vendor_user_id and
+                             convo["vendor_id_display"] == vendor_id) or
+                            (convo["sender_id"] == vendor_user_id and convo["recipient_id_display"] == current_user_id and
+                             convo["vendor_id_display"] == vendor_id)
+                    ):
+                        print(f"✅ Existing conversation found: {convo['id']}")
+                        return convo["id"]  # ✅ Return existing conversation ID
+            else:
+                print(f"❌ Failed to fetch conversations. Response: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"🚨 Error fetching conversations: {e}")
+
+        return None  # No conversation found
+
+    def create_conversation(self, user_id, vendor_id, vendor_user_id):
+        """Create a new conversation with the vendor owner."""
+        app = App.get_running_app()
+        token = app.user_data.get("token", None)  # Get auth token
+
+        if not token:
+            print("❌ No auth token found. Cannot create conversation.")
+            return None
+
+        url = "http://localhost:8000/api/conversations/"
+        payload = {
+            "user_id": user_id,  # Ensure this matches your API field
+            "recipient_id": vendor_user_id,  # Vendor owner
+            "vendor_id": vendor_id  # Vendor being messaged
+        }
+        headers = {
+            "Authorization": f"Token {token}",  # Use authentication
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.post(url, data=json.dumps(payload), headers=headers)
+            response_json = response.json()  # Store response JSON
+
+            print("📡 Response Status:", response.status_code)
+            print("🔍 Response JSON:", response_json)  # Show server response
+
+            if response.status_code == 201:
+                return response_json.get("id")  # ✅ Return new conversation ID
+            else:
+                print(f"❌ Failed to create conversation. Response: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"🚨 Error creating conversation: {e}")
+
+        return None
+
+    def send_message_to_api(self, conversation_id, current_user_id, message_text, vendor_id, vendor_user_id):
+        """Send the message to the API."""
+        url = f"http://localhost:8000/api/messages/"
+        payload = {
+            "conversation_id": conversation_id,
+            "sender_id": current_user_id,
+            "recipient_id": vendor_user_id,  # Vendor owner is the recipient
+            "vendor_id": vendor_id,  # Vendor item being discussed
+            "content": message_text
+        }
+        print("📦 Message Payload:", payload)
+        headers = {"Content-Type": "application/json"}
+
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        return response.status_code == 201  # Return True if message was sent successfully
+
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

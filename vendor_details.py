@@ -411,61 +411,103 @@ class VendorDetailsScreen(Screen):
 
         # Fetch authenticated user data
         user_data = app.get_authenticated_data("api/user")
-        current_user_id = user_data["id"]
+        current_user_id = user_data.get("id")  # Use `.get()` to avoid KeyError
 
-        vendor = self.vendor_id  # Assuming you have this stored
+        if not current_user_id:
+            print("❌ Error: User ID is missing")
+            return
 
-        if not current_user_id or not vendor:
-            print("User ID or Vendor is missing")
+        vendor_id = self.vendor_id  # Assuming you have this stored
+        vendor_user_id = self.vendor_user_id  # Owner of the vendor
+
+        if not vendor_id or not vendor_user_id:
+            print("❌ Error: Vendor ID or Vendor User ID is missing")
             return
 
         # Step 1: Check if a conversation already exists
-        conversation_id = self.get_conversation(current_user_id, vendor)
+        conversation_id = self.get_conversation(current_user_id, vendor_id, vendor_user_id)
 
         if not conversation_id:
             # Step 2: Create a new conversation
-            conversation_id = self.create_conversation(current_user_id, vendor)
+            conversation_id = self.create_conversation(current_user_id, vendor_id, vendor_user_id)
             if not conversation_id:
-                print("Failed to create conversation")
+                print("❌ Failed to create conversation")
                 return
 
         # Step 3: Send the message
         message_sent = self.send_message_to_api(conversation_id, current_user_id, message_text)
         if message_sent:
-            print("Message sent successfully")
+            print("✅ Message sent successfully")
         else:
-            print("Failed to send message")
+            print("❌ Failed to send message")
 
-    def get_conversation(self, user_id, vendor_id):
+    def get_conversation(self, current_user_id, vendor_id, vendor_user_id):
         """Check if a conversation already exists between the user and vendor."""
-        url = f"http://localhost:8000/api/conversations/"
-        response = requests.get(url)
+        app = App.get_running_app()
+        token = app.user_data.get("token", None)  # Get auth token
 
-        if response.status_code == 200:
-            conversations = response.json()
-            for conv in conversations:
-                if (conv["sender_id"] == user_id and conv["vendor_id"] == vendor_id) or \
-                   (conv["recipient_id_display"] == user_id and conv["vendor_id_display"] == vendor_id):
-                    return conv["id"]  # Return existing conversation ID
-        return None
+        if not token:
+            print("❌ No auth token found. Cannot fetch conversations.")
+            return None
 
-    def create_conversation(self, user_id, vendor):
+        url = "http://localhost:8000/api/conversations/"
+        headers = {"Authorization": f"Token {token}"}  # Use auth token
+
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                conversations = response.json()
+                for convo in conversations:
+                    if (
+                            (convo["sender_id"] == current_user_id and convo["recipient_id_display"] == vendor_user_id and
+                             convo["vendor_id_display"] == vendor_id) or
+                            (convo["sender_id"] == vendor_user_id and convo["recipient_id_display"] == current_user_id and
+                             convo["vendor_id_display"] == vendor_id)
+                    ):
+                        print(f"✅ Existing conversation found: {convo['id']}")
+                        return convo["id"]  # ✅ Return existing conversation ID
+            else:
+                print(f"❌ Failed to fetch conversations. Response: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"🚨 Error fetching conversations: {e}")
+
+        return None  # No conversation found
+
+    def create_conversation(self, current_user_id, vendor_id, vendor_user_id):
         """Create a new conversation with the vendor owner."""
+        app = App.get_running_app()
+        token = app.user_data.get("token", None)  # Get auth token
+
+        if not token:
+            print("❌ No auth token found. Cannot create conversation.")
+            return None
+
         url = "http://localhost:8000/api/conversations/"
         payload = {
-            "user_id": user_id,  # ✅ Correct field name
-            "recipient_id": self.vendor_user_id,  # Vendor owner
-            "vendor_id": self.vendor_id  # Vendor item
+            "sender_id": current_user_id,  # Ensure this matches the API field
+            "recipient_id": vendor_user_id,  # Vendor owner
+            "vendor_id": vendor_id  # Vendor being messaged
         }
-        headers = {"Content-Type": "application/json"}
+        headers = {
+            "Authorization": f"Token {token}",  # Use authentication
+            "Content-Type": "application/json"
+        }
 
-        response = requests.post(url, data=json.dumps(payload), headers=headers)
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            response_json = response.json()  # Store response JSON
 
-        print("📡 Response Status:", response.status_code)
-        print("🔍 Response JSON:", response.json())  # Show server error message
+            print("📡 Response Status:", response.status_code)
+            print("🔍 Response JSON:", response_json)  # Show server response
 
-        if response.status_code == 201:
-            return response.json().get("id")  # ✅ Return new conversation ID
+            if response.status_code == 201:
+                return response_json.get("id")  # ✅ Return new conversation ID
+            else:
+                print(f"❌ Failed to create conversation. Response: {response.text}")
+
+        except requests.RequestException as e:
+            print(f"🚨 Error creating conversation: {e}")
 
         return None
 

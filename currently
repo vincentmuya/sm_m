@@ -32,7 +32,7 @@ if conversation exists, when the send message button is clicked it goes to the c
 **Add Text input and reply button which sends the message.
 **Implement reply logic
 
-Update message button in booking details screen.
+**Update message button in booking details screen.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

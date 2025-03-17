@@ -14,6 +14,7 @@ from bookings import BookingsScreen
 from booking_details import BookingDetailsScreen
 from messages import MessagesScreen
 from message_details import MessageDetailsScreen
+from post_service import PostServiceScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -218,6 +219,11 @@ class MyApp(MDApp):
             profile_btn.bind(on_release=self.user_profile)
             self.account_dropdown.add_widget(profile_btn)
 
+            # Post service button
+            post_btn = Button(text="Post Service", size_hint_y=None, height=40)
+            post_btn.bind(on_release=self.post_service)
+            self.account_dropdown.add_widget(post_btn)
+
             # Logout button
             logout_btn = Button(text="Logout", size_hint_y=None, height=40)
             logout_btn.bind(on_release=self.logout_user)
@@ -313,6 +319,10 @@ class MyApp(MDApp):
         # Create the MessageDetailsScreen instance and add it to the ScreenManager
         message_details_screen = MessageDetailsScreen(name='message_details')
         screen_manager.add_widget(message_details_screen)
+
+        # Create the PostServiceScreen instance and add it to the ScreenManager
+        post_service_screen = PostServiceScreen(name='post_service_screen')
+        screen_manager.add_widget(post_service_screen)
 
         return screen_manager
 
@@ -575,6 +585,30 @@ class MyApp(MDApp):
         except requests.exceptions.RequestException as e:
             print(f"❌ Failed to fetch bookings: {e}")
             self.user_conversations = []  # Reset to empty list in case of error
+
+    def post_service(self, *args):
+        app = App.get_running_app()
+
+        # 🔍 Get the authentication token
+        token = app.user_data.get("token", "")
+        print(f"🔍 Token being used: {token}")
+
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # ✅ Fetch user data to get user ID
+        user_data = app.get_authenticated_data(f"api/user")
+
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]  # Extract the user ID
+        print(f"✅ Authenticated user ID: {user_id}")
+
+        app.root.current = "post_service_screen"
+        pass
 
 if __name__ == '__main__':
     MyApp().run()

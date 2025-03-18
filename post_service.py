@@ -19,6 +19,10 @@ from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
 from kivy.uix.image import AsyncImage
 from functools import partial
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.spinner import Spinner
+from kivy.uix.filechooser import FileChooserListView
 
 Builder.load_file('post_service.kv')
 
@@ -45,8 +49,10 @@ class PostServiceScreen(Screen):
         # Create and add the Filter widget
         self.filter_widget = Filter(filter_callback=self.apply_filter)
 
-        # Add other screens (VendorsScreen) to the content layout
-        self.booking_labels = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
+        # The form container
+        self.post_vendor_form = GridLayout(cols=2, size_hint_y=None, height=1000, spacing='10dp')
+        # Call the method to display the form
+        self.show_post_vendor_form()
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -57,7 +63,7 @@ class PostServiceScreen(Screen):
         self.content_layout.add_widget(self.search_widget)
         self.content_layout.add_widget(self.filter_widget)
         self.content_layout.add_widget(spacer)
-        self.content_layout.add_widget(self.booking_labels)
+        self.content_layout.add_widget(self.post_vendor_form)
         self.content_layout.add_widget(bottom_spacer)
 
         # Create the ScrollView and add the content_layout inside it
@@ -88,6 +94,100 @@ class PostServiceScreen(Screen):
         # ✅ Add proxy button instead of the real one
         self.user_info_layout.add_widget(self.account_proxy_button)
         self.add_widget(self.user_info_layout)
+
+    def show_post_vendor_form(self):
+        """Creates and adds the vendor posting form to the UI."""
+
+        # Create a scrollable form layout
+        layout = GridLayout(cols=2, spacing=15, size_hint_y=None, row_default_height=50)
+        layout.bind(minimum_height=layout.setter('height'))
+
+        # Dictionary to store form fields
+        self.fields = {}
+
+        field_data = [
+            ("Institution Name", "institution_name"),
+            ("Slug", "slug"),
+            ("Description", "description"),
+            ("Price", "price"),
+            ("Phone Number", "phone_number"),
+            ("Email", "email"),
+            ("Website", "website"),
+            ("Social Media", "social_media"),
+            ("Business Registration Number", "business_registration_number"),
+        ]
+
+        for label_text, field_name in field_data:
+            layout.add_widget(Label(text=label_text, size_hint_x=0.5, color=(0, 0, 0, 1)))  # Give labels enough space
+            text_input = TextInput(multiline=False, size_hint_x=0.8)  # Expand text input
+            layout.add_widget(text_input)
+            self.fields[field_name] = text_input
+
+        # Service & Location Spinners (Dropdowns)
+        layout.add_widget(Label(text="Service", size_hint_x=0.5, color=(0, 0, 0, 1)))
+        self.service_spinner = Spinner(text="Select Service", values=[], size_hint_x=0.8, color=(0, 0, 0, 1))
+        layout.add_widget(self.service_spinner)
+
+        layout.add_widget(Label(text="Location", size_hint_x=0.5, color=(0, 0, 0, 1)))
+        self.location_spinner = Spinner(text="Select Location", values=[], size_hint_x=0.8,  color=(0, 0, 0, 1))
+        layout.add_widget(self.location_spinner)
+
+        # Profile Image Upload
+        layout.add_widget(Label(text="Profile Image", size_hint_x=0.5,  color=(0, 0, 0, 1)))
+        self.file_chooser = FileChooserListView(size_hint_y=None, height=100)
+        layout.add_widget(self.file_chooser)
+
+        # Submit Button
+        submit_btn = Button(text="Submit", size_hint=(1, None), height=50)
+        submit_btn.bind(on_press=self.submit_form)
+
+        layout.add_widget(Label())  # Spacer
+        layout.add_widget(submit_btn)
+
+        # Add form to the post vendor form container
+        self.post_vendor_form.add_widget(layout)
+
+    def submit_form(self, instance):
+        """Collect form data and send a POST request."""
+        app = App.get_running_app()
+        token = app.user_data.get("token", "")
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # Get user ID
+        user_data = app.get_authenticated_data(f"api/user")
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]
+
+        # Collect form data
+        vendor_data = {key: field.text for key, field in self.fields.items()}
+        vendor_data["user"] = user_id
+        vendor_data["service"] = self.service_spinner.text
+        vendor_data["location"] = self.location_spinner.text
+
+        # Upload Profile Image (if selected)
+        files = {}
+        if self.file_chooser.selection:
+            file_path = self.file_chooser.selection[0]
+            files["profile_image"] = open(file_path, "rb")
+
+        headers = {"Authorization": f"Bearer {token}"}
+
+        response = requests.post(
+            "http://your-django-api.com/api/vendor/",
+            data=vendor_data,
+            files=files,
+            headers=headers
+        )
+
+        if response.status_code == 201:
+            print("✅ Vendor posted successfully!")
+        else:
+            print(f"❌ Error: {response.json()}")
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

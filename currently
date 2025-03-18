@@ -2,37 +2,27 @@
 
 Things we will do in the Django application:
 
-Create django Conversation and Message serializer and api.
+Modify serializer and api to post vendor.
 =Views
 =url pattern
 =Additional modification to handle profile, if any.
 
-Test the Conversation and Message api url.
+Test the Post service api url.
 
 ------------------------------------------------------------------------------------------------------------------------
 
 Next step is to create API calls in kivy.
 
 Next Steps:
-Vendor Details Message Button:
-1. Make API Calls in Kivy for Conversation.
-**When the user clicks the send message button, the message_vendor button:
-**Creates a Conversation object[id, recipient_id, sender_id and vendor_id]
-if conversation exists, when the send message button is clicked it goes to the conversation.
+Post Service Screen:
+1. Create Post a service screen.
 
-2. Make API Calls in Kivy for Message.
-**Message object is created[id, content, timestamp, is_read, conversation_id, recipient_id, sender_id and vendor_id]
+2. Call form to post service screen.
 
-3. Messages screen.
-**Screen where the user can view their messages, incoming and out going.
-**Call vendor details screen
+3. Define fields properly. Call api options for service, location, upload images dir.
 
-4.Message Details screen.
-**Show conversation between the users.
-**Add Text input and reply button which sends the message.
-**Implement reply logic
+4. Post form after validation.
 
-**Update message button in booking details screen.
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code
 ------------------------------------------------------------------------------------------------------------------------

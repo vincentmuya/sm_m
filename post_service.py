@@ -86,6 +86,70 @@ class MenuFileChooserPopup(Popup):
             self.callback(self.filechooser.selection)
         self.dismiss()
 
+class GalleryFileChooserPopup(Popup):
+    def __init__(self, callback, **kwargs):
+        super().__init__(**kwargs)
+        self.callback = callback
+        self.title = "Select Gallery Images"
+        self.size_hint = (0.9, 0.9)
+
+        layout = BoxLayout(orientation='vertical')
+        self.filechooser = FileChooserListView(multiselect=True)  # Enable multiple selection
+        layout.add_widget(self.filechooser)
+
+        # Buttons
+        btn_layout = BoxLayout(size_hint_y=0.2)
+        select_btn = Button(text="Select", on_press=self.select_files)
+        cancel_btn = Button(text="Cancel", on_press=self.dismiss)
+        btn_layout.add_widget(select_btn)
+        btn_layout.add_widget(cancel_btn)
+
+        layout.add_widget(btn_layout)
+        self.add_widget(layout)
+
+    def select_files(self, instance):
+        selected_files = self.filechooser.selection
+        if len(selected_files) == 2:
+            self.callback(selected_files)
+            self.dismiss()
+        else:
+            self.show_error_popup(len(selected_files))  # Show a message based on file count
+
+    def show_error_popup(self, selected_count):
+        """Displays a popup informing the user of the correct selection."""
+        if selected_count == 1:
+            message = "You have selected 1 file. Please select 1 more file."
+        else:
+            message = "Please select exactly 2 files."
+
+        # Create a layout for the popup content
+        content_layout = BoxLayout(orientation="vertical", padding=10, spacing=10)
+
+        # Create the message Label
+        message_label = Label(text=message, size_hint_y=0.7)
+
+        # Create the OK button
+        ok_button = Button(text="OK", size_hint_y=0.3)
+
+        # Function to dismiss the popup when the button is pressed
+        def close_popup(instance):
+            popup.dismiss()
+
+        ok_button.bind(on_press=close_popup)
+
+        # Add widgets to the layout
+        content_layout.add_widget(message_label)
+        content_layout.add_widget(ok_button)
+
+        # Create the popup with the layout as content
+        popup = Popup(
+            title="Selection Error",
+            content=content_layout,
+            size_hint=(0.6, 0.3)
+        )
+
+        popup.open()
+
 class PostServiceScreen(Screen):
     """A screen to display Post A service."""
 
@@ -211,10 +275,16 @@ class PostServiceScreen(Screen):
         layout.add_widget(self.upload_btn)
 
         # Menu Image Upload
-        layout.add_widget(Label(text="Menu Image", font_size='16sp', color=(0, 0, 0, 1)))
+        layout.add_widget(Label(text="Menu Image(Optional)", font_size='16sp', color=(0, 0, 0, 1)))
         self.upload_menu = Button(text="Choose File")
-        self.upload_menu.bind(on_press=self.choose_file_menu)  # Fixed method name
+        self.upload_menu.bind(on_press=self.choose_file_menu)
         layout.add_widget(self.upload_menu)
+
+        # Gallery Images Upload
+        layout.add_widget(Label(text="Gallery Images (Select 2)", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_gallery = Button(text="Choose Files")
+        self.upload_gallery.bind(on_press=self.choose_gallery_files)
+        layout.add_widget(self.upload_gallery)
 
         # Submit Button
         submit_btn = Button(text="Submit", size_hint=(1, None), height=50)
@@ -249,6 +319,16 @@ class PostServiceScreen(Screen):
         if selection:
             self.selected_menu_file = selection[0]  # Store menu image separately
             self.upload_menu.text = "Menu Image Selected"  # Corrected button update
+
+    def choose_gallery_files(self, instance):
+        """Opens a file picker for selecting 2 gallery images."""
+        self.popup = GalleryFileChooserPopup(self.gallery_files_selected)
+        self.popup.open()
+
+    def gallery_files_selected(self, selection):
+        if selection:
+            self.selected_gallery_files = selection
+            self.upload_gallery.text = f"{len(selection)} Files Selected"
 
     def submit_form(self, instance):
         """Collect form data and send a POST request."""

@@ -22,8 +22,8 @@ Post Service Screen:
 3. Define fields properly. Call api options for service, location, upload images dir.
 **-Input Fields.
 **-Profile Image Field * 1.
--Menu Image Field * 1.
--Gallery Images Field * 2.
+**-Menu Image Field * 1.
+**-Gallery Images Field * 2.
 
 4. Post form after validation.
 

@@ -23,10 +23,42 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.spinner import Spinner
 from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.utils import platform
 from kivy.uix.dropdown import DropDown
 
-Builder.load_file('post_service.kv')
+if platform == 'android':
+    from android.permissions import request_permissions, Permission
+    request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
 
+class FileChooserPopup(Popup):
+    def __init__(self, callback, **kwargs):
+        super().__init__(**kwargs)
+        self.callback = callback
+        self.title = "Select Profile Image"
+        self.size_hint = (0.9, 0.9)
+
+        layout = BoxLayout(orientation='vertical')
+        self.filechooser = FileChooserListView()
+        layout.add_widget(self.filechooser)
+
+        # Buttons
+        btn_layout = BoxLayout(size_hint_y=0.2)
+        select_btn = Button(text="Select", on_press=self.select_file)
+        cancel_btn = Button(text="Cancel", on_press=self.dismiss)
+        btn_layout.add_widget(select_btn)
+        btn_layout.add_widget(cancel_btn)
+
+        layout.add_widget(btn_layout)
+        self.add_widget(layout)
+
+    def select_file(self, instance):
+        if self.filechooser.selection:
+            self.callback(self.filechooser.selection)
+        self.dismiss()
 
 class PostServiceScreen(Screen):
     """A screen to display Post A service."""
@@ -146,9 +178,9 @@ class PostServiceScreen(Screen):
         layout.add_widget(self.service_button)
         self.populate_service_dropdown()  # Fetch and populate service options
 
-        # Profile Image Upload (Better UX)
-        layout.add_widget(Label(text="Profile Image", size_hint_x=0.4, font_size='16sp', color=(0, 0, 0, 1)))
-        self.upload_btn = Button(text="Choose File", size_hint_x=0.6)
+        # Profile Image Upload
+        layout.add_widget(Label(text="Profile Image", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_btn = Button(text="Choose File")
         self.upload_btn.bind(on_press=self.choose_file)
         layout.add_widget(self.upload_btn)
 
@@ -168,7 +200,8 @@ class PostServiceScreen(Screen):
 
     def choose_file(self, instance):
         """Opens a file picker for profile image selection."""
-        filechooser.open_file(on_selection=self.file_selected)
+        self.popup = FileChooserPopup(self.file_selected)
+        self.popup.open()
 
     def file_selected(self, selection):
         if selection:

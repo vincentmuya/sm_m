@@ -25,7 +25,11 @@ Post Service Screen:
 **-Menu Image Field * 1.
 **-Gallery Images Field * 2.
 
-4. Post form after validation.
+4. Create submit form method through API.
+**-Submit item.
+-Upload images.
+
+5. Post form after validation.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

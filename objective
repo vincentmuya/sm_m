@@ -27,7 +27,10 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 -Update Vendor.
 -Review.
 -Review Comment.
--Invitation
+-Invitation.
+-Display approved vendors only.
+-Add rating stars.
+
 **-Rate.
 **-Booking.
 **-Favorite.

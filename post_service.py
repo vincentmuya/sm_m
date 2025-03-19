@@ -339,7 +339,7 @@ class PostServiceScreen(Screen):
             return
 
         # Get user ID
-        user_data = app.get_authenticated_data(f"api/user")
+        user_data = app.get_authenticated_data("api/user")
         if not user_data or "id" not in user_data:
             print("❌ Failed to fetch user data.")
             return
@@ -349,28 +349,47 @@ class PostServiceScreen(Screen):
         # Collect form data
         vendor_data = {key: field.text for key, field in self.fields.items()}
         vendor_data["user"] = user_id
-        vendor_data["service"] = self.service_spinner.text
-        vendor_data["location"] = self.location_spinner.text
+        vendor_data["service"] = self.selected_service_id
+        vendor_data["location"] = self.selected_location_id
 
-        # Upload Profile Image (if selected)
+        # Upload images
         files = {}
-        if self.file_chooser.selection:
-            file_path = self.file_chooser.selection[0]
-            files["profile_image"] = open(file_path, "rb")
 
-        headers = {"Authorization": f"Bearer {token}"}
+        # Profile Image Upload
+        if hasattr(self, "selected_profile") and self.selected_profile:
+            files["profile_image"] = open(self.selected_profile, "rb")
 
-        response = requests.post(
-            "http://your-django-api.com/api/vendor/",
-            data=vendor_data,
-            files=files,
-            headers=headers
-        )
+        # Menu Image Upload (if selected)
+        if hasattr(self, "selected_menu") and self.selected_menu:
+            files["menu_image"] = open(self.selected_menu, "rb")
 
-        if response.status_code == 201:
-            print("✅ Vendor posted successfully!")
+        # Gallery Images Upload (ensure exactly 2)
+        if hasattr(self, "selected_gallery") and len(self.selected_gallery) == 2:
+            files["gallery_image_1"] = open(self.selected_gallery[0], "rb")
+            files["gallery_image_2"] = open(self.selected_gallery[1], "rb")
         else:
-            print(f"❌ Error: {response.json()}")
+            print("⚠️ Please select exactly 2 gallery images.")
+
+        headers = {"Authorization": f"Token {token}"}
+
+        try:
+            response = requests.post(
+                "http://localhost:8000/api/vendor/",
+                data=vendor_data,
+                files=files,
+                headers=headers
+            )
+
+            if response.status_code == 201:
+                print("✅ Vendor posted successfully!")
+            else:
+                print(f"❌ Error: {response.json()}")
+        except Exception as e:
+            print(f"❌ Request failed: {str(e)}")
+        finally:
+            # Close files after upload
+            for file in files.values():
+                file.close()
 
     def populate_location_dropdown(self):
         """Fetch locations from the API and populate the dropdown."""
@@ -381,10 +400,15 @@ class PostServiceScreen(Screen):
             locations = response.json()
             for location in locations:
                 btn = Button(text=location['location'], size_hint_y=None, height=40)
-                btn.bind(on_release=lambda btn=btn: self.location_dropdown.select(btn.text))  # Fix late binding issue
+                btn.bind(on_release=lambda btn, id=location["id"]: self.set_selected_location(id, btn.text))
                 self.location_dropdown.add_widget(btn)
         else:
             print(f"Failed to retrieve locations. Status code: {response.status_code}")
+
+    def set_selected_location(self, location_id, location_name):
+        """Stores the selected location ID and updates the button text."""
+        self.selected_location_id = location_id
+        self.location_button.text = location_name
 
     def populate_service_dropdown(self):
         """Fetch services from the API and populate the dropdown with only child categories."""
@@ -399,10 +423,15 @@ class PostServiceScreen(Screen):
 
             for service in child_services:
                 btn = Button(text=service['service'], size_hint_y=None, height=40)
-                btn.bind(on_release=lambda btn=btn: self.service_dropdown.select(btn.text))  # Fix late binding issue
+                btn.bind(on_release=lambda btn, id=service["id"]: self.set_selected_service(id, btn.text))
                 self.service_dropdown.add_widget(btn)
         else:
             print(f"Failed to retrieve services. Status code: {response.status_code}")
+
+    def set_selected_service(self, service_id, service_name):
+        """Stores the selected service ID and updates the button text."""
+        self.selected_service_id = service_id
+        self.service_button.text = service_name
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

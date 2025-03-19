@@ -60,6 +60,32 @@ class FileChooserPopup(Popup):
             self.callback(self.filechooser.selection)
         self.dismiss()
 
+class MenuFileChooserPopup(Popup):
+    def __init__(self, callback, **kwargs):
+        super().__init__(**kwargs)
+        self.callback = callback
+        self.title = "Select Menu Image"
+        self.size_hint = (0.9, 0.9)
+
+        layout = BoxLayout(orientation='vertical')
+        self.filechooser = FileChooserListView()
+        layout.add_widget(self.filechooser)
+
+        # Buttons
+        btn_layout = BoxLayout(size_hint_y=0.2)
+        select_btn = Button(text="Select", on_press=self.select_file)
+        cancel_btn = Button(text="Cancel", on_press=self.dismiss)
+        btn_layout.add_widget(select_btn)
+        btn_layout.add_widget(cancel_btn)
+
+        layout.add_widget(btn_layout)
+        self.add_widget(layout)
+
+    def select_file(self, instance):
+        if self.filechooser.selection:
+            self.callback(self.filechooser.selection)
+        self.dismiss()
+
 class PostServiceScreen(Screen):
     """A screen to display Post A service."""
 
@@ -184,6 +210,12 @@ class PostServiceScreen(Screen):
         self.upload_btn.bind(on_press=self.choose_file)
         layout.add_widget(self.upload_btn)
 
+        # Menu Image Upload
+        layout.add_widget(Label(text="Menu Image", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_menu = Button(text="Choose File")
+        self.upload_menu.bind(on_press=self.choose_file_menu)  # Fixed method name
+        layout.add_widget(self.upload_menu)
+
         # Submit Button
         submit_btn = Button(text="Submit", size_hint=(1, None), height=50)
         submit_btn.bind(on_press=self.submit_form)
@@ -206,7 +238,17 @@ class PostServiceScreen(Screen):
     def file_selected(self, selection):
         if selection:
             self.selected_file = selection[0]
-            self.upload_btn.text = "File Selected"
+            self.upload_btn.text = "Profile Image Selected"
+
+    def choose_file_menu(self, instance):
+        """Opens a file picker for menu image selection."""
+        self.popup = MenuFileChooserPopup(self.menu_file_selected)
+        self.popup.open()
+
+    def menu_file_selected(self, selection):
+        if selection:
+            self.selected_menu_file = selection[0]  # Store menu image separately
+            self.upload_menu.text = "Menu Image Selected"  # Corrected button update
 
     def submit_form(self, instance):
         """Collect form data and send a POST request."""

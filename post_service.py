@@ -29,6 +29,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.utils import platform
 from kivy.uix.dropdown import DropDown
+from kivymd.toast import toast
 
 if platform == 'android':
     from android.permissions import request_permissions, Permission
@@ -368,12 +369,12 @@ class PostServiceScreen(Screen):
 
         # Menu Image
         if hasattr(self, "selected_menu_file"):
-            files["menu_image"] = open(self.selected_menu_file, "rb")
+            files["menu_images"] = open(self.selected_menu_file, "rb")
 
         # Gallery Images
         if hasattr(self, "selected_gallery_files"):
             for i, file_path in enumerate(self.selected_gallery_files):
-                files[f"gallery_image_{i + 1}"] = open(file_path, "rb")
+                files[f"gallery_images_{i + 1}"] = open(file_path, "rb")
 
         print("Files to be sent:", files)  # Debugging line
 
@@ -386,6 +387,8 @@ class PostServiceScreen(Screen):
                 f.close()
 
             if response.status_code == 201:
+                app.root.current = "landing_page"
+                toast("Vendor posted successfully!")
                 print("✅ Vendor posted successfully!")
             else:
                 print("❌ Failed to post vendor:", response.text)

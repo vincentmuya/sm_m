@@ -27,7 +27,7 @@ Post Service Screen:
 
 4. Create submit form method through API.
 **-Submit item.
--Upload images.
+-Upload images.(Create a new serializer, API view and url for uploading images or the whole process of posting a vendor)
 
 5. Post form after validation.
 

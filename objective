@@ -30,7 +30,7 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 -Invitation.
 -Display approved vendors only.
 -Add rating stars.
-
+-Refresh screen each time it is accessed.
 **-Rate.
 **-Booking.
 **-Favorite.
@@ -44,3 +44,7 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 
 Kivy is a popular Python framework for creating multi-touch applications, while Django Rest Framework (DRF) is commonly used to build RESTful APIs in Django.
 Combining these two technologies can allow you to create a mobile or desktop application that communicates with a Django-powered backend through RESTful API endpoints.
+
+Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes that can then be easily rendered into JSON, XML or other content types. Serializers also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the incoming data.
+
+The serializers in REST framework work very similarly to Django's Form and ModelForm classes. We provide a Serializer class which gives you a powerful, generic way to control the output of your responses, as well as a ModelSerializer class which provides a useful shortcut for creating serializers that deal with model instances and querysets.

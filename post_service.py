@@ -317,8 +317,8 @@ class PostServiceScreen(Screen):
 
     def menu_file_selected(self, selection):
         if selection:
-            self.selected_menu_file = selection[0]  # Store menu image separately
-            self.upload_menu.text = "Menu Image Selected"  # Corrected button update
+            self.selected_menu_file = selection[0]  # Ensure this is set
+            self.upload_menu.text = "Menu Image Selected"
 
     def choose_gallery_files(self, instance):
         """Opens a file picker for selecting 2 gallery images."""
@@ -327,11 +327,12 @@ class PostServiceScreen(Screen):
 
     def gallery_files_selected(self, selection):
         if selection:
-            self.selected_gallery_files = selection
+            self.selected_gallery_files = selection  # Ensure this is set
             self.upload_gallery.text = f"{len(selection)} Files Selected"
 
     def submit_form(self, instance):
-        """Collect form data and send a POST request."""
+        """Handles form submission, including file uploads."""
+
         app = App.get_running_app()
         token = app.user_data.get("token", "")
         if not token:
@@ -346,50 +347,51 @@ class PostServiceScreen(Screen):
 
         user_id = user_data["id"]
 
-        # Collect form data
-        vendor_data = {key: field.text for key, field in self.fields.items()}
-        vendor_data["user"] = user_id
-        vendor_data["service"] = self.selected_service_id
-        vendor_data["location"] = self.selected_location_id
+        url = "http://localhost:8000/api/vendor/upload/"
 
-        # Upload images
+        # Collect text input values
+        form_data = {field: widget.text for field, widget in self.fields.items()}
+
+        #pass user id
+        form_data["user"] = user_id
+
+        # Add dropdown selections
+        form_data["location"] = self.selected_location_id
+        form_data["service"] = self.selected_service_id
+
+        # Prepare files dictionary
         files = {}
 
-        # Profile Image Upload
-        if hasattr(self, "selected_profile") and self.selected_profile:
-            files["profile_image"] = open(self.selected_profile, "rb")
+        # Profile Image
+        if hasattr(self, "selected_file"):
+            files["profile_image"] = open(self.selected_file, "rb")
 
-        # Menu Image Upload (if selected)
-        if hasattr(self, "selected_menu") and self.selected_menu:
-            files["menu_image"] = open(self.selected_menu, "rb")
+        # Menu Image
+        if hasattr(self, "selected_menu_file"):
+            files["menu_image"] = open(self.selected_menu_file, "rb")
 
-        # Gallery Images Upload (ensure exactly 2)
-        if hasattr(self, "selected_gallery") and len(self.selected_gallery) == 2:
-            files["gallery_image_1"] = open(self.selected_gallery[0], "rb")
-            files["gallery_image_2"] = open(self.selected_gallery[1], "rb")
-        else:
-            print("⚠️ Please select exactly 2 gallery images.")
+        # Gallery Images
+        if hasattr(self, "selected_gallery_files"):
+            for i, file_path in enumerate(self.selected_gallery_files):
+                files[f"gallery_image_{i + 1}"] = open(file_path, "rb")
 
-        headers = {"Authorization": f"Token {token}"}
+        print("Files to be sent:", files)  # Debugging line
 
+        # Send the request
         try:
-            response = requests.post(
-                "http://localhost:8000/api/vendor/",
-                data=vendor_data,
-                files=files,
-                headers=headers
-            )
+            response = requests.post(url, data=form_data, files=files)
+
+            # Close opened files after request
+            for f in files.values():
+                f.close()
 
             if response.status_code == 201:
                 print("✅ Vendor posted successfully!")
             else:
-                print(f"❌ Error: {response.json()}")
+                print("❌ Failed to post vendor:", response.text)
+
         except Exception as e:
-            print(f"❌ Request failed: {str(e)}")
-        finally:
-            # Close files after upload
-            for file in files.values():
-                file.close()
+            print("❌ Error:", str(e))
 
     def populate_location_dropdown(self):
         """Fetch locations from the API and populate the dropdown."""

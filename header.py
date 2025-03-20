@@ -28,7 +28,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -5},
+            pos_hint={"x": -1, "top": -3},
             size_hint_y=1,
             md_bg_color=get_color_from_hex("#FFFFFF")
         )
@@ -38,9 +38,6 @@ class Header(FloatLayout):
 
         # Add menu items
         self.nav_list.add_widget(OneLineListItem(text="Home", on_release=lambda x: self.navigate_to("landing_page")))
-        self.nav_list.add_widget(OneLineListItem(text="Vendors", on_release=lambda x: self.navigate_to("vendors_screen")))
-        self.nav_list.add_widget(OneLineListItem(text="My Bookings", on_release=lambda x: self.navigate_to("bookings")))
-        self.nav_list.add_widget(OneLineListItem(text="Profile", on_release=lambda x: self.navigate_to("profile")))
 
         # Location Dropdown Container
         self.location_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=40)

@@ -25,11 +25,11 @@ Post Service Screen:
 **-Menu Image Field * 1.
 **-Gallery Images Field * 2.
 
-4. Create submit form method through API.
+**4. Create submit form method through API.
 **-Submit item.
--Upload images.(Create a new serializer, API view and url for uploading images or the whole process of posting a vendor)
+**-Upload images.(Create a new serializer, API view and url for uploading images or the whole process of posting a vendor)
 
-5. Post form after validation.
+**5. Post form after validation.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

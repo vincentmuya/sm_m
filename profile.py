@@ -1,6 +1,5 @@
 from navbar import Navbar
 from header import Header
-from vendors import VendorsCard
 from kivy.uix.widget import Widget
 from filter_widget import Filter
 from search_widget import SearchWidget
@@ -15,8 +14,96 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.image import AsyncImage
+from kivy.uix.popup import Popup
+from kivymd.toast import toast
 
 Builder.load_file('profile.kv')
+
+class ProfileVendorCard(BoxLayout):
+    def __init__(self, institution_name, price, image_source, vendor_id, slug, service, location, update_callback, delete_callback, **kwargs):
+        super().__init__(orientation='vertical', size_hint_y=None, height=320, spacing=0, padding=10)
+
+        self.vendor_id = vendor_id
+        self.slug = slug
+        self.delete_callback = delete_callback
+
+        # Vendor Image (lowered)
+        self.image = AsyncImage(source=image_source, size_hint_y=None, height=130)
+        self.image.bind(on_touch_down=self.on_touch)
+        self.add_widget(self.image)
+
+        # Vendor Details
+        self.add_widget(Label(text=f"[b]{institution_name}[/b]", markup=True, size_hint_y=None, height=30, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
+        self.add_widget(Label(text=f"Service: {service}", size_hint_y=None, height=20, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
+        self.add_widget(Label(text=f"Location: {location}", size_hint_y=None, height=20, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
+        self.add_widget(Label(text=f"Price: {price}", size_hint_y=None, height=20, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
+
+        # Update and Delete Buttons
+        self.update_button = Button(text="Update", size_hint_y=None, height=40, background_color=(0, 0.5, 1, 1))
+        self.update_button.bind(on_press=lambda instance: update_callback(self.vendor_id))
+        self.add_widget(self.update_button)
+
+        # Delete Button (calls confirmation popup)
+        self.delete_button = Button(text="Delete", size_hint_y=None, height=40, background_color=(1, 0, 0, 1))
+        self.delete_button.bind(on_press=self.confirm_delete_popup)
+        self.add_widget(self.delete_button)
+
+    def confirm_delete_popup(self, instance):
+        """Show confirmation popup before deleting vendor."""
+        popup_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        popup_label = Label(text=f"Are you sure you want to delete this vendor?")
+        button_layout = BoxLayout(size_hint_y=None, height=50, spacing=10)
+
+        # Confirm Button
+        confirm_button = Button(text="Yes", background_color=(1, 0, 0, 1))
+        confirm_button.bind(on_press=lambda x: self.confirm_delete(self.vendor_id, popup))  # ✅ Calls delete on confirm
+
+        # Cancel Button
+        cancel_button = Button(text="No", background_color=(0, 1, 0, 1))
+        cancel_button.bind(on_press=lambda x: popup.dismiss())
+
+        button_layout.add_widget(confirm_button)
+        button_layout.add_widget(cancel_button)
+
+        popup_layout.add_widget(popup_label)
+        popup_layout.add_widget(button_layout)
+
+        popup = Popup(title="Confirm Deletion", content=popup_layout, size_hint=(None, None), size=(300, 200))
+        popup.open()
+
+    def confirm_delete(self, vendor_id, popup):
+        """Closes popup and calls delete_vendor."""
+        popup.dismiss()
+        if self.delete_callback:  # ✅ Ensure delete_callback exists before calling
+            self.delete_callback(vendor_id)
+        else:
+            print("Error: delete_callback not found")
+
+    def on_touch(self, instance, touch):
+        """Detect touch and call view_vendor only when the image is clicked."""
+        if instance.collide_point(*touch.pos):  # Ensure touch is inside the image
+            self.view_vendor()
+            return True  # Consume touch event
+        return False  # Allow other interactions
+
+    def view_vendor(self):
+        """Fetch vendor details and navigate to vendor details screen."""
+        vendor_id = self.vendor_id
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{self.slug}/"
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            vendor_details = response.json()
+            app = App.get_running_app()
+            vendor_details_screen = app.root.get_screen('vendor_details')
+            vendor_details_screen.load_details(vendor_details)
+
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'vendor_details'
+        else:
+            print("Failed to fetch vendor details.")
 
 class ProfileScreen(Screen):
     def __init__(self, **kwargs):
@@ -186,18 +273,47 @@ class ProfileScreen(Screen):
             service_id = vendor.get('service')
             service_name = services.get(service_id, "Unknown Service")
 
-            # Create the vendor card
-            vendor_card = VendorsCard(
+            # Use ProfileVendorCard
+            vendor_card = ProfileVendorCard(
                 institution_name=vendor['institution_name'],
                 price=str(vendor['price']),
                 image_source=full_image_url,
                 vendor_id=str(vendor['id']),
                 slug=vendor['slug'],
                 service=service_name,
-                location=location_name
+                location=location_name,
+                update_callback=self.update_vendor,
+                delete_callback=self.delete_vendor
             )
             self.vendor_grid.add_widget(vendor_card)
-        pass
+
+    def update_vendor(self, vendor_id):
+        print(f"Update vendor {vendor_id}")
+        # Here you can open a form popup to edit vendor details
+        content = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        content.add_widget(Label(text="Update feature coming soon!"))
+
+        close_button = Button(text="Close", size_hint_y=None, height=40)
+        content.add_widget(close_button)
+
+        popup = Popup(title="Update Vendor", content=content, size_hint=(None, None), size=(400, 200))
+        close_button.bind(on_press=popup.dismiss)
+        popup.open()
+
+    def delete_vendor(self, vendor_id):
+        """Deletes vendor and refreshes the list."""
+        print(f"Deleting vendor {vendor_id}...")
+
+        url = f"http://localhost:8000/api/vendor/delete/{vendor_id}/"
+        response = requests.delete(url)
+
+        if response.status_code == 204:
+            print(f"Vendor {vendor_id} deleted successfully.")
+            app = App.get_running_app()
+            app.root.current = "landing_page"
+            toast("Vendor Deleted successfully!")
+        else:
+            print(f"Failed to delete vendor {vendor_id}. Status code: {response.status_code}")
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
@@ -247,4 +363,3 @@ class ProfileScreen(Screen):
         search_results_screen.load_search_results(vendors, search_query)
         app.root.transition = SlideTransition(direction='left')
         app.root.current = 'search_results'
-    pass

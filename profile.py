@@ -287,18 +287,9 @@ class ProfileScreen(Screen):
             )
             self.vendor_grid.add_widget(vendor_card)
 
-    def update_vendor(self, vendor_id):
-        print(f"Update vendor {vendor_id}")
-        # Here you can open a form popup to edit vendor details
-        content = BoxLayout(orientation='vertical', spacing=10, padding=10)
-        content.add_widget(Label(text="Update feature coming soon!"))
-
-        close_button = Button(text="Close", size_hint_y=None, height=40)
-        content.add_widget(close_button)
-
-        popup = Popup(title="Update Vendor", content=content, size_hint=(None, None), size=(400, 200))
-        close_button.bind(on_press=popup.dismiss)
-        popup.open()
+    def update_vendor(self, instance):
+        app = App.get_running_app()
+        app.root.current = "update_service_screen"
 
     def delete_vendor(self, vendor_id):
         """Deletes vendor and refreshes the list."""

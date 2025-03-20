@@ -24,16 +24,16 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 2. Pending Features
 
 -Update Vendor.
--Delete vendor.
 -Review.
 -Review Comment.
+-M-pesa integration.
 -Invitation.
 -Display approved vendors only.
 -Add rating stars.
 -Refresh screen each time it is accessed.
--M-pesa integration.
 
 **-Post service.
+**-Delete vendor.
 **-Rate.
 **-Booking.
 **-Favorite.

@@ -15,6 +15,7 @@ from booking_details import BookingDetailsScreen
 from messages import MessagesScreen
 from message_details import MessageDetailsScreen
 from post_service import PostServiceScreen
+from update_vendor import UpdateServiceScreen
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -320,9 +321,13 @@ class MyApp(MDApp):
         message_details_screen = MessageDetailsScreen(name='message_details')
         screen_manager.add_widget(message_details_screen)
 
-        # Create the PostServiceScreen instance and add it to the ScreenManager
-        post_service_screen = PostServiceScreen(name='post_service_screen')
+        # Create the UpdateServiceScreen instance and add it to the ScreenManager
+        post_service_screen = UpdateServiceScreen(name='update_service_screen')
         screen_manager.add_widget(post_service_screen)
+
+        # Create the UpdateServiceScreen instance and add it to the ScreenManager
+        update_service_screen = PostServiceScreen(name='post_service_screen')
+        screen_manager.add_widget(update_service_screen)
 
         return screen_manager
 

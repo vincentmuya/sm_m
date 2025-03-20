@@ -2,34 +2,29 @@
 
 Things we will do in the Django application:
 
-Modify serializer and api to post vendor.
+Modify serializer and api to Update & delete posted vendor.
 =Views
 =url pattern
-=Additional modification to handle profile, if any.
+=Additional modification to handle update vendor, if any.
 
-Test the Post service api url.
+Test the Update Vendor api url.
+Test the Delete Vendor api url.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-Next step is to create API calls in kivy.
+Next step is to create APIs calls in kivy.
 
 Next Steps:
-Post Service Screen:
-**1. Create Post a service screen.
+**-Delete Vendor.
+**-Create confirm pop up
+**-Confirm deletion and delete
 
-**2. Call form to post service screen.
+Update Vendor:
+1. Create update service screen.
 
-3. Define fields properly. Call api options for service, location, upload images dir.
-**-Input Fields.
-**-Profile Image Field * 1.
-**-Menu Image Field * 1.
-**-Gallery Images Field * 2.
+2. Call form instance to update vendor screen.
 
-**4. Create submit form method through API.
-**-Submit item.
-**-Upload images.(Create a new serializer, API view and url for uploading images or the whole process of posting a vendor)
-
-**5. Post form after validation.
+3. Post form after update
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

@@ -20,11 +20,13 @@ Next Steps:
 **-Confirm deletion and delete
 
 Update Vendor:
-1. Create update service screen.
+**1. Create update service screen.
 
-2. Call form instance to update vendor screen.
+**2. Pass vendor details instance to update_vendor screen
 
-3. Post form after update
+**3. Call form instance to update vendor screen.
+
+4. Post form after update
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

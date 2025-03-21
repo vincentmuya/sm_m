@@ -176,8 +176,6 @@ class UpdateServiceScreen(Screen):
         # The form container
         self.update_form = GridLayout(cols=2, size_hint_y=None, spacing='10dp')
         self.update_form.bind(minimum_height=self.update_form.setter('height'))
-        # Call the method to display the form
-        # self.show_update_vendor_form(vendor_details)
 
         # Spacer widget to add space after the header
         top_spacer = Widget(size_hint=(1, None), height=45)
@@ -221,8 +219,249 @@ class UpdateServiceScreen(Screen):
         self.add_widget(self.user_info_layout)
 
     def show_update_vendor_form(self, vendor_details):
+        """Creates and adds the vendor updating form to the UI."""
         print("Vendor Details Passed to Update Screen:", vendor_details)
+        layout = GridLayout(cols=2, spacing=15, size_hint_y=None, row_default_height=50)
+        layout.bind(minimum_height=layout.setter('height'))
+
+        # Dictionary to store form fields
+        self.fields = {}
+
+        field_data = [
+            ("Institution Name", "institution_name"),
+            ("Description", "description"),
+            ("Price", "price"),
+            ("Phone Number", "phone_number"),
+            ("Email", "email"),
+            ("Website", "website"),
+            ("Social Media", "social_media"),
+            ("Business Registration Number(Optional)", "business_registration_number"),
+        ]
+
+        for label_text, field_name in field_data:
+            layout.add_widget(Label(text=label_text, size_hint_x=0.4, font_size='16sp', color=(0, 0, 0, 1)))
+            text_input = TextInput(
+                text=str(vendor_details.get(field_name, '')),  # Pre-fill with vendor data
+                multiline=False,
+                size_hint_x=0.6,
+                font_size='16sp'
+            )
+            layout.add_widget(text_input)
+            self.fields[field_name] = text_input
+
+        # Store selected location/service ID before fetching names
+        self.selected_location_id = vendor_details.get("location", None)
+        self.selected_service_id = vendor_details.get("service", None)
+
+        # Location Dropdown
+        layout.add_widget(Label(text="Location", size_hint_x=0.5, color=(0, 0, 0, 1)))
+
+        self.location_dropdown = DropDown()
+        self.location_button = Button(text="Loading...", size_hint_x=0.8)  # Placeholder text
+        self.location_button.bind(on_release=self.location_dropdown.open)
+        self.location_dropdown.bind(on_select=lambda instance, x: setattr(self.location_button, 'text', x))
+
+        layout.add_widget(self.location_button)
+        self.populate_location_dropdown()  # Fetch and populate location options
+
+        # Service Dropdown
+        layout.add_widget(Label(text="Service", size_hint_x=0.5, color=(0, 0, 0, 1)))
+
+        self.service_dropdown = DropDown()
+        self.service_button = Button(text="Loading...", size_hint_x=0.8)  # Placeholder text
+        self.service_button.bind(on_release=self.service_dropdown.open)
+        self.service_dropdown.bind(on_select=lambda instance, x: setattr(self.service_button, 'text', x))
+
+        layout.add_widget(self.service_button)
+        self.populate_service_dropdown()  # Fetch and populate service options
+
+        # Profile Image Upload
+        layout.add_widget(Label(text="Profile Image", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_btn = Button(text="Choose File")
+        self.upload_btn.bind(on_press=self.choose_file)
+        layout.add_widget(self.upload_btn)
+
+        # Menu Image Upload
+        layout.add_widget(Label(text="Menu Image(Optional)", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_menu = Button(text="Choose File")
+        self.upload_menu.bind(on_press=self.choose_file_menu)
+        layout.add_widget(self.upload_menu)
+
+        # Gallery Images Upload
+        layout.add_widget(Label(text="Gallery Images (Select 2)", font_size='16sp', color=(0, 0, 0, 1)))
+        self.upload_gallery = Button(text="Choose Files")
+        self.upload_gallery.bind(on_press=self.choose_gallery_files)
+        layout.add_widget(self.upload_gallery)
+
+        # Submit Button
+        submit_btn = Button(text="Submit", size_hint=(1, None), height=50)
+        submit_btn.bind(on_press=self.submit_form)
+
+        layout.add_widget(Label())  # Spacer
+        layout.add_widget(submit_btn)
+
+        # Wrap form inside a ScrollView for better UX
+        scroll_view = ScrollView(size_hint=(1, None), height=500)
+        scroll_view.add_widget(layout)
+
+        # Add form to the update vendor form container
+        self.update_form.add_widget(scroll_view)
+
         pass
+
+    def choose_file(self, instance):
+        """Opens a file picker for profile image selection."""
+        self.popup = FileChooserPopup(self.file_selected)
+        self.popup.open()
+
+    def file_selected(self, selection):
+        if selection:
+            self.selected_file = selection[0]
+            self.upload_btn.text = "Profile Image Selected"
+
+    def choose_file_menu(self, instance):
+        """Opens a file picker for menu image selection."""
+        self.popup = MenuFileChooserPopup(self.menu_file_selected)
+        self.popup.open()
+
+    def menu_file_selected(self, selection):
+        if selection:
+            self.selected_menu_file = selection[0]  # Ensure this is set
+            self.upload_menu.text = "Menu Image Selected"
+
+    def choose_gallery_files(self, instance):
+        """Opens a file picker for selecting 2 gallery images."""
+        self.popup = GalleryFileChooserPopup(self.gallery_files_selected)
+        self.popup.open()
+
+    def gallery_files_selected(self, selection):
+        if selection:
+            self.selected_gallery_files = selection  # Ensure this is set
+            self.upload_gallery.text = f"{len(selection)} Files Selected"
+
+    def populate_location_dropdown(self):
+        """Fetch locations from the API and populate the dropdown."""
+        api_url = 'http://localhost:8000/api/locations/'
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            locations = response.json()
+            location_name = "Select Location"  # Default text
+
+            for location in locations:
+                btn = Button(text=location['location'], size_hint_y=None, height=40)
+                btn.bind(on_release=lambda btn, id=location["id"]: self.set_selected_location(id, btn.text))
+                self.location_dropdown.add_widget(btn)
+
+                # If this is the vendor's location, update the button text
+                if self.selected_location_id == location["id"]:
+                    location_name = location["location"]
+
+            self.location_button.text = location_name  # Update button text with correct location name
+
+        else:
+            print(f"Failed to retrieve locations. Status code: {response.status_code}")
+
+    def set_selected_location(self, location_id, location_name):
+        """Stores the selected location ID and updates the button text."""
+        self.selected_location_id = location_id
+        self.location_button.text = location_name
+
+    def populate_service_dropdown(self):
+        """Fetch services from the API and populate the dropdown with only child categories."""
+        api_url = 'http://localhost:8000/api/services/'
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            services = response.json()
+            service_name = "Select Service"  # Default text
+
+            # Extract only child categories (where "parent" is not null)
+            child_services = [service for service in services if service["parent"] is not None]
+
+            for service in child_services:
+                btn = Button(text=service['service'], size_hint_y=None, height=40)
+                btn.bind(on_release=lambda btn, id=service["id"]: self.set_selected_service(id, btn.text))
+                self.service_dropdown.add_widget(btn)
+
+                # If this is the vendor's service, update the button text
+                if self.selected_service_id == service["id"]:
+                    service_name = service["service"]
+
+            self.service_button.text = service_name  # Update button text with correct service name
+
+        else:
+            print(f"Failed to retrieve services. Status code: {response.status_code}")
+
+    def set_selected_service(self, service_id, service_name):
+        """Stores the selected service ID and updates the button text."""
+        self.selected_service_id = service_id
+        self.service_button.text = service_name
+
+    def submit_form(self, instance):
+        """Handles form submission, including file uploads."""
+
+        app = App.get_running_app()
+        token = app.user_data.get("token", "")
+        if not token:
+            print("❌ User not authenticated.")
+            return
+
+        # Get user ID
+        user_data = app.get_authenticated_data("api/user")
+        if not user_data or "id" not in user_data:
+            print("❌ Failed to fetch user data.")
+            return
+
+        user_id = user_data["id"]
+
+        url = "http://localhost:8000/api/vendor/upload/"
+
+        # Collect text input values
+        form_data = {field: widget.text for field, widget in self.fields.items()}
+
+        #pass user id
+        form_data["user"] = user_id
+
+        # Add dropdown selections
+        form_data["location"] = self.selected_location_id
+        form_data["service"] = self.selected_service_id
+
+        # Prepare files dictionary
+        files = {}
+
+        # Profile Image
+        if hasattr(self, "selected_file"):
+            files["profile_image"] = open(self.selected_file, "rb")
+
+        # Menu Image
+        if hasattr(self, "selected_menu_file"):
+            files["menu_images"] = open(self.selected_menu_file, "rb")
+
+        # Gallery Images
+        if hasattr(self, "selected_gallery_files"):
+            for i, file_path in enumerate(self.selected_gallery_files):
+                files[f"gallery_images_{i + 1}"] = open(file_path, "rb")
+
+        print("Files to be sent:", files)  # Debugging line
+
+        # Send the request
+        try:
+            response = requests.post(url, data=form_data, files=files)
+
+            # Close opened files after request
+            for f in files.values():
+                f.close()
+
+            if response.status_code == 201:
+                app.root.current = "landing_page"
+                toast("Vendor posted successfully!")
+                print("✅ Vendor posted successfully!")
+            else:
+                print("❌ Failed to post vendor:", response.text)
+
+        except Exception as e:
+            print("❌ Error:", str(e))
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

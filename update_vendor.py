@@ -220,7 +220,11 @@ class UpdateServiceScreen(Screen):
 
     def show_update_vendor_form(self, vendor_details):
         """Creates and adds the vendor updating form to the UI."""
-        print("Vendor Details Passed to Update Screen:", vendor_details)
+
+        # Store vendor details in the instance
+        self.vendor_details = vendor_details
+        print("Vendor Details Passed to Update Screen:", self.vendor_details)
+
         layout = GridLayout(cols=2, spacing=15, size_hint_y=None, row_default_height=50)
         layout.bind(minimum_height=layout.setter('height'))
 
@@ -414,51 +418,60 @@ class UpdateServiceScreen(Screen):
             return
 
         user_id = user_data["id"]
+        # Get the vendor ID from the loaded vendor details
+        vendor_id = self.vendor_details.get("id")
 
-        url = "http://localhost:8000/api/vendor/upload/"
+        url = f"http://localhost:8000/api/vendor/update/{vendor_id}/"
 
         # Collect text input values
         form_data = {field: widget.text for field, widget in self.fields.items()}
-
-        #pass user id
+        # Pass user id
         form_data["user"] = user_id
-
         # Add dropdown selections
-        form_data["location"] = self.selected_location_id
-        form_data["service"] = self.selected_service_id
+        form_data["location"] = self.selected_location_id or self.vendor_details.get("location")
+        form_data["service"] = self.selected_service_id or self.vendor_details.get("service")
 
         # Prepare files dictionary
         files = {}
 
-        # Profile Image
+        # Profile Image (Only send if a new file is selected)
         if hasattr(self, "selected_file"):
             files["profile_image"] = open(self.selected_file, "rb")
 
-        # Menu Image
+        # Menu Image (Only send if a new file is selected)
         if hasattr(self, "selected_menu_file"):
             files["menu_images"] = open(self.selected_menu_file, "rb")
 
-        # Gallery Images
-        if hasattr(self, "selected_gallery_files"):
+        # Gallery Images (Only send if new files are selected)
+        if hasattr(self, "selected_gallery_files") and self.selected_gallery_files:
             for i, file_path in enumerate(self.selected_gallery_files):
                 files[f"gallery_images_{i + 1}"] = open(file_path, "rb")
 
-        print("Files to be sent:", files)  # Debugging line
+        # Remove image fields from form_data if they are just strings (to avoid sending paths)
+        if "profile_image" in form_data and not hasattr(self, "selected_file"):
+            del form_data["profile_image"]
+
+        if "gallery_images" in form_data and not hasattr(self, "selected_gallery_files"):
+            del form_data["gallery_images"]
+
+        print("📡 Sending Data...")
+        print("Files to be sent:", files)  # Debugging
+        print("Form data being sent:", form_data)  # Debugging
 
         # Send the request
         try:
-            response = requests.post(url, data=form_data, files=files)
+            response = requests.put(url, data=form_data, files=files)
 
             # Close opened files after request
             for f in files.values():
                 f.close()
 
-            if response.status_code == 201:
+            if response.status_code == 200:
                 app.root.current = "landing_page"
-                toast("Vendor posted successfully!")
-                print("✅ Vendor posted successfully!")
+                toast("Vendor updated successfully!")
+                print("✅ Vendor updated successfully!")
             else:
-                print("❌ Failed to post vendor:", response.text)
+                print("❌ Failed to update vendor:", response.text)
 
         except Exception as e:
             print("❌ Error:", str(e))

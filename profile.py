@@ -17,6 +17,7 @@ from kivy.uix.button import Button
 from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
 from kivymd.toast import toast
+from functools import partial
 
 Builder.load_file('profile.kv')
 
@@ -39,9 +40,9 @@ class ProfileVendorCard(BoxLayout):
         self.add_widget(Label(text=f"Location: {location}", size_hint_y=None, height=20, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
         self.add_widget(Label(text=f"Price: {price}", size_hint_y=None, height=20, color=(0, 0, 0, 1), on_touch_down=self.on_touch))
 
-        # Update and Delete Buttons
+        # Update Buttons
         self.update_button = Button(text="Update", size_hint_y=None, height=40, background_color=(0, 0.5, 1, 1))
-        self.update_button.bind(on_press=lambda instance: update_callback(self.vendor_id))
+        self.update_button.bind(on_press=partial(update_callback, self.vendor_id, self.slug))
         self.add_widget(self.update_button)
 
         # Delete Button (calls confirmation popup)
@@ -287,9 +288,21 @@ class ProfileScreen(Screen):
             )
             self.vendor_grid.add_widget(vendor_card)
 
-    def update_vendor(self, instance):
+    def update_vendor(self, vendor_id, slug, *args):
+        """Fetch vendor details and navigate to the update form."""
         app = App.get_running_app()
-        app.root.current = "update_service_screen"
+        update_screen = app.root.get_screen("update_service_screen")
+
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{slug}"
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            vendor_details = response.json()
+            print("Vendor Details Fetched:", vendor_details)
+            update_screen.show_update_vendor_form(vendor_details)
+            app.root.current = "update_service_screen"
+        else:
+            print("Failed to fetch vendor details.")
 
     def delete_vendor(self, vendor_id):
         """Deletes vendor and refreshes the list."""

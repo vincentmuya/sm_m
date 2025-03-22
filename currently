@@ -2,31 +2,32 @@
 
 Things we will do in the Django application:
 
-Modify serializer and api to Update & delete posted vendor.
+Modify serializer and api to reviews.
 =Views
 =url pattern
-=Additional modification to handle update vendor, if any.
+=Additional modification to handle api objectives, if any.
 
-Test the Update Vendor api url.
-Test the Delete Vendor api url.
+**-Test the Reviews api url.
 
 ------------------------------------------------------------------------------------------------------------------------
 
 Next step is to create APIs calls in kivy.
 
 Next Steps:
-**-Delete Vendor.
-**-Create confirm pop up
-**-Confirm deletion and delete
+**-Fetch reviews after loading vendor details
 
-Update Vendor:
-**1. Create update service screen.
+**-Call Reviews.
 
-**2. Pass vendor details instance to update_vendor screen
+**-Display Reviews in vendor details.
 
-**3. Call form instance to update vendor screen.
+-Post Reviews:
+    Create review pop up (Text input and Image upload{Optional}).
+    Choose files for uploading.
+    Submit review.
 
-4. Post form after update
+Review Comments:
+-Fetch Review comments
+-Post review comment.
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

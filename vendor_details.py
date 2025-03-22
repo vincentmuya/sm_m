@@ -17,6 +17,8 @@ from kivy.metrics import dp
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
+from kivymd.uix.card import MDCard
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.properties import NumericProperty
@@ -25,6 +27,7 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 import json
+from kivy.metrics import dp
 
 Builder.load_file('vendor_details.kv')
 
@@ -46,6 +49,7 @@ class VendorDetailsScreen(Screen):
     average_rating = NumericProperty(0)
     menu_images = ListProperty([])
     user_id = NumericProperty()
+    reviews = ListProperty([])
 
     def load_details(self, vendor_details):
         # print("Loading vendor_details...")
@@ -67,6 +71,9 @@ class VendorDetailsScreen(Screen):
         self.vendor_id = str(vendor_details['id'])
         self.vendor_user_id = str(vendor_details['user'])
         self.fetch_ratings()
+
+        # Fetch reviews after loading vendor details
+        self.fetch_reviews()
 
         # Fetch service details from the API using service ID
         service_id = vendor_details['service']
@@ -528,6 +535,63 @@ class VendorDetailsScreen(Screen):
 
         return response.status_code == 201  # Return True if message was sent successfully
 
+    def fetch_reviews(self):
+        """Fetch reviews for the current vendor and match user IDs to usernames."""
+        reviews_url = f"http://localhost:8000/api/reviews/vendor/{self.vendor_id}/"
+
+        try:
+            response = requests.get(reviews_url)
+            if response.status_code == 200:
+                reviews_data = response.json()  # List of reviews
+
+                # Fetch user details for each review asynchronously
+                for review in reviews_data:
+                    user_id = review.get("user_id")
+                    if user_id:
+                        username = self.fetch_username(user_id)  # Get username
+                        review["user_name"] = username  # Attach username to review
+
+                self.reviews = reviews_data  # Store reviews in the list property
+                self.display_reviews()
+            else:
+                print("❌ Failed to fetch reviews:", response.text)
+        except Exception as e:
+            print("❌ Error fetching reviews:", str(e))
+
+    def fetch_username(self, user_id):
+        """Fetch username based on user_id."""
+        user_url = f"http://localhost:8000/api/user/{user_id}"
+        try:
+            response = requests.get(user_url)
+            if response.status_code == 200:
+                user_data = response.json()
+                return user_data.get("username", "Anonymous")
+            else:
+                print(f"❌ Failed to fetch username for user ID {user_id}: {response.text}")
+                return "Anonymous"
+        except Exception as e:
+            print(f"❌ Error fetching username for user ID {user_id}: {str(e)}")
+            return "Anonymous"
+
+    def display_reviews(self):
+        """Dynamically add reviews to the screen."""
+        reviews_layout = self.ids.reviews_container  # Ensure you have a container in your .kv file
+        reviews_layout.clear_widgets()  # Clear previous reviews
+
+        for review in self.reviews:
+            image_source = review.get("vendor_review_image", "")
+
+            if not image_source or image_source is None:  # Ensure image_source is always a valid string
+                image_source = "No Image"
+
+            review_card = ReviewCard(
+                username=review.get("user_name", "Anonymous"),
+                review_text=review["review"],
+                timestamp=review["timestamp"],
+                image_source=image_source
+            )
+            reviews_layout.add_widget(review_card)
+
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""
         app = App.get_running_app()
@@ -652,5 +716,68 @@ class MyCard(MDCard):
                     height=dp(20)
                 )
                 content.add_widget(label)
+
+        self.add_widget(content)
+
+class ReviewCard(MDCard):
+    username = StringProperty()
+    review_text = StringProperty()
+    timestamp = StringProperty()
+    image_source = StringProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = "vertical"
+        self.padding = dp(16)
+        self.spacing = dp(8)
+        self.size_hint_y = None
+        self.height = dp(120) if not self.image_source else dp(200)
+        self.md_bg_color = (1, 1, 1, 1)  # White background
+        self.radius = [10, 10, 10, 10]
+
+        self.add_content()
+
+    def add_content(self):
+        content = MDBoxLayout(orientation="vertical", spacing=dp(8), padding=dp(8))
+
+        username_label = MDLabel(
+            text=f"[b]{self.username}[/b]",
+            markup=True,
+            theme_text_color="Primary",
+            halign="left"
+        )
+        content.add_widget(username_label)
+
+        review_label = MDLabel(
+            text=self.review_text,
+            theme_text_color="Secondary",
+            halign="left"
+        )
+        content.add_widget(review_label)
+
+        timestamp_label = MDLabel(
+            text=self.timestamp,
+            theme_text_color="Hint",
+            font_style="Caption",
+            halign="left"
+        )
+        content.add_widget(timestamp_label)
+
+        if self.image_source and self.image_source != "No Image":
+            image = AsyncImage(
+                source=f"http://localhost:8000{self.image_source}",
+                size_hint_y=None,
+                height=dp(100)
+            )
+            content.add_widget(image)
+        else:
+            no_image_label = Label(
+                text="No Review Image Provided",
+                color=(0.5, 0.5, 0.5, 1),  # Gray text color
+                font_size=dp(14),
+                size_hint_y=None,
+                height=dp(30)
+            )
+            content.add_widget(no_image_label)
 
         self.add_widget(content)

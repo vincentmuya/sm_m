@@ -28,8 +28,40 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 import json
 from kivy.metrics import dp
+from kivy.utils import platform
+from kivy.uix.filechooser import FileChooserListView
+
+if platform == 'android':
+    from android.permissions import request_permissions, Permission
+    request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
 
 Builder.load_file('vendor_details.kv')
+
+class ReviewFileChooserPopup(Popup):
+    def __init__(self, callback, **kwargs):
+        super().__init__(**kwargs)
+        self.callback = callback
+        self.title = "Select Menu Image"
+        self.size_hint = (0.9, 0.9)
+
+        layout = BoxLayout(orientation='vertical')
+        self.filechooser = FileChooserListView()
+        layout.add_widget(self.filechooser)
+
+        # Buttons
+        btn_layout = BoxLayout(size_hint_y=0.2)
+        select_btn = Button(text="Select", on_press=self.select_file)
+        cancel_btn = Button(text="Cancel", on_press=self.dismiss)
+        btn_layout.add_widget(select_btn)
+        btn_layout.add_widget(cancel_btn)
+
+        layout.add_widget(btn_layout)
+        self.add_widget(layout)
+
+    def select_file(self, instance):
+        if self.filechooser.selection:
+            self.callback(self.filechooser.selection)
+        self.dismiss()
 
 class VendorDetailsScreen(Screen):
     institution_name = StringProperty()
@@ -256,6 +288,7 @@ class VendorDetailsScreen(Screen):
             )
 
             review_vendor_button = Button(text="Review Vendor", markup=True, color=(0, 0, 0, 1))
+            review_vendor_button.bind(on_release=self.show_review_vendor)
 
             # ✅ Add buttons if user is authenticated
             vendor_details_buttons.add_widget(self.rate_vendor_label)
@@ -591,6 +624,76 @@ class VendorDetailsScreen(Screen):
                 image_source=image_source
             )
             reviews_layout.add_widget(review_card)
+
+    def show_review_vendor(self, *args):
+        """Display popup for Reviewing the vendor."""
+
+        layout = BoxLayout(orientation='vertical', spacing=20, padding=5)
+        message = Label(text="Review Vendor", size_hint=(1, 0.5))
+
+        # Review Image Upload
+        layout.add_widget(Label(text="Review Image(Optional)", font_size='16sp', color=(0, 0, 0, 1)))
+        upload_review_image = Button(text="Choose File")
+        upload_review_image.bind(on_press=self.choose_file_review)
+
+        textinput = TextInput(text='', multiline=True)
+
+        post_review_button = Button(text="Post review", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        popup = Popup(title="Review Vendor", content=layout, size_hint=(0.7, 0.4))
+
+        post_review_button.bind(on_release=lambda instance: self.post_review(popup, textinput))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        layout.add_widget(message)
+        layout.add_widget(upload_review_image)
+        layout.add_widget(textinput)
+        layout.add_widget(post_review_button)
+        layout.add_widget(cancel_button)
+
+        popup.open()
+
+    def choose_file_review(self, instance):
+        """Opens a file picker for menu image selection."""
+        self.popup = ReviewFileChooserPopup(self.review_file_selected)
+        self.popup.open()
+
+    def review_file_selected(self, selection):
+        if selection:
+            self.selected_review_file = selection[0]  # Ensure this is set
+            self.upload_review_image.text = "Review Image Selected"
+
+    def post_review(self, popup, textinput):
+        """Handle message sending."""
+        review_text = textinput.text.strip()
+        if review_text:
+            popup.dismiss()
+            self.review_vendor(review_text)
+        else:
+            print("Review cannot be empty")
+
+    def review_vendor(self, review_text):
+        """Send a message to the vendor."""
+        print("Review Vendor Called")
+        app = App.get_running_app()
+
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+        current_user_id = user_data.get("id")  # Use `.get()` to avoid KeyError
+
+        if not current_user_id:
+            print("❌ Error: User ID is missing")
+            return
+
+        vendor_id = self.vendor_id  # Assuming you have this stored
+        vendor_user_id = self.vendor_user_id  # Owner of the vendor
+
+        if not vendor_id or not vendor_user_id:
+            print("❌ Error: Vendor ID or Vendor User ID is missing")
+            return
+
+        pass
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

@@ -585,6 +585,12 @@ class VendorDetailsScreen(Screen):
                         username = self.fetch_username(user_id)  # Get username
                         review["user_name"] = username  # Attach username to review
 
+                    # ✅ Fetch usernames for review comments
+                    for comment in review.get("reviewcomments", []):
+                        comment_user_id = comment.get("user_id")
+                        if comment_user_id:
+                            comment["user_name"] = self.fetch_username(comment_user_id)  # Fetch and attach username
+
                 self.reviews = reviews_data  # Store reviews in the list property
                 self.display_reviews()
             else:
@@ -618,11 +624,13 @@ class VendorDetailsScreen(Screen):
             if not image_source or image_source is None:  # Ensure image_source is always a valid string
                 image_source = "No Image"
 
+            # ✅ Pass comments list to ReviewCard
             review_card = ReviewCard(
                 username=review.get("user_name", "Anonymous"),
                 review_text=review["review"],
                 timestamp=review["timestamp"],
-                image_source=image_source
+                image_source=image_source,
+                comments=review.get("reviewcomments", [])  # Pass comments
             )
             reviews_layout.add_widget(review_card)
 
@@ -850,6 +858,7 @@ class ReviewCard(MDCard):
     review_text = StringProperty()
     timestamp = StringProperty()
     image_source = StringProperty()
+    comments = ListProperty()  # Store comments
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -857,9 +866,12 @@ class ReviewCard(MDCard):
         self.padding = dp(16)
         self.spacing = dp(8)
         self.size_hint_y = None
-        self.height = dp(120) if not self.image_source else dp(200)
         self.md_bg_color = (1, 1, 1, 1)  # White background
         self.radius = [10, 10, 10, 10]
+
+        # Adjust height dynamically based on comments
+        base_height = dp(120) if not self.image_source else dp(200)
+        self.height = base_height + (len(self.comments) * dp(80))
 
         self.add_content()
 
@@ -896,14 +908,26 @@ class ReviewCard(MDCard):
                 height=dp(100)
             )
             content.add_widget(image)
-        else:
-            no_image_label = Label(
-                text="No Review Image Provided",
-                color=(0.5, 0.5, 0.5, 1),  # Gray text color
-                font_size=dp(14),
-                size_hint_y=None,
-                height=dp(30)
+
+        # ✅ Add comments inside the review card
+        if self.comments:
+            comments_label = MDLabel(
+                text="[b]Comments:[/b]",
+                markup=True,
+                theme_text_color="Primary",
+                halign="left"
             )
-            content.add_widget(no_image_label)
+            content.add_widget(comments_label)
+
+            for comment in self.comments:
+                comment_text = f"{comment.get('user_name', 'Anonymous')}: {comment['comment']}"
+                comment_label = MDLabel(
+                    text=comment_text,
+                    theme_text_color="Secondary",
+                    halign="left",
+                    size_hint_y=None,
+                    height=dp(20)
+                )
+                content.add_widget(comment_label)
 
         self.add_widget(content)

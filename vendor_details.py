@@ -30,6 +30,7 @@ import json
 from kivy.metrics import dp
 from kivy.utils import platform
 from kivy.uix.filechooser import FileChooserListView
+from kivymd.toast import toast
 
 if platform == 'android':
     from android.permissions import request_permissions, Permission
@@ -579,7 +580,7 @@ class VendorDetailsScreen(Screen):
 
                 # Fetch user details for each review asynchronously
                 for review in reviews_data:
-                    user_id = review.get("user_id")
+                    user_id = review.get("user")
                     if user_id:
                         username = self.fetch_username(user_id)  # Get username
                         review["user_name"] = username  # Attach username to review
@@ -629,12 +630,9 @@ class VendorDetailsScreen(Screen):
         """Display popup for Reviewing the vendor."""
 
         layout = BoxLayout(orientation='vertical', spacing=20, padding=5)
-        message = Label(text="Review Vendor", size_hint=(1, 0.5))
-
-        # Review Image Upload
-        layout.add_widget(Label(text="Review Image(Optional)", font_size='16sp', color=(0, 0, 0, 1)))
-        upload_review_image = Button(text="Choose File")
-        upload_review_image.bind(on_press=self.choose_file_review)
+        # Store reference to upload button
+        self.upload_review_image = Button(text="Choose Review Image(Optional)")  # ✅ Define self.upload_review_image
+        self.upload_review_image.bind(on_press=self.choose_file_review)
 
         textinput = TextInput(text='', multiline=True)
 
@@ -646,8 +644,7 @@ class VendorDetailsScreen(Screen):
         post_review_button.bind(on_release=lambda instance: self.post_review(popup, textinput))
         cancel_button.bind(on_release=popup.dismiss)
 
-        layout.add_widget(message)
-        layout.add_widget(upload_review_image)
+        layout.add_widget(self.upload_review_image)  # ✅ Ensure the button is added to the layout
         layout.add_widget(textinput)
         layout.add_widget(post_review_button)
         layout.add_widget(cancel_button)
@@ -660,40 +657,66 @@ class VendorDetailsScreen(Screen):
         self.popup.open()
 
     def review_file_selected(self, selection):
+        """Handle file selection from file picker."""
         if selection:
             self.selected_review_file = selection[0]  # Ensure this is set
-            self.upload_review_image.text = "Review Image Selected"
+            if hasattr(self, 'upload_review_image'):  # ✅ Check if the button exists
+                self.upload_review_image.text = "Review Image Selected"
+            else:
+                print("❌ Error: upload_review_image button not found.")
 
     def post_review(self, popup, textinput):
-        """Handle message sending."""
+        """Handle posting a review along with an optional image."""
         review_text = textinput.text.strip()
-        if review_text:
-            popup.dismiss()
-            self.review_vendor(review_text)
-        else:
-            print("Review cannot be empty")
 
-    def review_vendor(self, review_text):
-        """Send a message to the vendor."""
-        print("Review Vendor Called")
+        if not review_text:
+            print("❌ Review cannot be empty")
+            return
+
+        popup.dismiss()
+
         app = App.get_running_app()
-
-        # Fetch authenticated user data
         user_data = app.get_authenticated_data("api/user")
-        current_user_id = user_data.get("id")  # Use `.get()` to avoid KeyError
+        current_user_id = user_data.get("id")
 
         if not current_user_id:
             print("❌ Error: User ID is missing")
             return
 
-        vendor_id = self.vendor_id  # Assuming you have this stored
-        vendor_user_id = self.vendor_user_id  # Owner of the vendor
+        vendor_id = self.vendor_id
 
-        if not vendor_id or not vendor_user_id:
-            print("❌ Error: Vendor ID or Vendor User ID is missing")
+        if not vendor_id:
+            print("❌ Error: Vendor ID is missing")
             return
 
-        pass
+        url = "http://localhost:8000/api/reviews/"
+
+        # Prepare data
+        data = {
+            "review": review_text,
+            "user_id": current_user_id,
+            "vendor_id": vendor_id
+        }
+
+        # Prepare files (if an image was selected)
+        files = {}
+        if hasattr(self, "selected_review_file") and self.selected_review_file:
+            files["vendor_review_image"] = open(self.selected_review_file, "rb")
+
+        # Send request
+        response = requests.post(url, data=data, files=files)
+
+        # Close file after sending
+        if files:
+            files["vendor_review_image"].close()
+
+        # Handle response
+        if response.status_code == 201:
+            print("✅ Review posted successfully:", response.json())
+            toast("✅ Review posted successfully:")
+        else:
+            print("❌ Error posting review:", response.text)
+
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

@@ -27,10 +27,10 @@ Next Steps:
 
 Review Comments:
 **-Fetch Review comments
--Post review comment.
-    If user is vendor.user, display post Review comment Button.
-    Pop up for review comment
-    Submit review Comment
+**-Post review comment.
+    **If user is vendor.user, display post Review comment Button.
+    **Pop up for review comment
+    **Submit review Comment
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

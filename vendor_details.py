@@ -588,7 +588,7 @@ class VendorDetailsScreen(Screen):
 
                     # ✅ Fetch usernames for review comments
                     for comment in review.get("reviewcomments", []):
-                        comment_user_id = comment.get("user_id")
+                        comment_user_id = comment.get("user")
                         if comment_user_id:
                             comment["user_name"] = self.fetch_username(comment_user_id)  # Fetch and attach username
 
@@ -644,6 +644,7 @@ class VendorDetailsScreen(Screen):
                 comments=review.get("reviewcomments", []),  # Pass comments
                 vendor_user_id=self.vendor_user_id,
                 current_user_id=current_user_id,
+                review_id=review.get("id")
             )
             reviews_layout.add_widget(review_card)
 
@@ -874,15 +875,20 @@ class ReviewCard(MDCard):
     comments = ListProperty()  # Store comments
     vendor_user_id = NumericProperty()
     current_user_id = NumericProperty()
+    review_id = NumericProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.orientation = "vertical"
         self.padding = dp(16)
         self.spacing = dp(8)
-        self.size_hint_y = None
-        self.md_bg_color = (1, 1, 1, 1)  # White background
+        self.size_hint = (None, None)
+        self.size = (dp(300), dp(350))
+        self.md_bg_color = (1, 1, 1, 1)
         self.radius = [10, 10, 10, 10]
+
+        # ✅ Center the card in its parent layout
+        self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
 
         # Adjust height dynamically based on comments
         base_height = dp(120) if not self.image_source else dp(200)
@@ -891,7 +897,22 @@ class ReviewCard(MDCard):
         self.add_content()
 
     def add_content(self):
-        content = MDBoxLayout(orientation="vertical", spacing=dp(8), padding=dp(8))
+        main_layout = MDBoxLayout(orientation="vertical", spacing=dp(8), padding=dp(8))
+
+        title_label = MDLabel(
+            text="Reviews",
+            font_style="H6",
+            theme_text_color="Primary",
+            halign="center",
+            size_hint_y=None,
+            height=dp(30)
+        )
+        main_layout.add_widget(title_label)
+
+        # ScrollView for the reviews
+        scroll_view = ScrollView(size_hint=(1, 1))
+        content = MDBoxLayout(orientation="vertical", spacing=dp(8), padding=dp(8), size_hint_y=None)
+        content.bind(minimum_height=content.setter("height"))
 
         username_label = MDLabel(
             text=f"[b]{self.username}[/b]",
@@ -956,7 +977,9 @@ class ReviewCard(MDCard):
                 )
                 content.add_widget(comment_label)
 
-        self.add_widget(content)
+        scroll_view.add_widget(content)
+        main_layout.add_widget(scroll_view)
+        self.add_widget(main_layout)
 
     def on_post_comment_pressed(self):
         print(f"Post Comment button pressed")
@@ -983,3 +1006,42 @@ class ReviewCard(MDCard):
 
     def send_comment_review(self, popup, textinput):
         print("Send Comment Review Called")
+        review_comment_text = textinput.text.strip()
+
+        if not review_comment_text:
+            print("❌ Review Comment cannot be empty")
+            return
+
+        popup.dismiss()
+
+        app = App.get_running_app()
+        user_data = app.get_authenticated_data("api/user")
+        current_user_id = user_data.get("id")
+
+        if not current_user_id:
+            print("❌ Error: User ID is missing")
+            return
+
+        if not self.review_id:
+            print("❌ Error: Review ID is missing")
+            return
+
+        url = "http://localhost:8000/api/comment/"
+
+        # Prepare data
+        data = {
+            "comment": review_comment_text,
+            "user_id": current_user_id,
+            "review_id": self.review_id
+        }
+
+        print("✅ Sending review comment:", data)
+        # Send request
+        response = requests.post(url, data=data)
+
+        # Handle response
+        if response.status_code == 201:
+            print("✅ Review Comment Posted Successfully:", response.json())
+            toast("✅ Review Comment Posted Successfully:")
+        else:
+            print("❌ Error Posting Review Comment:", response.text)

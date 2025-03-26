@@ -31,6 +31,7 @@ from kivy.metrics import dp
 from kivy.utils import platform
 from kivy.uix.filechooser import FileChooserListView
 from kivymd.toast import toast
+from kivymd.uix.button import MDRaisedButton
 
 if platform == 'android':
     from android.permissions import request_permissions, Permission
@@ -615,8 +616,18 @@ class VendorDetailsScreen(Screen):
 
     def display_reviews(self):
         """Dynamically add reviews to the screen."""
+        app = App.get_running_app()
+
+        # Fetch authenticated user data
+        user_data = app.get_authenticated_data("api/user")
+        current_user_id = user_data.get("id")
+
         reviews_layout = self.ids.reviews_container  # Ensure you have a container in your .kv file
         reviews_layout.clear_widgets()  # Clear previous reviews
+
+        print("Vendor ID", self.vendor_id)
+        print("Vendor User ID", self.vendor_user_id)
+        print("Current user ID", current_user_id)
 
         for review in self.reviews:
             image_source = review.get("vendor_review_image", "")
@@ -630,7 +641,9 @@ class VendorDetailsScreen(Screen):
                 review_text=review["review"],
                 timestamp=review["timestamp"],
                 image_source=image_source,
-                comments=review.get("reviewcomments", [])  # Pass comments
+                comments=review.get("reviewcomments", []),  # Pass comments
+                vendor_user_id=self.vendor_user_id,
+                current_user_id=current_user_id,
             )
             reviews_layout.add_widget(review_card)
 
@@ -859,6 +872,8 @@ class ReviewCard(MDCard):
     timestamp = StringProperty()
     image_source = StringProperty()
     comments = ListProperty()  # Store comments
+    vendor_user_id = NumericProperty()
+    current_user_id = NumericProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -909,6 +924,17 @@ class ReviewCard(MDCard):
             )
             content.add_widget(image)
 
+        # ✅ Conditionally Add Button
+        if int(self.vendor_user_id) == self.current_user_id:
+            post_comment_button = MDRaisedButton(
+                text="Post Comment",
+                size_hint=(None, None),
+                size=(dp(150), dp(40)),
+                pos_hint={"center_x": 0.5},
+                on_release=lambda instance: self.on_post_comment_pressed()
+            )
+            content.add_widget(post_comment_button)
+
         # ✅ Add comments inside the review card
         if self.comments:
             comments_label = MDLabel(
@@ -931,3 +957,29 @@ class ReviewCard(MDCard):
                 content.add_widget(comment_label)
 
         self.add_widget(content)
+
+    def on_post_comment_pressed(self):
+        print(f"Post Comment button pressed")
+        """Display popup for Review Comment."""
+
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        message = Label(text="Comment On Review", size_hint=(1, 0.5))
+        textinput = TextInput(text='', multiline=True)
+
+        send_review_comment_button = Button(text="Post Review Comment", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        popup = Popup(title="Review Comment", content=layout, size_hint=(0.7, 0.4))
+
+        send_review_comment_button.bind(on_release=lambda instance: self.send_comment_review(popup, textinput))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        layout.add_widget(message)
+        layout.add_widget(textinput)
+        layout.add_widget(send_review_comment_button)
+        layout.add_widget(cancel_button)
+
+        popup.open()
+
+    def send_comment_review(self, popup, textinput):
+        print("Send Comment Review Called")

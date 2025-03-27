@@ -2,6 +2,7 @@ from header import Header
 from navbar import Navbar
 from filter_widget import Filter
 from search_widget import SearchWidget
+from vendors import VendorsCard
 
 import requests
 from kivy.uix.screenmanager import Screen
@@ -625,9 +626,9 @@ class VendorDetailsScreen(Screen):
         reviews_layout = self.ids.reviews_container  # Ensure you have a container in your .kv file
         reviews_layout.clear_widgets()  # Clear previous reviews
 
-        print("Vendor ID", self.vendor_id)
-        print("Vendor User ID", self.vendor_user_id)
-        print("Current user ID", current_user_id)
+        # print("Vendor ID", self.vendor_id)
+        # print("Vendor User ID", self.vendor_user_id)
+        # print("Current user ID", current_user_id)
 
         for review in self.reviews:
             image_source = review.get("vendor_review_image", "")
@@ -739,6 +740,60 @@ class VendorDetailsScreen(Screen):
         else:
             print("❌ Error posting review:", response.text)
 
+    def fetch_similar_vendors(self):
+        """Fetch vendors that belong to the same category as the current vendor."""
+        if not self.vendor:
+            print("❌ No vendor data available.")
+            return
+
+        current_service_id = self.vendor.get("service")
+        if not current_service_id:
+            print("❌ No service ID found for the vendor.")
+            return
+
+        # Fetch vendors
+        response = requests.get('http://localhost:8000/api/vendor/')
+        if response.status_code == 200:
+            vendors = response.json()
+        else:
+            print("❌ Failed to fetch vendors.")
+            return
+
+        # Fetch locations
+        locations_response = requests.get('http://localhost:8000/api/locations/')
+        locations = locations_response.json() if locations_response.status_code == 200 else []
+
+        # Fetch services and map them
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services_map = {service["id"]: service["service"] for service in
+                        services_response.json()} if services_response.status_code == 200 else {}
+
+        # ✅ Filter vendors in the same category
+        similar_vendors = [vendor for vendor in vendors if vendor["service"] == current_service_id]
+        print(f"✅ Found {len(similar_vendors)} similar vendors.")
+
+        # ✅ Access vendor_grid from KV file
+        vendor_grid = self.ids.vendor_grid  # 🔥 Get the reference from KV
+
+        # ✅ Clear previous vendor cards
+        vendor_grid.clear_widgets()
+        print(f"✅ Vendor Grid Found: {self.ids.vendor_grid}")
+        for vendor in similar_vendors[:3]:
+            full_image_url = f"http://localhost:8000{vendor['profile_image']}"
+            location_id = vendor.get("location")
+            location_name = next((loc["location"] for loc in locations if loc["id"] == location_id), "Unknown Location")
+
+            vendors_card = VendorsCard(
+                institution_name=vendor["institution_name"],
+                price=str(vendor["price"]),
+                image_source=full_image_url,
+                vendor_id=str(vendor["id"]),
+                slug=vendor["slug"],
+                service=services_map.get(vendor["service"], "Unknown Service"),
+                location=location_name
+            )
+
+            vendor_grid.add_widget(vendors_card)
 
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""

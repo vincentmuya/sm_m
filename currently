@@ -1,36 +1,14 @@
 ------------------------------------------------------------------------------------------------------------------------
+Similar Vendors:
+Display similar vendors in vendor details(Vendors under the same category)
 
-Things we will do in the Django application:
-
-Modify serializer and api to reviews.
-=Views
-=url pattern
-=Additional modification to handle api objectives, if any.
-
-**-Test the Reviews api url.
 
 ------------------------------------------------------------------------------------------------------------------------
+Similar Vendors:
+Vendor Details:
+Create Vendors card.
 
-Next step is to create APIs calls in kivy.
 
-Next Steps:
-**-Fetch reviews after loading vendor details
-
-**-Call Reviews.
-
-**-Display Reviews in vendor details.
-
--Post Reviews:
-    **Create review pop up (Text input and Image upload{Optional}).
-    **Choose files for uploading.
-    **Submit review.
-
-Review Comments:
-**-Fetch Review comments
-**-Post review comment.
-    **If user is vendor.user, display post Review comment Button.
-    **Pop up for review comment
-    **Submit review Comment
 
 ------------------------------------------------------------------------------------------------------------------------
 Style as you review progress, restructure, comment out print and delete unused code

@@ -162,6 +162,14 @@
                         height: dp(30)
                         color: (0, 0, 0, 1)
 
+                GridLayout:
+                    id: vendor_grid
+                    cols: 2  # Adjust depending on layout preference
+                    spacing: dp(10)
+                    padding: dp(10)
+                    size_hint_y: None
+                    height: self.minimum_height
+
                 MDBoxLayout:
                     id: reviews_container
                     orientation: "vertical"

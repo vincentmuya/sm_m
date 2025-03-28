@@ -835,6 +835,60 @@ class VendorDetailsScreen(Screen):
 
             vendor_grid.add_widget(vendors_card)
 
+    def payment_popup(self):
+
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Payment information message
+        message = Label(
+            text=(
+                "\n\nFor security and reliability, all payments are processed through ShereheMall.\n\n"
+                "- An initial 50% payment is made to ShereheMall at the time of booking.\n"
+                "  This amount is transferred to the vendor upon their arrival at your event.\n\n"
+                "- The remaining balance is paid to ShereheMall after the vendor completes\n"
+                "  the service, and we promptly forward it to the vendor.\n\n"
+                "This ensures a secure and transparent payment process for both clients and vendors."
+            ),
+            size_hint=(1, None),
+            height=dp(120),
+            text_size=(None, None),
+            halign="left",
+            valign="top"
+        )
+
+        # Phone number input
+        phone_input_label = Label(text="\n\nInput Phone Number To Initiate Payment", size_hint=(1, 0.2))
+        textinput = TextInput(text='', multiline=False)
+
+        # Buttons
+        make_payment_button = Button(text="Make Payment", size_hint=(1, 0.3))
+        cancel_button = Button(text="Cancel", size_hint=(1, 0.3))
+
+        # Popup
+        popup = Popup(title="Payment Procedure", content=layout, size_hint=(0.9, 0.9))
+
+        make_payment_button.bind(on_release=lambda instance: self.make_payment(popup, textinput))
+        cancel_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message)
+        layout.add_widget(phone_input_label)
+        layout.add_widget(textinput)
+        layout.add_widget(make_payment_button)
+        layout.add_widget(cancel_button)
+
+        popup.open()
+
+    def make_payment(self, popup, textinput):
+        payment_number_txt = textinput.text.strip()
+        print("Payment Number:",payment_number_txt)
+        if not payment_number_txt:
+            print("❌ Phone Number cannot be empty")
+            return
+
+        popup.dismiss()
+        pass
+
     def open_account_dropdown(self, instance):
         """Manually opens the account dropdown."""
         app = App.get_running_app()

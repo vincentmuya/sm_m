@@ -30,7 +30,6 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 -Refresh screen each time it is accessed.
 -Views count.
 -Notifications.
--Similar Vendors.
 
 **-Review.
 **-Review Comment.
@@ -41,6 +40,7 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 **-Booking.
 **-Favorite.
 **-Message.
+**-Similar Vendors.
 
 ------------------------------------------------------------------------------------------------------------------------
 

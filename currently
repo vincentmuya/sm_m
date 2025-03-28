@@ -4,10 +4,11 @@ Display similar vendors in vendor details(Vendors under the same category)
 
 
 ------------------------------------------------------------------------------------------------------------------------
-Similar Vendors:
-Vendor Details:
-Create Vendors card.
-
+**Similar Vendors:
+**Vendor Details:
+    **Fetch similar vendors.
+    **Call Vendors card.
+    **Display similar vendors in the vendors card.
 
 
 ------------------------------------------------------------------------------------------------------------------------

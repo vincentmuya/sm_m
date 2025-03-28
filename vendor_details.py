@@ -208,7 +208,7 @@ class VendorDetailsScreen(Screen):
         else:
             authenticated = True
             current_user_id = user_data["id"]
-            print(f"🔍 Current User ID: {current_user_id}")
+            # print(f"🔍 Current User ID: {current_user_id}")
 
         if not authenticated:
             # ✅ Create a box layout inside the card
@@ -305,8 +305,12 @@ class VendorDetailsScreen(Screen):
 
         # ✅ Add final content to the card
         self.add_widget(card_layout)
+        # ✅ Call fetch_similar_vendors() after loading vendor details
+        self.fetch_similar_vendors()
 
         # self.add_widget(Navbar())
+        # Add other screens (VendorsScreen) to the content layout
+        self.vendor_grid = GridLayout(cols=3, size_hint_y=None, spacing='10dp')
 
         # Create and add the Search, at the top of the screen
         search = SearchWidget(search_callback=self.display_search_results, size_hint=(1, None))
@@ -742,14 +746,26 @@ class VendorDetailsScreen(Screen):
 
     def fetch_similar_vendors(self):
         """Fetch vendors that belong to the same category as the current vendor."""
-        if not self.vendor:
-            print("❌ No vendor data available.")
+        if not self.vendor_id or not self.service:
+            print("❌ Vendor ID or Service not found.")
             return
 
-        current_service_id = self.vendor.get("service")
-        if not current_service_id:
-            print("❌ No service ID found for the vendor.")
+        # Fetch services and map them by name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        if services_response.status_code == 200:
+            services = services_response.json()
+            service_name_to_id = {service["service"]: service["id"] for service in services}
+        else:
+            print("❌ Failed to fetch services.")
             return
+
+        # Convert service name to ID
+        current_service_id = service_name_to_id.get(self.service)
+        if not current_service_id:
+            print(f"❌ No matching service ID found for '{self.service}'.")
+            return
+
+        # print("Resolved Service ID:", current_service_id)
 
         # Fetch vendors
         response = requests.get('http://localhost:8000/api/vendor/')
@@ -763,21 +779,45 @@ class VendorDetailsScreen(Screen):
         locations_response = requests.get('http://localhost:8000/api/locations/')
         locations = locations_response.json() if locations_response.status_code == 200 else []
 
-        # Fetch services and map them
-        services_response = requests.get('http://localhost:8000/api/services/')
-        services_map = {service["id"]: service["service"] for service in
-                        services_response.json()} if services_response.status_code == 200 else {}
-
-        # ✅ Filter vendors in the same category
+        # Filter vendors in the same category by service ID
         similar_vendors = [vendor for vendor in vendors if vendor["service"] == current_service_id]
-        print(f"✅ Found {len(similar_vendors)} similar vendors.")
+        # print(f"✅ Found {len(similar_vendors)} similar vendors.")
 
-        # ✅ Access vendor_grid from KV file
+        # Access vendor_grid from KV file
         vendor_grid = self.ids.vendor_grid  # 🔥 Get the reference from KV
 
-        # ✅ Clear previous vendor cards
+        # Clear previous vendor cards
         vendor_grid.clear_widgets()
-        print(f"✅ Vendor Grid Found: {self.ids.vendor_grid}")
+        # print(f"✅ Vendor Grid Found: {vendor_grid}")
+
+        # ✅ Add title label before adding vendor cards
+        if similar_vendors:
+            title_label1 = Label(
+                text="",
+                font_size="18sp",
+                bold=True,
+                size_hint_y=None,
+                height=dp(40)
+            )
+            title_label2 = Label(
+                text="Similar Vendors",
+                font_size="18sp",
+                bold=True,
+                size_hint_y=None,
+                color = (0,0,0,1),
+                height=dp(40)
+            )
+            title_label3 = Label(
+                text="",
+                font_size="18sp",
+                bold=True,
+                size_hint_y=None,
+                height=dp(40)
+            )
+            vendor_grid.add_widget(title_label1)
+            vendor_grid.add_widget(title_label2)
+            vendor_grid.add_widget(title_label3)
+
         for vendor in similar_vendors[:3]:
             full_image_url = f"http://localhost:8000{vendor['profile_image']}"
             location_id = vendor.get("location")
@@ -789,7 +829,7 @@ class VendorDetailsScreen(Screen):
                 image_source=full_image_url,
                 vendor_id=str(vendor["id"]),
                 slug=vendor["slug"],
-                service=services_map.get(vendor["service"], "Unknown Service"),
+                service=self.service,  # Since self.service is the name
                 location=location_name
             )
 

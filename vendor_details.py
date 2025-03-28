@@ -3,7 +3,7 @@ from navbar import Navbar
 from filter_widget import Filter
 from search_widget import SearchWidget
 from vendors import VendorsCard
-
+from mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 import requests
 from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty, ListProperty
@@ -388,7 +388,7 @@ class VendorDetailsScreen(Screen):
         except requests.exceptions.RequestException as e:
             print(f"❌ Request Error: {e}")
 
-    def favorite_vendor(self):
+    def favorite_vendor(self, *args):
         app = App.get_running_app()
 
         # Fetch authenticated user data
@@ -880,11 +880,44 @@ class VendorDetailsScreen(Screen):
         popup.open()
 
     def make_payment(self, popup, textinput):
-        payment_number_txt = textinput.text.strip()
+        # Access the Mpesa API token
+        access_token = MpesaAccessToken.validated_mpesa_access_token
+        api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        headers = {"Authorization": f"Bearer {access_token}"}
+
+        entered_phone_number = textinput.text.strip()
+        payment_number_txt = entered_phone_number.replace(" ", "")
+        # Format the phone number
+        payment_number_txt = '254' + payment_number_txt[-9:]
         print("Payment Number:",payment_number_txt)
-        if not payment_number_txt:
-            print("❌ Phone Number cannot be empty")
-            return
+        print("Vendor Price:",self.price)
+        print("Vendor's Name:",self.institution_name)
+
+        # Use vendor's price as payment amount
+        full_payment_amount = self.price
+        payment_amount = int(full_payment_amount)/2
+        print("Payment Amount:", payment_amount)
+        transaction_desc = self.institution_name
+
+        # Prepare request data for Mpesa
+        request_data = {
+            "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
+            "Password": LipanaMpesaPpassword.decode_password,
+            "Timestamp": LipanaMpesaPpassword.lipa_time,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": payment_amount,
+            "PartyA": payment_number_txt,
+            "PartyB": LipanaMpesaPpassword.Business_short_code,
+            "PhoneNumber": payment_number_txt,
+            "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+            "AccountReference": "ShereheMall",
+            "TransactionDesc": f"Payment for Vendor - {transaction_desc}"
+        }
+
+        # Send payment request to Mpesa
+        response = requests.post(api_url, json=request_data, headers=headers)
+        print(response.text)
+        toast("'Payment request sent successfully!")
 
         popup.dismiss()
         pass

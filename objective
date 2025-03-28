@@ -4,8 +4,6 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 
 1. Pending APIs:
 
--Review.
--ReviewComment.
 -Invitation
 -Advertisement.
 -ChildrenHomes
@@ -18,12 +16,12 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 **-VendorMenu.
 **-Favorite.
 **-Vendor
-
+**-Review.
+**-ReviewComment.
 
 ------------------------------------------------------------------------------------------------------------------------
 2. Pending Features
 
--M-pesa integration.
 -Invitation.
 -Display approved vendors only.
 -Add rating stars.
@@ -31,6 +29,8 @@ Call Pending APIs And Features to Kivy Relevant Screens.
 -Views count.
 -Notifications.
 
+
+**-M-pesa integration.
 **-Review.
 **-Review Comment.
 **-Post service.

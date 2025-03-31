@@ -940,6 +940,27 @@ class VendorDetailsScreen(Screen):
         # ✅ Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
 
+        # ✅ Scroll to the top when entering the screen
+        if hasattr(self.ids, "scroll_view"):
+            self.ids.scroll_view.scroll_y = 1  # 🔥 Scroll to the top
+            print("✅ Screen reset to top")
+
+        # ✅ Fetch and refresh the latest vendor data
+        print("Refreshing Vendor Details Data...")
+
+        vendor_id = self.vendor_id
+        slug = self.slug
+
+        if vendor_id:
+            response = requests.get(f"http://localhost:8000/api/vendor/{vendor_id}/{slug}/")
+            if response.status_code == 200:
+                vendor_details = response.json()  # ✅ Fetch vendor details
+                self.load_details(vendor_details)  # ✅ Pass updated data to load_details()
+            else:
+                print("❌ Failed to fetch vendor details")
+        else:
+            print("❌ Vendor ID is missing, cannot refresh data")
+
     def display_search_results(self, vendors, search_query):
         print(f"Search results: {len(vendors)}")
         # print("Search results:", vendors)

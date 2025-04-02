@@ -143,7 +143,7 @@ class MessagesScreen(Screen):
             # Vendor image (if available)
             if "profile_image" in message["vendor"]:
                 profile_img = AsyncImage(
-                    source=f"http://localhost:8000{message["vendor"]["profile_image"]}",
+                    source=f"https://sherehemall.co.ke{message["vendor"]["profile_image"]}",
                     size_hint=(None, None),
                     size=(80, 80),
                     allow_stretch=True
@@ -215,7 +215,7 @@ class MessagesScreen(Screen):
             return
 
         # API Endpoint to fetch messages for this conversation
-        url = f"http://localhost:8000/api/messages/?conversation_id={conversation_id}"
+        url = f"https://sherehemall.co.ke/api/messages/?conversation_id={conversation_id}"
 
         try:
             response = requests.get(url)
@@ -265,7 +265,7 @@ class MessagesScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('http://localhost:8000/api/services/')
+        services_response = requests.get('https://sherehemall.co.ke/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -277,7 +277,7 @@ class MessagesScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'http://localhost:8000/api/vendor/'
+        api_url = 'https://sherehemall.co.ke/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

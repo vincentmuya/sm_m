@@ -1,0 +1,20 @@
+<NavigationDrawer>:
+    id: nav_drawer
+    size_hint_x: 0.75  # Adjust drawer width
+    anchor: 'left'
+    elevation: 5
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDLabel:
+            text: "Welcome, User!"
+            theme_text_color: "Secondary"
+            font_style: "H6"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding: "10dp"
+
+        ScrollView:
+            MDList:
+                id: menu_items

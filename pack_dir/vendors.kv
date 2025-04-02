@@ -1,0 +1,70 @@
+<VendorsCard>:
+    size_hint_y: None
+    height: self.minimum_height
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '10dp'  # Adjust the spacing between elements
+        size_hint_y: None
+        height: self.minimum_height
+
+        AsyncImage:
+            id: image_source
+            source: root.image_source
+            size_hint: 1, None
+            height: '145dp'
+            on_touch_down: root.view_vendor() if self.collide_point(*args[1].pos) else None
+
+        Label:
+            text: root.institution_name
+            font_size: '15sp'
+            size_hint_y: None
+            height: '20dp'
+            on_touch_down: root.view_vendor() if self.collide_point(*args[1].pos) else None
+            color: '000000'
+
+        Label:
+            text: root.location
+            font_size: '15sp'
+            size_hint_y: None
+            height: '20dp'
+            on_touch_down: root.view_vendor() if self.collide_point(*args[1].pos) else None
+            color: '000000'
+
+        Label:
+            text: root.service
+            font_size: '15sp'
+            size_hint_y: None
+            height: '20dp'
+            color: '000000'
+
+<VendorsScreen>:
+    ScrollView:
+        GridLayout:
+            id: main_layout
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: '10dp'  # Space between sections
+            padding: '10dp'  # Padding around the grid
+
+            # Carousel Layout
+            BoxLayout:
+                id: carousel_layout
+                size_hint_y: None
+                height: '300dp'  # Adjust height of the carousel
+
+            # Each parent category will have its header and vendor cards grouped under it
+            GridLayout:
+                id: vendors_layout
+                cols: 1  # Each category will be stacked vertically
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: '10dp'
+
+<CategoryHeader@Label>:
+    text: ''
+    font_size: '20sp'
+    size_hint_y: None
+    height: '30dp'
+    color: '000000'
+    markup: True  # Enable bold or rich text formatting

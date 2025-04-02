@@ -1,0 +1,188 @@
+<MyPopup>:
+    size_hint: 0.8, 0.8
+    auto_dismiss: True
+    BoxLayout:
+        orientation: 'vertical'
+        AsyncImage:
+            source: root.menu_image  # This now correctly references MyPopup's property
+            size_hint: 1, 1
+        Button:
+            text: "Close"
+            size_hint_y: None
+            height: dp(40)
+            on_release: root.dismiss()
+
+<VendorDetailsScreen>:
+    ScrollView:
+        id: scroll_view
+        size_hint_y: None
+        height: root.height  # Ensure the ScrollView height matches the height of its content
+        bar_width: '10dp'  # Optional: customize the scrollbar width
+
+        GridLayout:
+            cols: 1
+            spacing: '10dp'  # Add spacing between widgets
+            padding: '10dp'  # Add padding around the GridLayout
+            size_hint_y: None
+            height: self.minimum_height + dp(80)  # Increase the height to add extra space at the bottom
+
+            # Spacer before the Carousel
+            Widget:
+                size_hint_y: None
+                height: '120dp'  # Adjust the height to add space
+
+            # Carousel widget
+            Carousel:
+                size_hint_y: None
+                height: root.width * 0.5  # Set a fixed height or adjust as needed
+                direction: 'right'
+                AsyncImage:
+                    source: root.image_source
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
+
+                AsyncImage:
+                    source: root.gallery_images[0] if root.gallery_images else 'Gallery Images'
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
+
+                AsyncImage:
+                    source: root.gallery_images[1] if len(root.gallery_images) > 1 else 'Gallery Images'
+                    size_hint: None, None
+                    size: self.parent.width, self.parent.height
+
+            # Main content below the Carousel
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+                MyCard:
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    Button:
+                        text: "View Menu" if root.menu_images else "No menu provided"
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(200)
+                        on_release: app.show_menu_popup(root.menu_images[0]) if root.menu_images else None
+                        disabled: not root.menu_images  # Disable button if no menu is available
+
+                    Label:
+                        text: "[b]Name:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: institution_name_label
+                        text: root.institution_name
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Price Ranging From:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: price_label
+                        text: root.price
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Description:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: description_label
+                        text: root.description
+                        color: (0, 0, 0, 1)
+                        size_hint_y: None
+                        height: self.texture_size[1]  # Adjust height based on text content
+                        text_size: self.width, None  # Wrap text within the label width
+                        halign: 'center'  # Horizontal alignment
+                        valign: 'top'  # Vertical alignment
+
+                    Label:
+                        text: "[b]Location:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: location_label
+                        text: root.location
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Service:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: service_label
+                        text: root.service
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Phone Number:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: phone_number_label
+                        text: root.phone_number
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Email:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: email_label
+                        text: root.email
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Website:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: website_label
+                        text: root.website
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        text: "[b]Social Media:[/b]"
+                        markup: True
+                        color: (0, 0, 0, 1)
+                    Label:
+                        id: social_media_label
+                        text: root.social_media
+                        color: (0, 0, 0, 1)
+
+                    Label:
+                        id: rating_label
+                        text: "Average Rating: 0/5"
+                        halign: "center"
+                        size_hint_y: None
+                        height: dp(30)
+                        color: (0, 0, 0, 1)
+
+                    Button:
+                        text: "For security Purpose Payment will be done through Sherehemall, You pay .....Read More"
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(200)
+                        on_release: root.payment_popup()
+
+
+                GridLayout:
+                    id: vendor_grid
+                    cols: 3
+                    spacing: dp(10)
+                    padding: dp(10)
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                MDBoxLayout:
+                    id: reviews_container
+                    orientation: "vertical"
+                    spacing: dp(10)
+                    padding: dp(10)
+                    size_hint_y: None
+                    height: self.minimum_height

@@ -157,7 +157,7 @@ class BookingsScreen(Screen):
             # Vendor image (if available)
             if "profile_image" in booking["vendor"]:
                 profile_img = AsyncImage(
-                    source=f"http://localhost:8000{booking["vendor"]["profile_image"]}",
+                    source=f"https://sherehemall.co.ke{booking["vendor"]["profile_image"]}",
                     size_hint=(None, None),
                     size=(80, 80),
                     allow_stretch=True
@@ -238,7 +238,7 @@ class BookingsScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('http://localhost:8000/api/services/')
+        services_response = requests.get('https://sherehemall.co.ke/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -250,7 +250,7 @@ class BookingsScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'http://localhost:8000/api/vendor/'
+        api_url = 'https://sherehemall.co.ke/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

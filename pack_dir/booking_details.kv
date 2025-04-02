@@ -1,0 +1,16 @@
+<BookingDetailsScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        ScrollView:
+            BoxLayout:
+                id: bookings_container
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+
+                GridLayout:
+                    id: booking_details_labels
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: '10dp'

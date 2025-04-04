@@ -11,6 +11,7 @@ from functools import partial
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.utils import rgba
+from kivy.uix.button import Button
 
 class Header(FloatLayout):
     def __init__(self, **kwargs):
@@ -28,7 +29,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -3},
+            pos_hint={"x": -1, "top": -5},
             size_hint_y=1,
             md_bg_color=get_color_from_hex("#FFFFFF")
         )
@@ -85,6 +86,20 @@ class Header(FloatLayout):
         # Ensure drawer overlays everything
         self.nav_drawer.elevation = 10  # Ensures it's above other widgets
         self.add_widget(self.nav_drawer)
+
+        # Use a proxy button instead of moving the original button
+        app = App.get_running_app()
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),
+                                          pos=(650, 560))
+        # Create a proxy button
+        self.account_proxy_button = Button(text=app.account_button.text)
+
+        # Open dropdown manually when proxy button is clicked
+        self.account_proxy_button.bind(on_release=self.open_account_dropdown)
+
+        # Add proxy button instead of the real one
+        self.user_info_layout.add_widget(self.account_proxy_button)
+        self.add_widget(self.user_info_layout)
 
     def toggle_drawer(self):
         """Opens or closes the drawer when the menu button is clicked."""
@@ -220,3 +235,17 @@ class Header(FloatLayout):
         app.root.current = screen_name
         self.nav_drawer.set_state("close")  # Close the drawer after navigation
 
+    def open_account_dropdown(self, instance):
+        """Manually opens the account dropdown."""
+        app = App.get_running_app()
+        #Ensure dropdown is updated before opening
+        app.update_account_dropdown()
+        #Open dropdown manually
+        app.account_dropdown.open(instance)
+
+    def on_pre_enter(self):
+        """Update dropdown dynamically when entering the screen."""
+        app = App.get_running_app()
+        app.update_account_dropdown()
+        #Ensure the proxy button always has updated text
+        self.account_proxy_button.text = app.account_button.text

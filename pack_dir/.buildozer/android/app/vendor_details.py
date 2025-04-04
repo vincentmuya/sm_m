@@ -881,9 +881,9 @@ class VendorDetailsScreen(Screen):
 
     def make_payment(self, popup, textinput):
         # Access the Mpesa API token
-        # access_token = MpesaAccessToken.validated_mpesa_access_token
-        # api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-        # headers = {"Authorization": f"Bearer {access_token}"}
+        access_token = MpesaAccessToken.validated_mpesa_access_token
+        api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        headers = {"Authorization": f"Bearer {access_token}"}
 
         entered_phone_number = textinput.text.strip()
         payment_number_txt = entered_phone_number.replace(" ", "")
@@ -900,23 +900,23 @@ class VendorDetailsScreen(Screen):
         transaction_desc = self.institution_name
 
         # Prepare request data for Mpesa
-        # request_data = {
-        #     "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
-        #     "Password": LipanaMpesaPpassword.decode_password,
-        #     "Timestamp": LipanaMpesaPpassword.lipa_time,
-        #     "TransactionType": "CustomerPayBillOnline",
-        #     "Amount": payment_amount,
-        #     "PartyA": payment_number_txt,
-        #     "PartyB": LipanaMpesaPpassword.Business_short_code,
-        #     "PhoneNumber": payment_number_txt,
-        #     "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-        #     "AccountReference": "ShereheMall",
-        #     "TransactionDesc": f"Payment for Vendor - {transaction_desc}"
-        # }
+        request_data = {
+            "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
+            "Password": LipanaMpesaPpassword.decode_password,
+            "Timestamp": LipanaMpesaPpassword.lipa_time,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": payment_amount,
+            "PartyA": payment_number_txt,
+            "PartyB": LipanaMpesaPpassword.Business_short_code,
+            "PhoneNumber": payment_number_txt,
+            "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+            "AccountReference": "ShereheMall",
+            "TransactionDesc": f"Payment for Vendor - {transaction_desc}"
+        }
 
-        # # Send payment request to Mpesa
-        # response = requests.post(api_url, json=request_data, headers=headers)
-        # print(response.text)
+        # Send payment request to Mpesa
+        response = requests.post(api_url, json=request_data, headers=headers)
+        print(response.text)
         toast("'Payment request sent successfully!")
 
         popup.dismiss()

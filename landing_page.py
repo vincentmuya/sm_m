@@ -15,87 +15,81 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivymd.toast import toast
+from kivy.uix.gridlayout import GridLayout
+from kivy.core.window import Window
 
 class LandingPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         super(LandingPage, self).__init__(**kwargs)
 
-        # Set up the main layout
-        self.layout = FloatLayout()
-
-        # Set up the ScrollView
         self.scroll_type = ['bars']
         self.bar_width = 10
         self.do_scroll_x = False
         self.do_scroll_y = True
 
-        # Create a layout to contain the content and wrap it in a scrollview
         self.content_layout = BoxLayout(orientation='vertical', size_hint_y=None)
         self.content_layout.bind(minimum_height=self.content_layout.setter('height'))
 
-        # Create and add the Search widget
+        # ✅ Header (fixed), Search, and Filter inside a vertical container
         self.search_widget = SearchWidget(search_callback=self.display_search_results)
+        self.filter_widget = Filter(filter_callback=self.apply_filter, height=100)
+        # self.header = Header(size_hint=(1, None), height=50)
 
-        # Create and add the Filter widget
-        self.filter_widget = Filter(filter_callback=self.apply_filter)
+        self.header_container = BoxLayout(orientation='vertical', size_hint_y=None, spacing=10)
+        self.header_container.bind(minimum_height=self.header_container.setter('height'))
 
-        # Initialize and add FilteredVendorsScreen
-        self.filtered_vendors_screen = FilteredVendorsScreen()
-        self.content_layout.add_widget(self.filtered_vendors_screen)
+        # Add components to header_container
+        # self.header_container.add_widget(self.header)
+        self.header_container.add_widget(self.search_widget)
+        self.header_container.add_widget(self.filter_widget)
 
-        # Add other screens (VendorsScreen) to the content layout
-        vendors = self.wrap_screen(VendorsScreen(), height=400)
+        screen_height = Window.height
 
-        # Spacer widget to add space after the header
-        spacer = Widget(size_hint=(1, None), height=45)
+        self.vendors_grid = GridLayout(cols=3, spacing='10dp', size_hint_y=None, height=screen_height)
+        self.vendors_grid.bind(minimum_height=self.vendors_grid.setter('height'))
 
+        vendors_screen = VendorsScreen()
+        vendors_screen.size_hint_y = None
+        vendors_screen.height = screen_height
+        self.vendors_grid.add_widget(vendors_screen)
+
+        spacer = Widget(size_hint=(1, None), height=100)
+        spacer_bottom = Widget(size_hint=(1, None), height=45)
+
+        # ✅ Add widgets to scrollable content
         self.content_layout.add_widget(spacer)
-        self.content_layout.add_widget(self.search_widget)
-        self.content_layout.add_widget(self.filter_widget)
-        self.content_layout.add_widget(vendors)
+        self.content_layout.add_widget(self.header_container)
+        self.content_layout.add_widget(self.vendors_grid)
+        self.content_layout.add_widget(spacer_bottom)
 
-        # Create the ScrollView and add the content_layout inside it
         scroll_view = ScrollView(size_hint=(1, 1), bar_width=20)
         scroll_view.add_widget(self.content_layout)
+
+        self.add_widget(scroll_view)
 
         # Create and add the Header, fixed at the top of the screen
         header = Header(size_hint=(1, None), height=50)
         header.pos_hint = {'x': 0, 'y': 0.95}
-        # Add ScrollView and header to the FloatLayout
-        self.layout.add_widget(scroll_view)  # Add ScrollView with content on top
-        self.layout.add_widget(header)  # Add navbar at the top
+        self.add_widget(header)
 
-        # Create and add the navbar, fixed at the bottom of the screen
+        # ✅ Fixed bottom navbar
         nav_bar = Navbar(size_hint=(1, None), height=50)
         nav_bar.pos_hint = {'x': 0, 'y': 0}
-        # Add Nav to the Screen widget
-        self.layout.add_widget(nav_bar)
+        self.add_widget(nav_bar)
 
         # Create a dropdown for account actions
         # Get the app instance to access account_button
         app = App.get_running_app()
-        # User Info Layout (Horizontal Box Layout)
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40), pos=(650, 560))
-        # Add the account dropdown button to the layout
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(250, 100), pos_hint={'right': 1, 'top': 1})
         self.user_info_layout.add_widget(app.account_button)
-        # Add to the screen
-        self.layout.add_widget(self.user_info_layout)
-
-        self.add_widget(self.layout)
+        self.add_widget(self.user_info_layout)
 
     def on_pre_enter(self):
         """Update dropdown dynamically when entering the screen."""
         app = App.get_running_app()
         app.update_account_dropdown()
 
-    def wrap_screen(self, screen, height=None):
-        """
-        Wrap a screen in a layout with a specific height.
-        """
-        layout = BoxLayout(orientation='vertical', size_hint_y=None, height=height if height else screen.height)
-        layout.add_widget(screen)
-        return layout
 
     def apply_filter(self, location=None, service=None, price_range=None):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")

@@ -157,7 +157,7 @@ class BookingsScreen(Screen):
             # Vendor image (if available)
             if "profile_image" in booking["vendor"]:
                 profile_img = AsyncImage(
-                    source=f"https://sherehemall.co.ke{booking["vendor"]["profile_image"]}",
+                    source=f"https://sherehemall.co.ke{booking['vendor']['profile_image']}",
                     size_hint=(None, None),
                     size=(80, 80),
                     allow_stretch=True

@@ -24,7 +24,7 @@ class SearchWidget(BoxLayout):
         if search_query:
             # print(f"Searching for: {search_query}")
 
-            response = requests.get(f"https://sherehemall.co.ke/api/vendor/?search={search_query}")
+            response = requests.get(f"http://localhost:8000/api/vendor/?search={search_query}")
 
             # print("API Response:", response.text)  # Debugging
 

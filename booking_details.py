@@ -194,7 +194,7 @@ class BookingDetailsScreen(Screen):
     def booking_vendor_details(self, vendor_id, slug, *args):
         print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {slug}")
 
-        api_url = f"https://sherehemall.co.ke/api/vendor/{vendor_id}/{slug}/"
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{slug}/"
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -248,7 +248,7 @@ class BookingDetailsScreen(Screen):
             print("❌ Booking ID is missing!")
             return
 
-        api_url = f"https://sherehemall.co.ke/api/bookings/{booking_id}/"
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
         print(f"📡 Sending DELETE request to: {api_url}")
 
         try:
@@ -301,7 +301,7 @@ class BookingDetailsScreen(Screen):
             print("❌ Booking ID is missing!")
             return
 
-        api_url = f"https://sherehemall.co.ke/api/bookings/{booking_id}/"
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
         data = {"booking_status": "approved"}  # ✅ Update the status
 
         print(f"📡 Sending PUT request to: {api_url} with data: {data}")
@@ -361,7 +361,7 @@ class BookingDetailsScreen(Screen):
             print("❌ Booking ID is missing!")
             return
 
-        api_url = f"https://sherehemall.co.ke/api/bookings/{booking_id}/"
+        api_url = f"http://localhost:8000/api/bookings/{booking_id}/"
         print(f"📡 Sending PUT request to: {api_url}")
 
         data = {
@@ -461,7 +461,7 @@ class BookingDetailsScreen(Screen):
             print("❌ No auth token found. Cannot fetch conversations.")
             return None
 
-        url = "https://sherehemall.co.ke/api/conversations/"
+        url = "http://localhost:8000/api/conversations/"
         headers = {"Authorization": f"Token {token}"}  # Use auth token
 
         try:
@@ -494,7 +494,7 @@ class BookingDetailsScreen(Screen):
             print("❌ No auth token found. Cannot create conversation.")
             return None
 
-        url = "https://sherehemall.co.ke/api/conversations/"
+        url = "http://localhost:8000/api/conversations/"
         payload = {
             "user_id": user_id,  # Ensure this matches your API field
             "recipient_id": vendor_user_id,  # Vendor owner
@@ -524,7 +524,7 @@ class BookingDetailsScreen(Screen):
 
     def send_message_to_api(self, conversation_id, current_user_id, message_text, vendor_id, vendor_user_id):
         """Send the message to the API."""
-        url = f"https://sherehemall.co.ke/api/messages/"
+        url = f"http://localhost:8000/api/messages/"
         payload = {
             "conversation_id": conversation_id,
             "sender_id": current_user_id,
@@ -544,7 +544,7 @@ class BookingDetailsScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -556,7 +556,7 @@ class BookingDetailsScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

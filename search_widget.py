@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 class SearchWidget(BoxLayout):
     def __init__(self, search_callback, **kwargs):
-        super().__init__(orientation='horizontal', size_hint_y=None, height=50, padding=[10, 5], spacing=10, **kwargs)
+        super().__init__(orientation='horizontal', size_hint_y=None, height=90, padding=[10, 5], spacing=10, **kwargs)
 
         # Search input field
         self.search_input = TextInput(hint_text="Search vendors...", size_hint=(0.8, 1))
@@ -24,7 +24,7 @@ class SearchWidget(BoxLayout):
         if search_query:
             # print(f"Searching for: {search_query}")
 
-            response = requests.get(f"https://sherehemall.co.ke/api/vendor/?search={search_query}")
+            response = requests.get(f"http://localhost:8000/api/vendor/?search={search_query}")
 
             # print("API Response:", response.text)  # Debugging
 

@@ -123,11 +123,11 @@ class BookVendorPopup(ModalView):
 
         if self.booking_id:
             # If booking_id exists, send PUT request (Update)
-            api_url = f"https://sherehemall.co.ke/api/bookings/{self.booking_id}/"
+            api_url = f"http://localhost:8000/api/bookings/{self.booking_id}/"
             response = requests.put(api_url, json=booking_data)
         else:
             # Otherwise, send POST request (Create)
-            api_url = "https://sherehemall.co.ke/api/bookings/"
+            api_url = "http://localhost:8000/api/bookings/"
             response = requests.post(api_url, json=booking_data)
 
         if response.status_code in [200, 201]:
@@ -147,7 +147,7 @@ class MyApp(MDApp):
             return None
 
         headers = {"Authorization": f"Token {token}"}
-        url = f"https://sherehemall.co.ke/{endpoint}/"
+        url = f"http://localhost:8000/{endpoint}/"
 
         print(f"📡 Sending request to: {url}")
 
@@ -414,7 +414,7 @@ class MyApp(MDApp):
         # print(f"✅ Authenticated user ID: {user_id}")
 
         # 🔗 API URL for fetching favorites
-        url = f"https://sherehemall.co.ke/api/favorites/"
+        url = f"http://localhost:8000/api/favorites/"
 
         headers = {
             "Authorization": f"Token {token}",
@@ -476,7 +476,7 @@ class MyApp(MDApp):
         print(f"✅ Authenticated user ID: {user_id}")
 
         # API endpoint to fetch bookings
-        api_url = f"https://sherehemall.co.ke/api/bookings/?user_id={user_id}"
+        api_url = f"http://localhost:8000/api/bookings/?user_id={user_id}"
         headers = {
             "Authorization": f"Token {token}",
             "Content-Type": "application/json"
@@ -557,7 +557,7 @@ class MyApp(MDApp):
         print(f"✅ Authenticated user ID: {user_id}")
 
         # API endpoint to fetch conversations
-        api_url = f"https://sherehemall.co.ke/api/conversations/?user_id={user_id}"
+        api_url = f"http://localhost:8000/api/conversations/?user_id={user_id}"
         headers = {
             "Authorization": f"Token {token}",
             "Content-Type": "application/json"

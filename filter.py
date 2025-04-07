@@ -2,7 +2,7 @@ import requests
 
 def filter_vendors(location=None, service=None, price_range=None):
     # Base API URL
-    api_url = 'https://sherehemall.co.ke/api/vendor/'
+    api_url = 'http://localhost:8000/api/vendor/'
 
     # Construct query parameters dynamically
     params = {}

@@ -348,7 +348,7 @@ class PostServiceScreen(Screen):
 
         user_id = user_data["id"]
 
-        url = "https://sherehemall.co.ke/api/vendor/upload/"
+        url = "http://localhost:8000/api/vendor/upload/"
 
         # Collect text input values
         form_data = {field: widget.text for field, widget in self.fields.items()}
@@ -398,7 +398,7 @@ class PostServiceScreen(Screen):
 
     def populate_location_dropdown(self):
         """Fetch locations from the API and populate the dropdown."""
-        api_url = 'https://sherehemall.co.ke/api/locations/'
+        api_url = 'http://localhost:8000/api/locations/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -417,7 +417,7 @@ class PostServiceScreen(Screen):
 
     def populate_service_dropdown(self):
         """Fetch services from the API and populate the dropdown with only child categories."""
-        api_url = 'https://sherehemall.co.ke/api/services/'
+        api_url = 'http://localhost:8000/api/services/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -457,7 +457,7 @@ class PostServiceScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -469,7 +469,7 @@ class PostServiceScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

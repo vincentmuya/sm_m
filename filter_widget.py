@@ -41,7 +41,7 @@ class Filter(BoxLayout):
 
         self.orientation = 'horizontal'
         self.size_hint_y = None
-        self.height = 50
+        self.height = 90
 
         # Introductory Label with background color
         self.intro_label = ColoredLabel("Filter By Location,\nService, Price Or All")
@@ -83,7 +83,7 @@ class Filter(BoxLayout):
 
     def populate_location_dropdown(self):
         # Make an HTTP GET request to your Django API endpoint
-        api_url = 'https://sherehemall.co.ke/api/locations/'
+        api_url = 'http://localhost:8000/api/locations/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -99,7 +99,7 @@ class Filter(BoxLayout):
 
     def populate_service_dropdown(self):
         # Make an HTTP GET request to your Django API endpoint
-        api_url = 'https://sherehemall.co.ke/api/services/'
+        api_url = 'http://localhost:8000/api/services/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -115,7 +115,7 @@ class Filter(BoxLayout):
 
     def populate_price_range_dropdown(self):
         # Make an HTTP GET request to your Django API endpoint for vendors
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         response = requests.get(api_url)
 
         if response.status_code == 200:

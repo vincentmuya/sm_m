@@ -143,7 +143,7 @@ class LoginScreen(Screen):
 
         # print(f"Attempting login with Username: {username}, Password: {password}")
 
-        url = "https://sherehemall.co.ke/api/kivy_login/"
+        url = "http://localhost:8000/api/kivy_login/"
         data = {"username": username, "password": password}
 
         try:
@@ -197,7 +197,7 @@ class LoginScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -209,7 +209,7 @@ class LoginScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

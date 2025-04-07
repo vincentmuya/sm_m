@@ -135,8 +135,8 @@ class LocationVendorsScreen(Screen):
         self.vendor_grid.add_widget(location_label3)
 
         # Fetch all services and locations to map their IDs to names
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
-        locations_response = requests.get('https://sherehemall.co.ke/api/locations/')
+        services_response = requests.get('http://localhost:8000/api/services/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
 
         if services_response.status_code == 200:
             services = {service['id']: service['service'] for service in services_response.json()}
@@ -149,7 +149,7 @@ class LocationVendorsScreen(Screen):
             locations = {}
 
         for vendor in vendors:
-            full_image_url = f"https://sherehemall.co.ke{vendor['profile_image']}"
+            full_image_url = f"http://localhost:8000{vendor['profile_image']}"
 
             # Get the location name
             location_id = vendor.get('location')
@@ -175,7 +175,7 @@ class LocationVendorsScreen(Screen):
         # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -187,7 +187,7 @@ class LocationVendorsScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location

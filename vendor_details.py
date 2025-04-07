@@ -101,7 +101,7 @@ class VendorDetailsScreen(Screen):
         self.email = vendor_details['email']
         self.website = vendor_details['website']
         self.social_media = vendor_details['social_media']
-        self.image_source = f"https://sherehemall.co.ke{vendor_details['profile_image']}"
+        self.image_source = f"http://localhost:8000{vendor_details['profile_image']}"
         self.slug = vendor_details['slug']
         self.vendor_id = str(vendor_details['id'])
         self.vendor_user_id = str(vendor_details['user'])
@@ -115,7 +115,7 @@ class VendorDetailsScreen(Screen):
         service_name = 'Unknown Service'
 
         # Fetch all services from the services API
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
             # print("Services:", services)
@@ -133,7 +133,7 @@ class VendorDetailsScreen(Screen):
         location_name = 'Unknown Service'
 
         # Fetch all services from the services API
-        locations_response = requests.get('https://sherehemall.co.ke/api/locations/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
         if locations_response.status_code == 200:
             locations = locations_response.json()
             # print("Services:", locations)
@@ -148,7 +148,7 @@ class VendorDetailsScreen(Screen):
 
         # Fetch gallery images URLs using gallery_images IDs
         gallery_images = []
-        gallery_images_api_url = 'https://sherehemall.co.ke/api/gallery_images_vendor/'
+        gallery_images_api_url = 'http://localhost:8000/api/gallery_images_vendor/'
 
         # Fetch the mapping of image_id to image filename from the API
         response = requests.get(gallery_images_api_url)
@@ -168,7 +168,7 @@ class VendorDetailsScreen(Screen):
         self.gallery_images = gallery_images
 
         # Fetch menu images for this vendor
-        menu_images_api_url = f"https://sherehemall.co.ke/api/menu_images/?vendor_id={self.vendor_id}"
+        menu_images_api_url = f"http://localhost:8000/api/menu_images/?vendor_id={self.vendor_id}"
 
         menu_images = []
         response = requests.get(menu_images_api_url)
@@ -341,7 +341,7 @@ class VendorDetailsScreen(Screen):
 
     def fetch_ratings(self):
         """Fetch ratings from the API for the selected vendor and update UI"""
-        api_url = f'https://sherehemall.co.ke/api/ratings/?vendor_id={self.vendor_id}'
+        api_url = f'http://localhost:8000/api/ratings/?vendor_id={self.vendor_id}'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -368,7 +368,7 @@ class VendorDetailsScreen(Screen):
 
         user_id = user_data["id"]  # Get the user ID
 
-        url = "https://sherehemall.co.ke/api/ratings/"
+        url = "http://localhost:8000/api/ratings/"
         headers = {
             "Authorization": f"Token {app.user_data.get('token', '')}",
             "Content-Type": "application/json"
@@ -401,7 +401,7 @@ class VendorDetailsScreen(Screen):
         user_id = user_data["id"]  # Get the user ID
         vendor_id = int(self.vendor_id)  # Convert vendor_id to integer
 
-        url = "https://sherehemall.co.ke/api/favorites/"
+        url = "http://localhost:8000/api/favorites/"
         headers = {
             "Authorization": f"Token {app.user_data.get('token', '')}",
             "Content-Type": "application/json"
@@ -497,7 +497,7 @@ class VendorDetailsScreen(Screen):
             print("❌ No auth token found. Cannot fetch conversations.")
             return None
 
-        url = "https://sherehemall.co.ke/api/conversations/"
+        url = "http://localhost:8000/api/conversations/"
         headers = {"Authorization": f"Token {token}"}  # Use auth token
 
         try:
@@ -530,7 +530,7 @@ class VendorDetailsScreen(Screen):
             print("❌ No auth token found. Cannot create conversation.")
             return None
 
-        url = "https://sherehemall.co.ke/api/conversations/"
+        url = "http://localhost:8000/api/conversations/"
         payload = {
             "user_id": user_id,  # Ensure this matches your API field
             "recipient_id": vendor_user_id,  # Vendor owner
@@ -560,7 +560,7 @@ class VendorDetailsScreen(Screen):
 
     def send_message_to_api(self, conversation_id, current_user_id, message_text):
         """Send the message to the API."""
-        url = f"https://sherehemall.co.ke/api/messages/"
+        url = f"http://localhost:8000/api/messages/"
         payload = {
             "conversation_id": conversation_id,
             "sender_id": current_user_id,
@@ -577,7 +577,7 @@ class VendorDetailsScreen(Screen):
 
     def fetch_reviews(self):
         """Fetch reviews for the current vendor and match user IDs to usernames."""
-        reviews_url = f"https://sherehemall.co.ke/api/reviews/vendor/{self.vendor_id}/"
+        reviews_url = f"http://localhost:8000/api/reviews/vendor/{self.vendor_id}/"
 
         try:
             response = requests.get(reviews_url)
@@ -606,7 +606,7 @@ class VendorDetailsScreen(Screen):
 
     def fetch_username(self, user_id):
         """Fetch username based on user_id."""
-        user_url = f"https://sherehemall.co.ke/api/user/{user_id}"
+        user_url = f"http://localhost:8000/api/user/{user_id}"
         try:
             response = requests.get(user_url)
             if response.status_code == 200:
@@ -716,7 +716,7 @@ class VendorDetailsScreen(Screen):
             print("❌ Error: Vendor ID is missing")
             return
 
-        url = "https://sherehemall.co.ke/api/reviews/"
+        url = "http://localhost:8000/api/reviews/"
 
         # Prepare data
         data = {
@@ -751,7 +751,7 @@ class VendorDetailsScreen(Screen):
             return
 
         # Fetch services and map them by name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
             service_name_to_id = {service["service"]: service["id"] for service in services}
@@ -768,7 +768,7 @@ class VendorDetailsScreen(Screen):
         # print("Resolved Service ID:", current_service_id)
 
         # Fetch vendors
-        response = requests.get('https://sherehemall.co.ke/api/vendor/')
+        response = requests.get('http://localhost:8000/api/vendor/')
         if response.status_code == 200:
             vendors = response.json()
         else:
@@ -776,7 +776,7 @@ class VendorDetailsScreen(Screen):
             return
 
         # Fetch locations
-        locations_response = requests.get('https://sherehemall.co.ke/api/locations/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
         locations = locations_response.json() if locations_response.status_code == 200 else []
 
         # Filter vendors in the same category by service ID
@@ -819,7 +819,7 @@ class VendorDetailsScreen(Screen):
             vendor_grid.add_widget(title_label3)
 
         for vendor in similar_vendors[:3]:
-            full_image_url = f"https://sherehemall.co.ke{vendor['profile_image']}"
+            full_image_url = f"http://localhost:8000{vendor['profile_image']}"
             location_id = vendor.get("location")
             location_name = next((loc["location"] for loc in locations if loc["id"] == location_id), "Unknown Location")
 
@@ -952,7 +952,7 @@ class VendorDetailsScreen(Screen):
         slug = self.slug
 
         if vendor_id:
-            response = requests.get(f"https://sherehemall.co.ke/api/vendor/{vendor_id}/{slug}/")
+            response = requests.get(f"http://localhost:8000/api/vendor/{vendor_id}/{slug}/")
             if response.status_code == 200:
                 vendor_details = response.json()  # ✅ Fetch vendor details
                 self.load_details(vendor_details)  # ✅ Pass updated data to load_details()
@@ -975,7 +975,7 @@ class VendorDetailsScreen(Screen):
         print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
 
         # Fetch services to resolve the service name to ID
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         services = services_response.json() if services_response.status_code == 200 else []
 
         # Get the service ID from the service name (if the service exists)
@@ -987,7 +987,7 @@ class VendorDetailsScreen(Screen):
                     break
 
         # Construct the API URL with the service ID
-        api_url = 'https://sherehemall.co.ke/api/vendor/'
+        api_url = 'http://localhost:8000/api/vendor/'
         filters = {}
         if location:
             filters['location'] = location
@@ -1142,7 +1142,7 @@ class ReviewCard(MDCard):
 
         if self.image_source and self.image_source != "No Image":
             image = AsyncImage(
-                source=f"https://sherehemall.co.ke{self.image_source}",
+                source=f"http://localhost:8000{self.image_source}",
                 size_hint_y=None,
                 height=dp(100)
             )
@@ -1229,7 +1229,7 @@ class ReviewCard(MDCard):
             print("❌ Error: Review ID is missing")
             return
 
-        url = "https://sherehemall.co.ke/api/comment/"
+        url = "http://localhost:8000/api/comment/"
 
         # Prepare data
         data = {

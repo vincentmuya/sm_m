@@ -14,7 +14,7 @@ class Navbar(BoxLayout):
 
         # Set the height of the NavigationBar
         self.size_hint_y = None
-        self.height = 50  # Adjust the height as needed
+        self.height = 80  # Adjust the height as needed
 
         # Apply the grey background
         with self.canvas.before:
@@ -23,10 +23,10 @@ class Navbar(BoxLayout):
             self.bind(size=self._update_rect, pos=self._update_rect)
 
         # Create a container layout for evenly spaced items
-        container = BoxLayout(orientation='horizontal', spacing=10)
+        container = BoxLayout(orientation='horizontal', spacing=20, padding=20)
 
         # Add Home Button
-        home_button = Button(text="Home", size_hint=(None, None), size=(100, 50))
+        home_button = Button(text="Home", size_hint=(None, None), size=(150, 60))
         container.add_widget(home_button)
 
         # Define a function to switch to the 'landing_page' screen
@@ -37,15 +37,15 @@ class Navbar(BoxLayout):
         home_button.bind(on_release=switch_to_landing_page)
 
         # Add Profile Button
-        profile_button = Button(text="Profile", size_hint=(None, None), size=(100, 50))
+        profile_button = Button(text="Profile", size_hint=(None, None), size=(150, 60))
         container.add_widget(profile_button)
 
         # Add Add Vendor Button
-        add_product_button = Button(text="Add Product", size_hint=(None, None), size=(150, 50))
+        add_product_button = Button(text="Add Product", size_hint=(None, None), size=(150, 60))
         container.add_widget(add_product_button)
 
         # Add Contact Button
-        contact_button = Button(text="Contact", size_hint=(None, None), size=(150, 50))
+        contact_button = Button(text="Contact", size_hint=(None, None), size=(150, 60))
         container.add_widget(contact_button)
 
         self.add_widget(container)

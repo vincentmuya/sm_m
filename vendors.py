@@ -26,7 +26,7 @@ class VendorsCard(BoxLayout):
         vendor_id = self.vendor_id
         # print(f"Fetching details for Vendor ID: {vendor_id}, Slug: {self.slug}")
 
-        api_url = f"https://sherehemall.co.ke/api/vendor/{vendor_id}/{self.slug}/"
+        api_url = f"http://localhost:8000/api/vendor/{vendor_id}/{self.slug}/"
         response = requests.get(api_url)
         # print("API Response Status Code:", response.status_code)
         # print("API Response Content:", response.content.decode())
@@ -55,7 +55,7 @@ class VendorsScreen(Screen):
     def create_carousel(self):
         carousel = Carousel(direction='right')
         image_urls = [
-            "https://sherehemall.co.ke/static/images/sherehe_header.jpeg",
+            "http://localhost:8000/static/images/sherehe_header.jpeg",
             "https://polokwanespa.co.za/wp-content/uploads/2020/03/March_amazing-Autumn-spa-treatments_resized-v2.jpg",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Jay_nyama_Choma.jpg/2560px-Jay_nyama_Choma.jpg",
             "https://hashtagmagazine.in/wp-content/uploads/2022/08/Popular-Night-Clubs-in-India-Hashtag-Magazine.png",
@@ -77,7 +77,7 @@ class VendorsScreen(Screen):
 
     def load_vendors(self):
         # Fetch all services (categories)
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
         if services_response.status_code == 200:
             services = services_response.json()
             # print("Services:", services)
@@ -85,7 +85,7 @@ class VendorsScreen(Screen):
             services = []
 
         # Fetch all locations
-        locations_response = requests.get('https://sherehemall.co.ke/api/locations/')
+        locations_response = requests.get('http://localhost:8000/api/locations/')
         if locations_response.status_code == 200:
             locations = locations_response.json()
             # print("Locations:", locations)
@@ -93,7 +93,7 @@ class VendorsScreen(Screen):
             locations = []
 
         # Fetch all vendors
-        response = requests.get('https://sherehemall.co.ke/api/vendor/')
+        response = requests.get('http://localhost:8000/api/vendor/')
         if response.status_code == 200:
             vendors = response.json()
             # print("Vendors:", vendors)
@@ -134,7 +134,7 @@ class VendorsScreen(Screen):
                     font_size="15sp",
                     background_color=(1, 1, 1, 1),
                     color=(1, 1, 1, 1),
-                    size=(70, 30),
+                    size=(150, 100),
                     size_hint=(None, None),
                     pos=(30, 20),
                 )
@@ -150,7 +150,7 @@ class VendorsScreen(Screen):
                     vendor_grid.bind(minimum_height=vendor_grid.setter('height'))  # Adjust height dynamically
 
                     for vendor in vendors_by_parent[parent_id][:3]: # Add only the first three vendors in this category
-                        full_image_url = f"https://sherehemall.co.ke{vendor['profile_image']}"
+                        full_image_url = f"http://localhost:8000{vendor['profile_image']}"
 
                         # Find the location name
                         location_id = vendor.get('location')

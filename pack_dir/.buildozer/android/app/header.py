@@ -120,7 +120,7 @@ class Header(FloatLayout):
         self.service_menu.open()
 
     def populate_location_dropdown(self):
-        api_url = 'https://sherehemall.co.ke/api/locations/'
+        api_url = 'http://localhost:8000/api/locations/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -137,7 +137,7 @@ class Header(FloatLayout):
             print(f"Failed to retrieve locations. Status code: {response.status_code}")
 
     def populate_service_dropdown(self):
-        api_url = 'https://sherehemall.co.ke/api/services/'
+        api_url = 'http://localhost:8000/api/services/'
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -163,7 +163,7 @@ class Header(FloatLayout):
 
     def fetch_vendors_by_location(self, location):
         """Fetch vendors from the API based on the selected location and print them."""
-        api_url = f'https://sherehemall.co.ke/api/vendor/?location={location}'  # Adjust API endpoint as needed
+        api_url = f'http://localhost:8000/api/vendor/?location={location}'  # Adjust API endpoint as needed
         response = requests.get(api_url)
 
         if response.status_code == 200:
@@ -193,7 +193,7 @@ class Header(FloatLayout):
         """Fetch vendors from the API based on the selected service ID and print them."""
 
         # Fetch all services from API to map service names to IDs
-        services_response = requests.get('https://sherehemall.co.ke/api/services/')
+        services_response = requests.get('http://localhost:8000/api/services/')
 
         if services_response.status_code == 200:
             services = {service['service']: service['id'] for service in
@@ -210,7 +210,7 @@ class Header(FloatLayout):
             return
 
         # Use the service ID to fetch vendors
-        api_url = f'https://sherehemall.co.ke/api/vendor/?service={service_id}'
+        api_url = f'http://localhost:8000/api/vendor/?service={service_id}'
         response = requests.get(api_url)
 
         if response.status_code == 200:

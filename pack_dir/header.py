@@ -29,7 +29,7 @@ class Header(FloatLayout):
 
         # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
-            pos_hint={"x": -1, "top": -5},
+            pos_hint={"x": -1, "top": -6},
             size_hint_y=1,
             md_bg_color=get_color_from_hex("#FFFFFF")
         )
@@ -89,8 +89,8 @@ class Header(FloatLayout):
 
         # Use a proxy button instead of moving the original button
         app = App.get_running_app()
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(150, 40),
-                                          pos=(650, 560))
+        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(200, 50),
+                                          pos_hint={"top": 1, "right": 1})
         # Create a proxy button
         self.account_proxy_button = Button(text=app.account_button.text)
 

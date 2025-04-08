@@ -134,7 +134,7 @@ class VendorsScreen(Screen):
                     font_size="15sp",
                     background_color=(1, 1, 1, 1),
                     color=(1, 1, 1, 1),
-                    size=(70, 30),
+                    size=(150, 120),
                     size_hint=(None, None),
                     pos=(30, 20),
                 )

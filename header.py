@@ -13,6 +13,9 @@ from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.utils import rgba
 from kivy.uix.button import Button
 
+from search_widget import SearchWidget
+from filter_widget import Filter
+
 class Header(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -22,10 +25,24 @@ class Header(FloatLayout):
             title="Sherehe Mall.\nCelebrations Made Easy",
             left_action_items=[["menu", lambda x: self.toggle_drawer()]],
             elevation=5,
-            pos_hint={"top": 1},
+
             md_bg_color=rgba("#A020F0")
         )
-        self.add_widget(self.top_bar)
+
+
+        # ✅ Header (fixed), Search, and Filter inside a vertical container
+        self.search_widget = SearchWidget(search_callback=self.display_search_results)
+        self.filter_widget = Filter(filter_callback=self.apply_filter, height=100)
+
+        self.header_container = BoxLayout(orientation='vertical', size_hint_y=None, pos_hint={"top": 1})
+        self.header_container.bind(minimum_height=self.header_container.setter('height'))
+
+        # Add components to header_container
+        self.header_container.add_widget(self.top_bar)
+        self.header_container.add_widget(self.search_widget)
+        self.header_container.add_widget(self.filter_widget)
+
+        self.add_widget(self.header_container)
 
         # Create Navigation Drawer
         self.nav_drawer = MDNavigationDrawer(
@@ -100,6 +117,7 @@ class Header(FloatLayout):
         # Add proxy button instead of the real one
         self.user_info_layout.add_widget(self.account_proxy_button)
         self.add_widget(self.user_info_layout)
+
 
     def toggle_drawer(self):
         """Opens or closes the drawer when the menu button is clicked."""
@@ -249,3 +267,52 @@ class Header(FloatLayout):
         app.update_account_dropdown()
         #Ensure the proxy button always has updated text
         self.account_proxy_button.text = app.account_button.text
+
+    def apply_filter(self, location=None, service=None, price_range=None):
+        # print(f"Applying filter with location={location}, service={service}, price_range={price_range}")
+
+        # Fetch services to resolve the service name to ID
+        services_response = requests.get('http://localhost:8000/api/services/')
+        services = services_response.json() if services_response.status_code == 200 else []
+
+        # Get the service ID from the service name (if the service exists)
+        service_id = None
+        if service:
+            for s in services:
+                if s['service'] == service:
+                    service_id = s['id']
+                    break
+
+        # Construct the API URL with the service ID
+        api_url = 'http://localhost:8000/api/vendor/'
+        filters = {}
+        if location:
+            filters['location'] = location
+        if service_id:
+            filters['service'] = service_id  # Use the service ID instead of the name
+        if price_range:
+            filters['price_range'] = price_range
+
+        # Call the API with the updated filters
+        response = requests.get(api_url, params=filters)
+
+        if response.status_code == 200:
+            filtered_vendors = response.json()
+            # print("Filtered Vendors:", filtered_vendors)
+
+            app = App.get_running_app()
+            # Pass the service_id (parent category) to the vendors_by_service screen
+            filtered_vendors_screen = app.root.get_screen('filtered_vendors')
+            filtered_vendors_screen.load_filtered_vendors(filtered_vendors, services, location, service, price_range)
+            app.root.transition = SlideTransition(direction='left')
+            app.root.current = 'filtered_vendors'
+
+    def display_search_results(self, vendors, search_query):
+        # print(f"Search results: {len(vendors)}")
+        # print("Search results:", vendors)
+        app = App.get_running_app()
+        # Pass the service_id (parent category) to the search_results screen
+        search_results_screen = app.root.get_screen('search_results')
+        search_results_screen.load_search_results(vendors, search_query)
+        app.root.transition = SlideTransition(direction='left')
+        app.root.current = 'search_results'

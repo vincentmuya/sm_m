@@ -41,7 +41,7 @@ class Filter(BoxLayout):
 
         self.orientation = 'horizontal'
         self.size_hint_y = None
-        self.height = 50
+        self.height = 90
 
         # Introductory Label with background color
         self.intro_label = ColoredLabel("Filter By Location,\nService, Price Or All")

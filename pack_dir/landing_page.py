@@ -34,6 +34,7 @@ class LandingPage(Screen):
         # ✅ Header (fixed), Search, and Filter inside a vertical container
         self.search_widget = SearchWidget(search_callback=self.display_search_results)
         self.filter_widget = Filter(filter_callback=self.apply_filter, height=100)
+        header_spacer = Widget(size_hint=(1, None), height=150)
         # self.header = Header(size_hint=(1, None), height=50)
 
         self.header_container = BoxLayout(orientation='vertical', size_hint_y=None, spacing=10)
@@ -41,6 +42,7 @@ class LandingPage(Screen):
 
         # Add components to header_container
         # self.header_container.add_widget(self.header)
+        self.header_container.add_widget(header_spacer)
         self.header_container.add_widget(self.search_widget)
         self.header_container.add_widget(self.filter_widget)
 
@@ -58,7 +60,7 @@ class LandingPage(Screen):
         spacer_bottom = Widget(size_hint=(1, None), height=45)
 
         # ✅ Add widgets to scrollable content
-        self.content_layout.add_widget(spacer)
+        # self.content_layout.add_widget(spacer)
         self.content_layout.add_widget(self.header_container)
         self.content_layout.add_widget(self.vendors_grid)
         self.content_layout.add_widget(spacer_bottom)
@@ -70,7 +72,8 @@ class LandingPage(Screen):
 
         # Create and add the Header, fixed at the top of the screen
         header = Header(size_hint=(1, None), height=50)
-        header.pos_hint = {'x': 0, 'y': 0.95}
+        # Position header at the top using absolute coordinates
+        header.pos_hint = {'top': 1}
         self.add_widget(header)
 
         # ✅ Fixed bottom navbar
@@ -78,12 +81,12 @@ class LandingPage(Screen):
         nav_bar.pos_hint = {'x': 0, 'y': 0}
         self.add_widget(nav_bar)
 
-        # Create a dropdown for account actions
-        # Get the app instance to access account_button
-        app = App.get_running_app()
-        self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(250, 100), pos_hint={'right': 1, 'top': 1})
-        self.user_info_layout.add_widget(app.account_button)
-        self.add_widget(self.user_info_layout)
+        # # Create a dropdown for account actions
+        # # Get the app instance to access account_button
+        # app = App.get_running_app()
+        # self.user_info_layout = BoxLayout(orientation='horizontal', size_hint=(None, None), size=(250, 100), pos_hint={'right': 1, 'top': 1})
+        # self.user_info_layout.add_widget(app.account_button)
+        # self.add_widget(self.user_info_layout)
 
     def on_pre_enter(self):
         """Update dropdown dynamically when entering the screen."""

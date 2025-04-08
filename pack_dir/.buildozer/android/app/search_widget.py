@@ -6,7 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 class SearchWidget(BoxLayout):
     def __init__(self, search_callback, **kwargs):
-        super().__init__(orientation='horizontal', size_hint_y=None, height=50, padding=[10, 5], spacing=10, **kwargs)
+        super().__init__(orientation='horizontal', size_hint_y=None, height=90, padding=[10, 5], spacing=10, **kwargs)
 
         # Search input field
         self.search_input = TextInput(hint_text="Search vendors...", size_hint=(0.8, 1))

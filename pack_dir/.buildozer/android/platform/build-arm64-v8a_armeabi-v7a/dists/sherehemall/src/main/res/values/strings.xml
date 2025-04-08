@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sherehemall</string>
-    <string name="private_version">78ce979ebb79d95cb817fddc161327d55808c7b7</string>
+    <string name="private_version">f818a06038598deb110b5ffd1ea3903e68f74406</string>
     <string name="presplash_color">#000000</string>
     <string name="urlScheme">kivy</string>
 </resources>

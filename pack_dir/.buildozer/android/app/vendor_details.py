@@ -3,7 +3,7 @@ from navbar import Navbar
 from filter_widget import Filter
 from search_widget import SearchWidget
 from vendors import VendorsCard
-# from mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+from mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 import requests
 from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty, ListProperty

@@ -40,8 +40,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -59,19 +59,19 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_981a9/fast
-        make -j8  -f CMakeFiles/cmTC_981a9.dir/build.make CMakeFiles/cmTC_981a9.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD'
-        Building C object CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_861df/fast
+        make -j8  -f CMakeFiles/cmTC_861df.dir/build.make CMakeFiles/cmTC_861df.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak'
+        Building C object CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
         Android (8490178, based on r450784d) clang version 14.0.6 (https://android.googlesource.com/toolchain/llvm-project 4c603efb0cca074e9238af8b4106c30add4418f6)
         Target: aarch64-none-linux-android21
         Thread model: posix
         InstalledDir: /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin
          (in-process)
-         "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -fallow-half-arguments-and-returns -mllvm -treat-scalable-fixed-error-as-warning -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD -resource-dir /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6 -dependency-file CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/include -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdebug-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+         "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -fallow-half-arguments-and-returns -mllvm -treat-scalable-fixed-error-as-warning -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak -resource-dir /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6 -dependency-file CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/include -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdebug-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
         clang -cc1 version 14.0.6 based upon LLVM 14.0.6git default target x86_64-unknown-linux-gnu
         ignoring nonexistent directory "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"
         #include "..." search starts here:
@@ -81,15 +81,15 @@ events:
          /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
          /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include
         End of search list.
-        Linking C executable cmTC_981a9
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_981a9.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections  -v CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -o cmTC_981a9 
+        Linking C executable cmTC_861df
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_861df.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections  -v CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -o cmTC_861df 
         Android (8490178, based on r450784d) clang version 14.0.6 (https://android.googlesource.com/toolchain/llvm-project 4c603efb0cca074e9238af8b4106c30add4418f6)
         Target: aarch64-none-linux-android21
         Thread model: posix
         InstalledDir: /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin
-         "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld" --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 --warn-shared-textrel -z now -z relro -z max-page-size=4096 --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_981a9 /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --fatal-warnings --gc-sections --no-undefined --gc-sections CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD'
+         "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld" --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 --warn-shared-textrel -z now -z relro -z max-page-size=4096 --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_861df /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --fatal-warnings --gc-sections --no-undefined --gc-sections CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak'
         
       exitCode: 0
   -
@@ -123,19 +123,19 @@ events:
     message: |
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld\\.lld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD']
+        ignore line: [Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_981a9/fast]
-        ignore line: [make -j8  -f CMakeFiles/cmTC_981a9.dir/build.make CMakeFiles/cmTC_981a9.dir/build]
-        ignore line: [make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD']
-        ignore line: [Building C object CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_861df/fast]
+        ignore line: [make -j8  -f CMakeFiles/cmTC_861df.dir/build.make CMakeFiles/cmTC_861df.dir/build]
+        ignore line: [make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak']
+        ignore line: [Building C object CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
         ignore line: [Android (8490178  based on r450784d) clang version 14.0.6 (https://android.googlesource.com/toolchain/llvm-project 4c603efb0cca074e9238af8b4106c30add4418f6)]
         ignore line: [Target: aarch64-none-linux-android21]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin]
         ignore line: [ (in-process)]
-        ignore line: [ "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -fallow-half-arguments-and-returns -mllvm -treat-scalable-fixed-error-as-warning -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD -resource-dir /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6 -dependency-file CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/include -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdebug-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Vx0nD -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -fallow-half-arguments-and-returns -mllvm -treat-scalable-fixed-error-as-warning -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak -resource-dir /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6 -dependency-file CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/include -internal-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdebug-compilation-dir=/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-4HHMak -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 14.0.6 based upon LLVM 14.0.6git default target x86_64-unknown-linux-gnu]
         ignore line: [ignoring nonexistent directory "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"]
         ignore line: [#include "..." search starts here:]
@@ -145,14 +145,14 @@ events:
         ignore line: [ /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
         ignore line: [ /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
         ignore line: [End of search list.]
-        ignore line: [Linking C executable cmTC_981a9]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_981a9.dir/link.txt --verbose=1]
-        ignore line: [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl --build-id=sha1 -Wl --no-rosegment -Wl --fatal-warnings -Wl --gc-sections -Wl --no-undefined -Qunused-arguments -Wl --gc-sections  -v CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o -o cmTC_981a9 ]
+        ignore line: [Linking C executable cmTC_861df]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_861df.dir/link.txt --verbose=1]
+        ignore line: [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl --build-id=sha1 -Wl --no-rosegment -Wl --fatal-warnings -Wl --gc-sections -Wl --no-undefined -Qunused-arguments -Wl --gc-sections  -v CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o -o cmTC_861df ]
         ignore line: [Android (8490178  based on r450784d) clang version 14.0.6 (https://android.googlesource.com/toolchain/llvm-project 4c603efb0cca074e9238af8b4106c30add4418f6)]
         ignore line: [Target: aarch64-none-linux-android21]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin]
-        link line: [ "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld" --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 --warn-shared-textrel -z now -z relro -z max-page-size=4096 --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_981a9 /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --fatal-warnings --gc-sections --no-undefined --gc-sections CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+        link line: [ "/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld" --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -pie -EL --fix-cortex-a53-843419 --warn-shared-textrel -z now -z relro -z max-page-size=4096 --hash-style=both --enable-new-dtags --eh-frame-hdr -m aarch64linux -dynamic-linker /system/bin/linker64 -o cmTC_861df /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --fatal-warnings --gc-sections --no-undefined --gc-sections CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
           arg [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld] ==> ignore
           arg [--sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot] ==> ignore
           arg [-pie] ==> ignore
@@ -170,7 +170,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/system/bin/linker64] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_981a9] ==> ignore
+          arg [cmTC_861df] ==> ignore
           arg [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o] ==> obj [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o]
           arg [-L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64] ==> dir [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/aarch64]
           arg [-L/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
@@ -182,7 +182,7 @@ events:
           arg [--gc-sections] ==> ignore
           arg [--no-undefined] ==> ignore
           arg [--gc-sections] ==> ignore
-          arg [CMakeFiles/cmTC_981a9.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_861df.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/14.0.6/lib/linux/libclang_rt.builtins-aarch64-android.a]
           arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
           arg [-ldl] ==> lib [dl]
@@ -212,8 +212,8 @@ events:
     checks:
       - "Looking for sys/types.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -231,17 +231,17 @@ events:
       variable: "HAVE_SYS_TYPES_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8b7fd/fast
-        make -j8  -f CMakeFiles/cmTC_8b7fd.dir/build.make CMakeFiles/cmTC_8b7fd.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6'
-        Building C object CMakeFiles/cmTC_8b7fd.dir/CheckIncludeFile.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_8b7fd.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_8b7fd.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_8b7fd.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6/CheckIncludeFile.c
-        Linking C executable cmTC_8b7fd
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8b7fd.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_8b7fd.dir/CheckIncludeFile.c.o -o cmTC_8b7fd  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-b0Pkm6'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_91641/fast
+        make -j8  -f CMakeFiles/cmTC_91641.dir/build.make CMakeFiles/cmTC_91641.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR'
+        Building C object CMakeFiles/cmTC_91641.dir/CheckIncludeFile.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_91641.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_91641.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_91641.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR/CheckIncludeFile.c
+        Linking C executable cmTC_91641
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_91641.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_91641.dir/CheckIncludeFile.c.o -o cmTC_91641  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-PnfyrR'
         
       exitCode: 0
   -
@@ -253,8 +253,8 @@ events:
     checks:
       - "Looking for stdint.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -272,17 +272,17 @@ events:
       variable: "HAVE_STDINT_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3ed17/fast
-        make -j8  -f CMakeFiles/cmTC_3ed17.dir/build.make CMakeFiles/cmTC_3ed17.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo'
-        Building C object CMakeFiles/cmTC_3ed17.dir/CheckIncludeFile.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_3ed17.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_3ed17.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_3ed17.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo/CheckIncludeFile.c
-        Linking C executable cmTC_3ed17
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3ed17.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_3ed17.dir/CheckIncludeFile.c.o -o cmTC_3ed17  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7UdWxo'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f8b52/fast
+        make -j8  -f CMakeFiles/cmTC_f8b52.dir/build.make CMakeFiles/cmTC_f8b52.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb'
+        Building C object CMakeFiles/cmTC_f8b52.dir/CheckIncludeFile.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_f8b52.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_f8b52.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_f8b52.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb/CheckIncludeFile.c
+        Linking C executable cmTC_f8b52
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f8b52.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_f8b52.dir/CheckIncludeFile.c.o -o cmTC_f8b52  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-qBfbWb'
         
       exitCode: 0
   -
@@ -294,8 +294,8 @@ events:
     checks:
       - "Looking for stddef.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -313,17 +313,17 @@ events:
       variable: "HAVE_STDDEF_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_76bce/fast
-        make -j8  -f CMakeFiles/cmTC_76bce.dir/build.make CMakeFiles/cmTC_76bce.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe'
-        Building C object CMakeFiles/cmTC_76bce.dir/CheckIncludeFile.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_76bce.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_76bce.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_76bce.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe/CheckIncludeFile.c
-        Linking C executable cmTC_76bce
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76bce.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_76bce.dir/CheckIncludeFile.c.o -o cmTC_76bce  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-cojWLe'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ca1a6/fast
+        make -j8  -f CMakeFiles/cmTC_ca1a6.dir/build.make CMakeFiles/cmTC_ca1a6.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT'
+        Building C object CMakeFiles/cmTC_ca1a6.dir/CheckIncludeFile.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_ca1a6.dir/CheckIncludeFile.c.o -MF CMakeFiles/cmTC_ca1a6.dir/CheckIncludeFile.c.o.d -o CMakeFiles/cmTC_ca1a6.dir/CheckIncludeFile.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT/CheckIncludeFile.c
+        Linking C executable cmTC_ca1a6
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ca1a6.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_ca1a6.dir/CheckIncludeFile.c.o -o cmTC_ca1a6  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-A8jGeT'
         
       exitCode: 0
   -
@@ -335,8 +335,8 @@ events:
     checks:
       - "Check size of size_t"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -354,17 +354,17 @@ events:
       variable: "HAVE_SIZE_T"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_315b3/fast
-        make -j8  -f CMakeFiles/cmTC_315b3.dir/build.make CMakeFiles/cmTC_315b3.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle'
-        Building C object CMakeFiles/cmTC_315b3.dir/SIZE_T.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_315b3.dir/SIZE_T.c.o -MF CMakeFiles/cmTC_315b3.dir/SIZE_T.c.o.d -o CMakeFiles/cmTC_315b3.dir/SIZE_T.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle/SIZE_T.c
-        Linking C executable cmTC_315b3
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_315b3.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_315b3.dir/SIZE_T.c.o -o cmTC_315b3  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9t5qle'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4eca4/fast
+        make -j8  -f CMakeFiles/cmTC_4eca4.dir/build.make CMakeFiles/cmTC_4eca4.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu'
+        Building C object CMakeFiles/cmTC_4eca4.dir/SIZE_T.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_4eca4.dir/SIZE_T.c.o -MF CMakeFiles/cmTC_4eca4.dir/SIZE_T.c.o.d -o CMakeFiles/cmTC_4eca4.dir/SIZE_T.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu/SIZE_T.c
+        Linking C executable cmTC_4eca4
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4eca4.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_4eca4.dir/SIZE_T.c.o -o cmTC_4eca4  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Acbfcu'
         
       exitCode: 0
   -
@@ -376,8 +376,8 @@ events:
     checks:
       - "Check size of unsigned long"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -395,17 +395,17 @@ events:
       variable: "HAVE_UNSIGNED_LONG"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_0d095/fast
-        make -j8  -f CMakeFiles/cmTC_0d095.dir/build.make CMakeFiles/cmTC_0d095.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY'
-        Building C object CMakeFiles/cmTC_0d095.dir/UNSIGNED_LONG.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_0d095.dir/UNSIGNED_LONG.c.o -MF CMakeFiles/cmTC_0d095.dir/UNSIGNED_LONG.c.o.d -o CMakeFiles/cmTC_0d095.dir/UNSIGNED_LONG.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY/UNSIGNED_LONG.c
-        Linking C executable cmTC_0d095
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d095.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_0d095.dir/UNSIGNED_LONG.c.o -o cmTC_0d095  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-sF84PY'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e6d0a/fast
+        make -j8  -f CMakeFiles/cmTC_e6d0a.dir/build.make CMakeFiles/cmTC_e6d0a.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV'
+        Building C object CMakeFiles/cmTC_e6d0a.dir/UNSIGNED_LONG.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_e6d0a.dir/UNSIGNED_LONG.c.o -MF CMakeFiles/cmTC_e6d0a.dir/UNSIGNED_LONG.c.o.d -o CMakeFiles/cmTC_e6d0a.dir/UNSIGNED_LONG.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV/UNSIGNED_LONG.c
+        Linking C executable cmTC_e6d0a
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e6d0a.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_e6d0a.dir/UNSIGNED_LONG.c.o -o cmTC_e6d0a  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-bBxOnV'
         
       exitCode: 0
   -
@@ -417,8 +417,8 @@ events:
     checks:
       - "Performing Test HAVE_BUILTIN_CTZL"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -436,17 +436,17 @@ events:
       variable: "HAVE_BUILTIN_CTZL"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e94c9/fast
-        make -j8  -f CMakeFiles/cmTC_e94c9.dir/build.make CMakeFiles/cmTC_e94c9.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE'
-        Building C object CMakeFiles/cmTC_e94c9.dir/src.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DHAVE_BUILTIN_CTZL  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_e94c9.dir/src.c.o -MF CMakeFiles/cmTC_e94c9.dir/src.c.o.d -o CMakeFiles/cmTC_e94c9.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE/src.c
-        Linking C executable cmTC_e94c9
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e94c9.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_e94c9.dir/src.c.o -o cmTC_e94c9  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-RKNyBE'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_eeff0/fast
+        make -j8  -f CMakeFiles/cmTC_eeff0.dir/build.make CMakeFiles/cmTC_eeff0.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA'
+        Building C object CMakeFiles/cmTC_eeff0.dir/src.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DHAVE_BUILTIN_CTZL  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_eeff0.dir/src.c.o -MF CMakeFiles/cmTC_eeff0.dir/src.c.o.d -o CMakeFiles/cmTC_eeff0.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA/src.c
+        Linking C executable cmTC_eeff0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eeff0.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_eeff0.dir/src.c.o -o cmTC_eeff0  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-85GKJA'
         
       exitCode: 0
   -
@@ -457,8 +457,8 @@ events:
     checks:
       - "Looking for include file locale.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -476,17 +476,17 @@ events:
       variable: "HAVE_LOCALE_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8eb29/fast
-        make -j8  -f CMakeFiles/cmTC_8eb29.dir/build.make CMakeFiles/cmTC_8eb29.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q'
-        Building C object CMakeFiles/cmTC_8eb29.dir/HAVE_LOCALE_H.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_8eb29.dir/HAVE_LOCALE_H.c.o -MF CMakeFiles/cmTC_8eb29.dir/HAVE_LOCALE_H.c.o.d -o CMakeFiles/cmTC_8eb29.dir/HAVE_LOCALE_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q/HAVE_LOCALE_H.c
-        Linking C executable cmTC_8eb29
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8eb29.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_8eb29.dir/HAVE_LOCALE_H.c.o -o cmTC_8eb29  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rBgn7q'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1e64f/fast
+        make -j8  -f CMakeFiles/cmTC_1e64f.dir/build.make CMakeFiles/cmTC_1e64f.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c'
+        Building C object CMakeFiles/cmTC_1e64f.dir/HAVE_LOCALE_H.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_1e64f.dir/HAVE_LOCALE_H.c.o -MF CMakeFiles/cmTC_1e64f.dir/HAVE_LOCALE_H.c.o.d -o CMakeFiles/cmTC_1e64f.dir/HAVE_LOCALE_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c/HAVE_LOCALE_H.c
+        Linking C executable cmTC_1e64f
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e64f.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_1e64f.dir/HAVE_LOCALE_H.c.o -o cmTC_1e64f  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-j1W00c'
         
       exitCode: 0
   -
@@ -497,8 +497,8 @@ events:
     checks:
       - "Looking for include file stdlib.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -516,17 +516,17 @@ events:
       variable: "HAVE_STDLIB_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4c820/fast
-        make -j8  -f CMakeFiles/cmTC_4c820.dir/build.make CMakeFiles/cmTC_4c820.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm'
-        Building C object CMakeFiles/cmTC_4c820.dir/HAVE_STDLIB_H.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_4c820.dir/HAVE_STDLIB_H.c.o -MF CMakeFiles/cmTC_4c820.dir/HAVE_STDLIB_H.c.o.d -o CMakeFiles/cmTC_4c820.dir/HAVE_STDLIB_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm/HAVE_STDLIB_H.c
-        Linking C executable cmTC_4c820
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c820.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_4c820.dir/HAVE_STDLIB_H.c.o -o cmTC_4c820  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-rYQlYm'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c8007/fast
+        make -j8  -f CMakeFiles/cmTC_c8007.dir/build.make CMakeFiles/cmTC_c8007.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME'
+        Building C object CMakeFiles/cmTC_c8007.dir/HAVE_STDLIB_H.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_c8007.dir/HAVE_STDLIB_H.c.o -MF CMakeFiles/cmTC_c8007.dir/HAVE_STDLIB_H.c.o.d -o CMakeFiles/cmTC_c8007.dir/HAVE_STDLIB_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME/HAVE_STDLIB_H.c
+        Linking C executable cmTC_c8007
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c8007.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_c8007.dir/HAVE_STDLIB_H.c.o -o cmTC_c8007  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-fmHYME'
         
       exitCode: 0
   -
@@ -537,8 +537,8 @@ events:
     checks:
       - "Looking for include file sys/types.h"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -556,17 +556,17 @@ events:
       variable: "NEED_SYS_TYPES_H"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b2e0b/fast
-        make -j8  -f CMakeFiles/cmTC_b2e0b.dir/build.make CMakeFiles/cmTC_b2e0b.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p'
-        Building C object CMakeFiles/cmTC_b2e0b.dir/NEED_SYS_TYPES_H.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_b2e0b.dir/NEED_SYS_TYPES_H.c.o -MF CMakeFiles/cmTC_b2e0b.dir/NEED_SYS_TYPES_H.c.o.d -o CMakeFiles/cmTC_b2e0b.dir/NEED_SYS_TYPES_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p/NEED_SYS_TYPES_H.c
-        Linking C executable cmTC_b2e0b
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b2e0b.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_b2e0b.dir/NEED_SYS_TYPES_H.c.o -o cmTC_b2e0b  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-LbKx4p'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3d8cf/fast
+        make -j8  -f CMakeFiles/cmTC_3d8cf.dir/build.make CMakeFiles/cmTC_3d8cf.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh'
+        Building C object CMakeFiles/cmTC_3d8cf.dir/NEED_SYS_TYPES_H.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_3d8cf.dir/NEED_SYS_TYPES_H.c.o -MF CMakeFiles/cmTC_3d8cf.dir/NEED_SYS_TYPES_H.c.o.d -o CMakeFiles/cmTC_3d8cf.dir/NEED_SYS_TYPES_H.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh/NEED_SYS_TYPES_H.c
+        Linking C executable cmTC_3d8cf
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3d8cf.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_3d8cf.dir/NEED_SYS_TYPES_H.c.o -o cmTC_3d8cf  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-Fro7sh'
         
       exitCode: 0
   -
@@ -578,8 +578,8 @@ events:
     checks:
       - "Looking for memset"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -597,17 +597,17 @@ events:
       variable: "HAVE_MEMSET"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_61712/fast
-        make -j8  -f CMakeFiles/cmTC_61712.dir/build.make CMakeFiles/cmTC_61712.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz'
-        Building C object CMakeFiles/cmTC_61712.dir/CheckSymbolExists.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE -MD -MT CMakeFiles/cmTC_61712.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_61712.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_61712.dir/CheckSymbolExists.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz/CheckSymbolExists.c
-        Linking C executable cmTC_61712
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_61712.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_61712.dir/CheckSymbolExists.c.o -o cmTC_61712  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-tx8DOz'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2cc62/fast
+        make -j8  -f CMakeFiles/cmTC_2cc62.dir/build.make CMakeFiles/cmTC_2cc62.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le'
+        Building C object CMakeFiles/cmTC_2cc62.dir/CheckSymbolExists.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE -MD -MT CMakeFiles/cmTC_2cc62.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_2cc62.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_2cc62.dir/CheckSymbolExists.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le/CheckSymbolExists.c
+        Linking C executable cmTC_2cc62
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2cc62.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_2cc62.dir/CheckSymbolExists.c.o -o cmTC_2cc62  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-yEx7Le'
         
       exitCode: 0
   -
@@ -619,8 +619,8 @@ events:
     checks:
       - "Looking for memcpy"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -638,17 +638,17 @@ events:
       variable: "HAVE_MEMCPY"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d8c4a/fast
-        make -j8  -f CMakeFiles/cmTC_d8c4a.dir/build.make CMakeFiles/cmTC_d8c4a.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz'
-        Building C object CMakeFiles/cmTC_d8c4a.dir/CheckSymbolExists.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE -MD -MT CMakeFiles/cmTC_d8c4a.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_d8c4a.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_d8c4a.dir/CheckSymbolExists.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz/CheckSymbolExists.c
-        Linking C executable cmTC_d8c4a
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8c4a.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_d8c4a.dir/CheckSymbolExists.c.o -o cmTC_d8c4a  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S1nlMz'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a863f/fast
+        make -j8  -f CMakeFiles/cmTC_a863f.dir/build.make CMakeFiles/cmTC_a863f.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY'
+        Building C object CMakeFiles/cmTC_a863f.dir/CheckSymbolExists.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE -MD -MT CMakeFiles/cmTC_a863f.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_a863f.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_a863f.dir/CheckSymbolExists.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY/CheckSymbolExists.c
+        Linking C executable cmTC_a863f
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a863f.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_a863f.dir/CheckSymbolExists.c.o -o cmTC_a863f  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-lSB3vY'
         
       exitCode: 0
   -
@@ -660,8 +660,8 @@ events:
     checks:
       - "Check size of unsigned char"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -679,17 +679,17 @@ events:
       variable: "HAVE_UNSIGNED_CHAR"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e5c5f/fast
-        make -j8  -f CMakeFiles/cmTC_e5c5f.dir/build.make CMakeFiles/cmTC_e5c5f.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU'
-        Building C object CMakeFiles/cmTC_e5c5f.dir/UNSIGNED_CHAR.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_e5c5f.dir/UNSIGNED_CHAR.c.o -MF CMakeFiles/cmTC_e5c5f.dir/UNSIGNED_CHAR.c.o.d -o CMakeFiles/cmTC_e5c5f.dir/UNSIGNED_CHAR.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU/UNSIGNED_CHAR.c
-        Linking C executable cmTC_e5c5f
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5c5f.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_e5c5f.dir/UNSIGNED_CHAR.c.o -o cmTC_e5c5f  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-ugZVfU'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1372d/fast
+        make -j8  -f CMakeFiles/cmTC_1372d.dir/build.make CMakeFiles/cmTC_1372d.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu'
+        Building C object CMakeFiles/cmTC_1372d.dir/UNSIGNED_CHAR.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_1372d.dir/UNSIGNED_CHAR.c.o -MF CMakeFiles/cmTC_1372d.dir/UNSIGNED_CHAR.c.o.d -o CMakeFiles/cmTC_1372d.dir/UNSIGNED_CHAR.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu/UNSIGNED_CHAR.c
+        Linking C executable cmTC_1372d
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1372d.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_1372d.dir/UNSIGNED_CHAR.c.o -o cmTC_1372d  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-S3wNFu'
         
       exitCode: 0
   -
@@ -701,8 +701,8 @@ events:
     checks:
       - "Check size of unsigned short"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -720,17 +720,17 @@ events:
       variable: "HAVE_UNSIGNED_SHORT"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_bead9/fast
-        make -j8  -f CMakeFiles/cmTC_bead9.dir/build.make CMakeFiles/cmTC_bead9.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT'
-        Building C object CMakeFiles/cmTC_bead9.dir/UNSIGNED_SHORT.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_bead9.dir/UNSIGNED_SHORT.c.o -MF CMakeFiles/cmTC_bead9.dir/UNSIGNED_SHORT.c.o.d -o CMakeFiles/cmTC_bead9.dir/UNSIGNED_SHORT.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT/UNSIGNED_SHORT.c
-        Linking C executable cmTC_bead9
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bead9.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_bead9.dir/UNSIGNED_SHORT.c.o -o cmTC_bead9  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-9EZ5uT'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_48f3c/fast
+        make -j8  -f CMakeFiles/cmTC_48f3c.dir/build.make CMakeFiles/cmTC_48f3c.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ'
+        Building C object CMakeFiles/cmTC_48f3c.dir/UNSIGNED_SHORT.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_48f3c.dir/UNSIGNED_SHORT.c.o -MF CMakeFiles/cmTC_48f3c.dir/UNSIGNED_SHORT.c.o.d -o CMakeFiles/cmTC_48f3c.dir/UNSIGNED_SHORT.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ/UNSIGNED_SHORT.c
+        Linking C executable cmTC_48f3c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_48f3c.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_48f3c.dir/UNSIGNED_SHORT.c.o -o cmTC_48f3c  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-1bhCvZ'
         
       exitCode: 0
   -
@@ -742,8 +742,8 @@ events:
     checks:
       - "Performing Test INCOMPLETE_TYPES"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -761,17 +761,17 @@ events:
       variable: "INCOMPLETE_TYPES"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_bfbb6/fast
-        make -j8  -f CMakeFiles/cmTC_bfbb6.dir/build.make CMakeFiles/cmTC_bfbb6.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20'
-        Building C object CMakeFiles/cmTC_bfbb6.dir/src.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DINCOMPLETE_TYPES  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_bfbb6.dir/src.c.o -MF CMakeFiles/cmTC_bfbb6.dir/src.c.o.d -o CMakeFiles/cmTC_bfbb6.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20/src.c
-        Linking C executable cmTC_bfbb6
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bfbb6.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_bfbb6.dir/src.c.o -o cmTC_bfbb6  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-mJCd20'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9fe47/fast
+        make -j8  -f CMakeFiles/cmTC_9fe47.dir/build.make CMakeFiles/cmTC_9fe47.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP'
+        Building C object CMakeFiles/cmTC_9fe47.dir/src.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DINCOMPLETE_TYPES  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_9fe47.dir/src.c.o -MF CMakeFiles/cmTC_9fe47.dir/src.c.o.d -o CMakeFiles/cmTC_9fe47.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP/src.c
+        Linking C executable cmTC_9fe47
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9fe47.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_9fe47.dir/src.c.o -o cmTC_9fe47  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-EBc1CP'
         
       exitCode: 0
   -
@@ -783,8 +783,8 @@ events:
     checks:
       - "Performing Test INLINE_WORKS"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -802,17 +802,17 @@ events:
       variable: "INLINE_WORKS"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_23f20/fast
-        make -j8  -f CMakeFiles/cmTC_23f20.dir/build.make CMakeFiles/cmTC_23f20.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5'
-        Building C object CMakeFiles/cmTC_23f20.dir/src.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DINLINE_WORKS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_23f20.dir/src.c.o -MF CMakeFiles/cmTC_23f20.dir/src.c.o.d -o CMakeFiles/cmTC_23f20.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5/src.c
-        Linking C executable cmTC_23f20
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_23f20.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_23f20.dir/src.c.o -o cmTC_23f20  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-vZQNe5'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e75a8/fast
+        make -j8  -f CMakeFiles/cmTC_e75a8.dir/build.make CMakeFiles/cmTC_e75a8.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R'
+        Building C object CMakeFiles/cmTC_e75a8.dir/src.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DINLINE_WORKS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_e75a8.dir/src.c.o -MF CMakeFiles/cmTC_e75a8.dir/src.c.o.d -o CMakeFiles/cmTC_e75a8.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R/src.c
+        Linking C executable cmTC_e75a8
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e75a8.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_e75a8.dir/src.c.o -o cmTC_e75a8  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-7Ju23R'
         
       exitCode: 0
   -
@@ -824,8 +824,8 @@ events:
     checks:
       - "Performing Test HAVE_VERSION_SCRIPT"
     directories:
-      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy"
-      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy"
+      source: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh"
+      binary: "/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh"
     cmakeVariables:
       ANDROID_ABI: "arm64-v8a"
       ANDROID_ARM_MODE: "thumb"
@@ -843,18 +843,18 @@ events:
       variable: "HAVE_VERSION_SCRIPT"
       cached: true
       stdout: |
-        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy'
+        Change Dir: '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7276e/fast
-        make -j8  -f CMakeFiles/cmTC_7276e.dir/build.make CMakeFiles/cmTC_7276e.dir/build
-        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy'
-        Building C object CMakeFiles/cmTC_7276e.dir/src.c.o
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DHAVE_VERSION_SCRIPT  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Wl,--version-script,/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/conftest.map -fPIE -MD -MT CMakeFiles/cmTC_7276e.dir/src.c.o -MF CMakeFiles/cmTC_7276e.dir/src.c.o.d -o CMakeFiles/cmTC_7276e.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy/src.c
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_41280/fast
+        make -j8  -f CMakeFiles/cmTC_41280.dir/build.make CMakeFiles/cmTC_41280.dir/build
+        make[1]: Entering directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh'
+        Building C object CMakeFiles/cmTC_41280.dir/src.c.o
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DHAVE_VERSION_SCRIPT  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Wl,--version-script,/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/conftest.map -fPIE -MD -MT CMakeFiles/cmTC_41280.dir/src.c.o -MF CMakeFiles/cmTC_41280.dir/src.c.o.d -o CMakeFiles/cmTC_41280.dir/src.c.o -c /home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh/src.c
         clang: warning: -Wl,--version-script,/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/conftest.map: 'linker' input unused [-Wunused-command-line-argument]
-        Linking C executable cmTC_7276e
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7276e.dir/link.txt --verbose=1
-        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Wl,--version-script,/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/conftest.map -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_7276e.dir/src.c.o -o cmTC_7276e  -latomic -lm 
-        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-URb7Wy'
+        Linking C executable cmTC_41280
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41280.dir/link.txt --verbose=1
+        /home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/muya/.buildozer/android/platform/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -Wl,--version-script,/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/conftest.map -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--fatal-warnings -Wl,--gc-sections -Wl,--no-undefined -Qunused-arguments -Wl,--gc-sections   CMakeFiles/cmTC_41280.dir/src.c.o -o cmTC_41280  -latomic -lm 
+        make[1]: Leaving directory '/home/muya/Projects/sm_m/pack_dir/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/jpeg/arm64-v8a__ndk_target_21/jpeg/CMakeFiles/CMakeScratch/TryCompile-walgDh'
         
       exitCode: 0
   -
